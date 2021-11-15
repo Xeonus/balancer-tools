@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
@@ -20,7 +21,18 @@ const useStyles = makeStyles((theme) => ({
     },
     slider: {
       width: 200,
-    }
+    },
+    paper: {
+        '@media only screen and (min-width: 600px)': {
+            padding: theme.spacing(1),
+        },
+        minWidth: 'auto',
+        textAlign: 'center',
+        align: 'center',
+        justifyContent: 'center',
+        color: '#3F3351',
+        borderRadius: "22px",
+    },
   }));
 
 export default function ILFormField(){
@@ -29,7 +41,7 @@ export default function ILFormField(){
   const classes = useStyles();
 
     //Init asset array
-    const assetArray = [];
+    const defaultArray = []
     const defaultAssetNames = ['BAL', 'WBTC', 'WETH'];
     const defaultPriceChange = ['400', '150', '400'];
     const defaultPoolWeights = ['50', '34', '16'];
@@ -41,45 +53,66 @@ export default function ILFormField(){
             priceChange: defaultPriceChange[i],
             poolWeights: defaultPoolWeights[i],
         }
-        assetArray.push(entry);
+        defaultArray.push(entry);
       }
 
+        //Asset array state hook
+  const [assetArray, setAssetArray] = React.useState(defaultArray);
 
-    //Form Change Handler (TODO)
-    function handleChange(evt) {
+  //Form Element state change handler
+  const handleChange = (event, element) => {
+    const index = assetArray.indexOf(element);
+    const clonedData = [...assetArray];
+    clonedData[index][event.target.id] = event.target.value;
+    setAssetArray(clonedData);
+    console.log("handleChange", event.target.value)
+  };
 
-    }
+  //Remove entry button
+  const handleRemoveClick = (element) => {
+    const index = assetArray.indexOf(element);
+    const clonedData = [...assetArray];
+    clonedData.splice(index, 1);
+    setAssetArray(clonedData);
+  }
 
       const formElement = (element) => (
+        <Paper elevation={3} className={classes.paper}>
         <Box display="flexGrow">
         <TextField
-          id={"asset" + element.assetName}
+          id="assetName"
           label="Asset"
           multiline
           rowsMax={1}
           type="text"
           value={element.assetName}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, element)}
         />
         <TextField
-          id={"pc" + element.priceChange}
+          id="priceChange"
           label="Price Change (%)"
           multiline
           rowsMax={1}
           type="number"
           value={element.priceChange}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, element)}
         />
         <TextField
-          id={"weights" + element.poolWeights}
+          id="poolWeights"
           label="Pool Weight"
           multiline
           rowsMax={1}
           type="number"
           value={element.poolWeights}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, element)}
         />
+        <Button
+        onClick={(e) => handleRemoveClick(e, element)}
+        >
+         Remove   
+        </Button>
         </Box>
+        </Paper>
       );
 
     return(
