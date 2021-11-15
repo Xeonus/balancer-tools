@@ -4,11 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## How to install
 * Initialize repo locally:
-`code(git remote add origin https://github.com/Xeonus/balancer-tools.git)`
+`git remote add origin https://github.com/Xeonus/balancer-tools.git`
 * Install Node.js
 * Install npm
-* In the project folder install needed dependencies: run `code(npm install)`
-* Run the project with `code(npm start)`
+* In the project folder install needed dependencies: run `npm install`
+* Run the project with `npm start`
 
 
 ## What this project wants to achieve
