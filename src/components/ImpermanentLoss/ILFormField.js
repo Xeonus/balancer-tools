@@ -10,7 +10,8 @@ import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { addAssetToArray } from '../../utils/addAssetToArray';
 import { resetAssetArray } from '../../utils/resetAssetArray';
-
+import { calculateILFromAssetArray } from '../../utils/calculateILFromAssetArray';
+import DynamicValueFormatter from '../UI/DynamicValueFormatter';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -85,33 +86,37 @@ export default function ILFormField() {
   //Asset array state hook
   const [assetArray, setAssetArray] = React.useState(defaultArray);
 
+  //IL value state hook
+  const [calcIL, setCalcIL] = React.useState(calculateILFromAssetArray(defaultArray));
+
   //Form Element state change handler
   const handleChange = (event, element) => {
     const index = assetArray.indexOf(element);
     const clonedData = [...assetArray];
     clonedData[index][event.target.id] = event.target.value;
     setAssetArray(clonedData);
-    console.log("handleChange", event.target.value)
+    setCalcIL(calculateILFromAssetArray(clonedData));
   };
 
   //Remove entry
   const handleRemoveClick = (e, el) => {
-    console.log("element", el);
     const index = assetArray.indexOf(el);
     const clonedData = [...assetArray];
-    var spliced = clonedData.splice(index, 1);
-    console.log("spliced element", spliced);
+    clonedData.splice(index, 1);
     setAssetArray(clonedData);
+    setCalcIL(calculateILFromAssetArray(clonedData));
   }
 
   //Add entry
   const handleAddClick = (array) => {
     setAssetArray(addAssetToArray(array));
+    setCalcIL(calculateILFromAssetArray(array));
   }
 
   //Reset data array
   const handleResetClick = (array) => {
     setAssetArray(resetAssetArray(array));
+    setCalcIL(calculateILFromAssetArray(defaultArray));
   }
 
   const formElement = (element) => (
@@ -202,6 +207,12 @@ export default function ILFormField() {
       <Box m={2}>
         <Typography variant="h6" gutterBottom color="primary" component="span">
           IL Calculator POC
+        </Typography>
+      </Box>
+      <Box m={2}>
+      
+        <Typography variant="h6" gutterBottom color="primary" component="span">
+          IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
         </Typography>
       </Box>
       <form className={classes.root} noValidate autoComplete="off">

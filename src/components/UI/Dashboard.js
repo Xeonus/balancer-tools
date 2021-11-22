@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../UI/Header';
 import Container from "@material-ui/core/Container";
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +11,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Footer from '../UI/Footer'
 import BgImage from './../../resources/bg-header.svg'
 import BalancerLogo from './../../resources/logo-dark.svg';
-import AddTokenToMetaMask from './AddTokenToMetaMask'
 import ILFormField from '../ImpermanentLoss/ILFormField';
 
 
@@ -140,7 +137,6 @@ export default function Dashboard() {
          },
          },
          boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.35), 20px 20px 80px #FED533, -20px -20px 80px #EC4899",
-         borderRadius: "50%",
          '&:hover': {
              backgroundPosition: "100% 0",
              boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.35), 30px 30px 100px #FED533, -30px -30px 100px #EC4899",

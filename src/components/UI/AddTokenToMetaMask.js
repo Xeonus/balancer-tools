@@ -73,16 +73,7 @@ export default function AddTokenToMetaMask(props) {
       .catch((error) => setLog([...log, `Error: ${error.message}`]))
 
 
-  //TODO: Automatic switching of network
-  const switchNetwork = (id) =>
-    window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: id }],
-    })
-      .then(() => {
-        //setLog([...log, `Switched to ${params[0].chainName} (${parseInt(params[0].chainId)})`])
-      })
-      .catch((error) => setLog([...log, `Error: ${error.message}`]))
+
 
   //Add BAL token to MM
   function addBal(chainId) {
