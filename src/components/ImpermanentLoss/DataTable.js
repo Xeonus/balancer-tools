@@ -53,6 +53,7 @@ const rows = createTableDataFromAssetArray(props.assetArray, props.investment);
         <TableHead>
           <TableRow>
             <TableCell><b>Asset</b></TableCell>
+            <TableCell align="right"><b>Initial value</b></TableCell>
             <TableCell align="right"><b>Value if held</b></TableCell>
             <TableCell align="right"><b>Value with IL</b></TableCell>
           </TableRow>
@@ -66,6 +67,7 @@ const rows = createTableDataFromAssetArray(props.assetArray, props.investment);
               <TableCell component="th" scope="row">
                 {row.assetName}
               </TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(row.initialValue).toFixed(0)} name={row.assetName} decimals={0}/></TableCell>
               <TableCell align="right"><DynamicValueFormatter value={Number(row.valueIfHeld).toFixed(0)} name={row.assetName} decimals={0}/></TableCell>
               <TableCell align="right"><DynamicValueFormatter value={Number(row.valueWithIL).toFixed(0)} name={row.assetName} decimals={0}/></TableCell>
             </TableRow>

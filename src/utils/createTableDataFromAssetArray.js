@@ -4,8 +4,8 @@ import { calculateILFromAssetArray } from "./calculateILFromAssetArray";
 export function createTableDataFromAssetArray(assetArray, investment) {
 
     //Mapper function to create rows
-    function createData(assetName, valueIfHeld, valueWithIL) {
-        return { assetName, valueIfHeld, valueWithIL};
+    function createData(assetName, initialValue, valueIfHeld, valueWithIL) {
+        return { assetName, initialValue, valueIfHeld, valueWithIL};
       }
 
     //Local variables  
@@ -19,7 +19,8 @@ export function createTableDataFromAssetArray(assetArray, investment) {
     for (let i = 0; i < copy.length; i++) {
         assetValueIfHeld = ( 1 + 1 * Number(copy[i].priceChange / 100)) * Number(copy[i].poolWeights) / 100 * investment;
         ilOfAsset = Number(assetValueIfHeld - assetValueIfHeld * (impLoss / 100)).toFixed(2);
-        const row = createData(copy[i].assetName, assetValueIfHeld, ilOfAsset);
+        const initialValue = copy[i].poolWeights / 100 * investment
+        const row = createData(copy[i].assetName, initialValue, assetValueIfHeld, ilOfAsset);
         rows.push(row);
     }
     console.log("rows", rows);
