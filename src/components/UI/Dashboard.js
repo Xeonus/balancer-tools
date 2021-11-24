@@ -12,6 +12,7 @@ import Footer from '../UI/Footer'
 import BgImage from './../../resources/bg-header.svg'
 import BalancerLogo from './../../resources/logo-dark.svg';
 import ILFormField from '../ImpermanentLoss/ILFormField';
+import Header from './Header';
 
 
    
@@ -191,6 +192,7 @@ export default function Dashboard() {
             <CssBaseline />
                 <Container className={classes.container}  >
                 <Grid container className={classes.root} spacing={2} component="span" justify="flex-start" >
+                    <Grid item xs={12}> <Header>Impermantent Loss Calculator</Header> </Grid>
                             <Grid item xs={12} component="span"> 
                             <Paper elevation={3} className={classes.paper}>
                             <ILFormField></ILFormField>

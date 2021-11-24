@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { Typography } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +11,11 @@ import { addAssetToArray } from '../../utils/addAssetToArray';
 import { resetAssetArray } from '../../utils/resetAssetArray';
 import { calculateILFromAssetArray } from '../../utils/calculateILFromAssetArray';
 import DynamicValueFormatter from '../UI/DynamicValueFormatter';
+import Header from '../UI/Header'
+import DataTable from './DataTable';
+
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -32,13 +36,14 @@ const useStyles = makeStyles((theme) => ({
     '@media only screen and (min-width: 600px)': {
       padding: theme.spacing(1),
     },
-    minWidth: 'auto',
+
     textAlign: 'center',
     align: 'center',
     alignItems: 'center',
+    display: 'flex',
     justifyContent: 'center',
     backgroundColor: '#35384a',
-    borderRadius: "10px",
+    borderRadius: "5px",
     margin: '10px'
   },
   button: {
@@ -89,6 +94,9 @@ export default function ILFormField() {
   //IL value state hook
   const [calcIL, setCalcIL] = React.useState(calculateILFromAssetArray(defaultArray));
 
+  //Investment hook. TODO: refactor data structure, introduce REDUX?
+  const [investment, setInvestment] = React.useState(1000);
+
   //Form Element state change handler
   const handleChange = (event, element) => {
     const index = assetArray.indexOf(element);
@@ -96,6 +104,10 @@ export default function ILFormField() {
     clonedData[index][event.target.id] = event.target.value;
     setAssetArray(clonedData);
     setCalcIL(calculateILFromAssetArray(clonedData));
+  };
+
+  const handleInvestChange = (event) => {
+    setInvestment(event.target.value);
   };
 
   //Remove entry
@@ -119,7 +131,34 @@ export default function ILFormField() {
     setCalcIL(calculateILFromAssetArray(defaultArray));
   }
 
+  const investmentForm = () => (
+    <Box display="flex" justifyContent="center">
+    <Paper elevation={10} className={classes.paper}>
+      <Box 
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        p: 1,
+        m: 1,
+      }}>
+        <TextField
+          id="investment"
+          label="Investment"
+          multiline
+          rowsMax={1}
+          type="text"
+          value={investment}
+          onChange={(e) => handleInvestChange(e)}
+        />
+      </Box>
+    </Paper>
+    </Box>
+  )
+
   const formElement = (element) => (
+    <Box display="flex" justifyContent="center">
     <Paper elevation={3} className={classes.paper}>
       <Box 
       sx={{
@@ -170,6 +209,7 @@ export default function ILFormField() {
         </Button>
       </Box>
     </Paper>
+    </Box>
   );
 
   //Form components to add elements or reset the array
@@ -202,18 +242,28 @@ export default function ILFormField() {
     </Box>
   )
 
+
+  //Investment Table
+  //consisting of initial investment, value if held and value if held in pool
+
+  const dataTable = (assetArray, investment) => (
+    <Box display="flex" justifyContent="center" sx={{ mr: 2 }}>
+      <Paper elevation={3} className={classes.paper}>
+      <DataTable assetArray = {assetArray} investment = {investment}></DataTable>
+      </Paper>
+    </Box>
+  )
+
   return (
     <div>
       <Box m={2}>
-        <Typography variant="h6" gutterBottom color="primary" component="span">
-          IL Calculator POC
-        </Typography>
-      </Box>
-      <Box m={2}>
-      
-        <Typography variant="h6" gutterBottom color="primary" component="span">
+        <Header>
           IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
-        </Typography>
+          </Header>
+          {dataTable(assetArray, investment)}
+      </Box>
+      <Box>
+        {investmentForm()}
       </Box>
       <form className={classes.root} noValidate autoComplete="off">
         {assetArray.map((asset) =>
@@ -221,6 +271,7 @@ export default function ILFormField() {
         )}
       </form>
       {dataFunctionForm()}
+      
     </div>
   );
 }
