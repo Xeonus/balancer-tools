@@ -14,8 +14,6 @@ import DynamicValueFormatter from '../UI/DynamicValueFormatter';
 import Header from '../UI/Header'
 import DataTable from './DataTable';
 
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -97,6 +95,9 @@ export default function ILFormField() {
   //Investment hook. TODO: refactor data structure, introduce REDUX?
   const [investment, setInvestment] = React.useState(1000);
 
+  //Swap Fee hook TODO: Xeonus input
+  const [SwapFee, setSwapFee] = React.useState(1);
+
   //Form Element state change handler
   const handleChange = (event, element) => {
     const index = assetArray.indexOf(element);
@@ -109,6 +110,10 @@ export default function ILFormField() {
   const handleInvestChange = (event) => {
     setInvestment(event.target.value);
   };
+
+  const handleFeeChange = (event) => {
+    setSwapFee(event.target.value);
+  }
 
   //Remove entry
   const handleRemoveClick = (e, el) => {
@@ -133,7 +138,7 @@ export default function ILFormField() {
 
   const investmentForm = () => (
     <Box display="flex" justifyContent="center">
-    <Paper elevation={10} className={classes.paper}>
+    <Paper elevation={3} className={classes.paper}>
       <Box 
       sx={{
         display: 'flex',
@@ -152,10 +157,19 @@ export default function ILFormField() {
           value={investment}
           onChange={(e) => handleInvestChange(e)}
         />
+        <TextField
+          id="SwapFee"
+          label="Swap Fees (%)"
+          multiline
+          rowsMax={1}
+          type="text"
+          value={SwapFee}
+          onChange={(e) => handleFeeChange(e)}
+        />
       </Box>
     </Paper>
     </Box>
-  )
+  );
 
   const formElement = (element) => (
     <Box display="flex" justifyContent="center">
@@ -246,23 +260,23 @@ export default function ILFormField() {
   //Investment Table
   //consisting of initial investment, value if held and value if held in pool
 
-  const dataTable = (assetArray, investment) => (
+  const dataTable = (assetArray, investment, SwapFee) => (
     <Box display="flex" justifyContent="center" sx={{ mr: 2 }}>
       <Paper elevation={3} className={classes.paper}>
-      <DataTable assetArray = {assetArray} investment = {investment}></DataTable>
+      <DataTable assetArray = {assetArray} investment = {investment} SwapFee = {SwapFee}></DataTable>
       </Paper>
     </Box>
   )
 
   return (
     <div>
-      <Box m={2}>
+      <Box className={classes.root} m={2}>
         <Header>
           IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
           </Header>
-          {dataTable(assetArray, investment)}
+          {dataTable(assetArray, investment, SwapFee)}
       </Box>
-      <Box>
+      <Box className={classes.root}>
         {investmentForm()}
       </Box>
       <form className={classes.root} noValidate autoComplete="off">
