@@ -7,11 +7,11 @@ import { Box } from '@material-ui/core';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { addAssetToArray } from '../../utils/addAssetToArray';
-import { resetAssetArray } from '../../utils/resetAssetArray';
-import { calculateILFromAssetArray } from '../../utils/calculateILFromAssetArray';
-import DynamicValueFormatter from '../UI/DynamicValueFormatter';
-import Header from '../UI/Header'
+import { addAssetToArray } from '../../../utils/addAssetToArray';
+import { resetAssetArray } from '../../../utils/resetAssetArray';
+import { calculateILFromAssetArray } from '../../../utils/calculateILFromAssetArray';
+import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
+import Header from '../../UI/Header'
 import DataTable from './DataTable';
 
 const useStyles = makeStyles((theme) => ({
@@ -95,7 +95,7 @@ export default function ILFormField() {
   //Investment hook. TODO: refactor data structure, introduce REDUX?
   const [investment, setInvestment] = React.useState(1000);
 
-  //Swap Fee hook TODO: Xeonus input
+  //Swap Fee hook TODO: Xeonus input / OK for now -> redux in the future?
   const [SwapFee, setSwapFee] = React.useState(1);
 
   //Form Element state change handler
@@ -159,7 +159,7 @@ export default function ILFormField() {
         />
         <TextField
           id="SwapFee"
-          label="Swap Fees (%)"
+          label="Swap Fee APY (%)"
           multiline
           rowsMax={1}
           type="text"
@@ -261,7 +261,7 @@ export default function ILFormField() {
   //consisting of initial investment, value if held and value if held in pool
 
   const dataTable = (assetArray, investment, SwapFee) => (
-    <Box display="flex" justifyContent="center" sx={{ mr: 2 }}>
+    <Box display="flex" justifyContent="center" >
       <Paper elevation={3} className={classes.paper}>
       <DataTable assetArray = {assetArray} investment = {investment} SwapFee = {SwapFee}></DataTable>
       </Paper>
@@ -270,15 +270,15 @@ export default function ILFormField() {
 
   return (
     <div>
-      <Box className={classes.root} m={2}>
+      <Box className={classes.root} >
         <Header>
           IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
           </Header>
           {dataTable(assetArray, investment, SwapFee)}
       </Box>
-      <Box className={classes.root}>
+      <Box className={classes.root} >
         {investmentForm()}
-      </Box>
+        </Box>
       <form className={classes.root} noValidate autoComplete="off">
         {assetArray.map((asset) =>
           formElement(asset)

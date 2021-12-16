@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import Paper from '@mui/material/Paper';
-import { createTableDataFromAssetArray } from '../../utils/createTableDataFromAssetArray';
-import DynamicValueFormatter from '../UI/DynamicValueFormatter';
-import { RootRef } from '@material-ui/core';
+import { createTableDataFromAssetArray } from '../../../utils/createTableDataFromAssetArray';
+import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 
-
+//TODO: Global style, remove
 const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiTextField-root': {
@@ -61,7 +60,7 @@ const rows = createTableDataFromAssetArray(props.assetArray, props.investment, p
             <TableCell align="right"><b>Initial value</b></TableCell>
             <TableCell align="right"><b>Value if held</b></TableCell>
             <TableCell align="right"><b>Value with IL</b></TableCell>
-            <TableCell align="right"><b>Value with Fees</b></TableCell>
+            <TableCell align="right"><b>Value with Fees APY</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
