@@ -1,7 +1,4 @@
-import {
-    Routes,
-    Route
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -105,7 +102,6 @@ export default function Dashboard() {
             justifyContent: 'center',
             spacing: 2,
             //boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.35), 20px 20px 150px #FED533, -20px -20px 150px #EC4899",
-
         },
         footer: {
             flexGrow: 1,
@@ -148,9 +144,6 @@ export default function Dashboard() {
                 opacity: "1",
                 transition: "all .2s ease-out",
             },
-
-
-
             borderRadius: "22px",
             zIndex: 2,
         },
@@ -164,14 +157,12 @@ export default function Dashboard() {
             align: 'center',
             justifyContent: 'center',
             borderRadius: 3,
-
         },
         rightToolbar: {
             marginLeft: "auto",
             marginRight: -12
         },
         toolBar: {
-
         },
         navButton: {
             color: "primary",
@@ -221,6 +212,7 @@ export default function Dashboard() {
                             return null;
                         }}/>
                     </Routes>
+                    <Navigate replace to="/impermanentLoss" />
                     <Grid item xs={12} component="span">
                         <Paper elevation={3} className={classes.paper}>
                             <Footer className={classes.footer}></Footer>
