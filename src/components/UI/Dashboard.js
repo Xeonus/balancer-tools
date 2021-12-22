@@ -204,7 +204,7 @@ export default function Dashboard() {
             <Container className={classes.container}  >
                 <Grid container className={classes.root} spacing={2} component="span" justify="flex-start" >
                     <Routes>
-                        <Route path="/" element={<ImpermanentLoss classes={classes} />} />
+                        <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
                         <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} />} />
                         <Route path="priceImpact" element={<PriceImpact classes={classes} />} />
                         <Route path='/analytics' component={() => { 
@@ -212,7 +212,7 @@ export default function Dashboard() {
                             return null;
                         }}/>
                     </Routes>
-                    <Navigate replace to="/impermanentLoss" />
+                    
                     <Grid item xs={12} component="span">
                         <Paper elevation={3} className={classes.paper}>
                             <Footer className={classes.footer}></Footer>
