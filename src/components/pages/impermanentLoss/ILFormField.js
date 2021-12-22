@@ -11,8 +11,9 @@ import { addAssetToArray } from '../../../utils/addAssetToArray';
 import { resetAssetArray } from '../../../utils/resetAssetArray';
 import { calculateILFromAssetArray } from '../../../utils/calculateILFromAssetArray';
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
-import Header from '../../UI/Header'
+import Header from '../../UI/Header';
 import DataTable from './DataTable';
+import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,6 +100,7 @@ export default function ILFormField() {
   const [SwapFee, setSwapFee] = React.useState(1);
 
   //Form Element state change handler
+
   const handleChange = (event, element) => {
     const index = assetArray.indexOf(element);
     const clonedData = [...assetArray];
@@ -106,6 +108,8 @@ export default function ILFormField() {
     setAssetArray(clonedData);
     setCalcIL(calculateILFromAssetArray(clonedData));
   };
+
+  const errorTotalPoolWeights = (calculateTotalPoolWeights(assetArray) === 1 ? "" : "Total of pool weights must equal 100%");
 
   const handleInvestChange = (event) => {
     setInvestment(event.target.value);
@@ -151,20 +155,22 @@ export default function ILFormField() {
         <TextField
           id="investment"
           label="Investment"
-          multiline
           rowsMax={1}
           type="text"
-          value={investment}
+          value={(investment)}
           onChange={(e) => handleInvestChange(e)}
+          error={isNaN(investment)}
+          helperText={isNaN(investment) ? "Investment must be a number" : ""}
         />
         <TextField
           id="SwapFee"
           label="Swap Fee APY (%)"
-          multiline
           rowsMax={1}
           type="text"
           value={SwapFee}
           onChange={(e) => handleFeeChange(e)}
+          error={isNaN(SwapFee)}
+          helperText={isNaN(SwapFee) ? "Swap Fee must be a number" : ""}
         />
       </Box>
     </Paper>
@@ -192,6 +198,7 @@ export default function ILFormField() {
           value={element.assetName}
           onChange={(e) => handleChange(e, element)}
         />
+
         <TextField
           id="priceChange"
           label="Price Change (%)"
@@ -200,6 +207,8 @@ export default function ILFormField() {
           type="number"
           value={element.priceChange}
           onChange={(e) => handleChange(e, element)}
+          error={isNaN(element.priceChange)}
+          helperText={isNaN(element.priceChange) ? "Price Change % must be a number" : ""}
         />
         <TextField
           id="poolWeights"
@@ -209,6 +218,8 @@ export default function ILFormField() {
           type="number"
           value={element.poolWeights}
           onChange={(e) => handleChange(e, element)}
+          error={isNaN(element.poolWeights)}
+          helperText={isNaN(element.poolWeights) ? "Pool Weight must be a number" : ""}
         />
         <Button
           className={classes.button}
@@ -219,7 +230,6 @@ export default function ILFormField() {
           <Box ml={0.5}>
             {`Remove`}
           </Box>
-
         </Button>
       </Box>
     </Paper>
@@ -272,9 +282,10 @@ export default function ILFormField() {
     <div>
       <Box className={classes.root} >
         <Header>
-          IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
+          IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} % 
           </Header>
           {dataTable(assetArray, investment, SwapFee)}
+          <div style={{color:'crimson'}}>{errorTotalPoolWeights}</div>
       </Box>
       <Box className={classes.root} >
         {investmentForm()}
