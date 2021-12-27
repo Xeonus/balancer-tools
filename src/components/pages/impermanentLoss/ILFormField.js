@@ -45,6 +45,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "5px",
     margin: '10px'
   },
+  form : {
+    textAlign: 'center',
+    align: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: '#35384a',
+  },
   button: {
     color: "#fff",
     height: "35px",
@@ -179,7 +187,7 @@ export default function ILFormField() {
 
   const formElement = (element) => (
     <Box display="flex" justifyContent="center">
-    <Paper elevation={3} className={classes.paper}>
+    <Paper elevation={3} className={classes.form} variant="outlined" square>
       <Box 
       sx={{
         display: 'flex',
@@ -193,6 +201,7 @@ export default function ILFormField() {
           id="assetName"
           label="Asset"
           multiline
+          size="small"
           rowsMax={1}
           type="text"
           value={element.assetName}
@@ -203,6 +212,7 @@ export default function ILFormField() {
           id="priceChange"
           label="Price Change (%)"
           multiline
+          size="small"
           rowsMax={1}
           type="number"
           value={element.priceChange}
@@ -214,6 +224,7 @@ export default function ILFormField() {
           id="poolWeights"
           label="Pool Weight"
           multiline
+          size="small"
           rowsMax={1}
           type="number"
           value={element.poolWeights}
@@ -238,7 +249,7 @@ export default function ILFormField() {
 
   //Form components to add elements or reset the array
   const dataFunctionForm = () => (
-    <Box display="flex" justifyContent="center" sx={{ mr: 2 }}>
+    <Box display="flex" justifyContent="center" sx={{ mt: 1 }}>
       <Box mr={1}>
       <Button
         className={classes.button}
@@ -272,7 +283,7 @@ export default function ILFormField() {
 
   const dataTable = (assetArray, investment, SwapFee) => (
     <Box display="flex" justifyContent="center" >
-      <Paper elevation={3} className={classes.paper}>
+      <Paper elevation={3} className={classes.form}>
       <DataTable assetArray = {assetArray} investment = {investment} SwapFee = {SwapFee}></DataTable>
       </Paper>
     </Box>
@@ -289,7 +300,7 @@ export default function ILFormField() {
       </Box>
       <Box className={classes.root} >
         {investmentForm()}
-        </Box>
+      </Box>
       <form className={classes.root} noValidate autoComplete="off">
         {assetArray.map((asset) =>
           formElement(asset)

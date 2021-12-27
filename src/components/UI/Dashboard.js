@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import AppBar from '@material-ui/core/AppBar';
@@ -202,7 +201,7 @@ export default function Dashboard() {
             </AppBar>
             <CssBaseline />
             <Container className={classes.container}  >
-                <Grid container className={classes.root} spacing={2} component="span" justify="flex-start" >
+            <Grid item xs={12} component="span" spacing={2} >
                     <Routes>
                         <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
                         <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} />} />
@@ -213,10 +212,10 @@ export default function Dashboard() {
                         }}/>
                     </Routes>
                     
-                    <Grid item xs={12} component="span">
-                        <Paper elevation={3} className={classes.paper}>
-                            <Footer className={classes.footer}></Footer>
-                        </Paper>
+                    <Grid item xs={12} component="span">      
+                        <Box p={1}>  
+                                <Footer className={classes.footer}></Footer>
+                        </Box>   
                     </Grid>
                 </Grid>
             </Container>
