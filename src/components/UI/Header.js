@@ -6,8 +6,8 @@ import Box from "@material-ui/core/Box";
 
 export default function Header(props) {
   return (
-    <Box p={1}>
-    <Typography align="center" component="h1" variant="h4" color="primary">
+    <Box p={1} mb={1}>
+    <Typography color="primary" align="center" component="h1" variant="h4">
       {props.children}
     </Typography>
     </Box>

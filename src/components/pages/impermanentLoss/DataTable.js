@@ -29,8 +29,13 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         alignItems: "center",
+        color: '#272936',
+        overflow: 'auto',
+      },
+      darkTable: {
+        alignItems: "center",
         color: '#FFFFFF',
-        backgroundColor: "#35384a",
+        overflow: 'auto',
       },
       paper: {
         marginTop: theme.spacing(3),
@@ -47,13 +52,15 @@ export default function DataTable(props) {
     //Init styles
   const classes = useStyles();
 
+  console.log("props dataTable", props);
+
 //Create data rows for table (using props to forward values to another component)
 const rows = createTableDataFromAssetArray(props.assetArray, props.investment, props.SwapFee);
 
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} size="small">
+    <TableContainer>
+      <Table className={props.darkState ? classes.darkTable : classes.table} size="small">
         <TableHead>
           <TableRow>
             <TableCell><b>Asset</b></TableCell>

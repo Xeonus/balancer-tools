@@ -7,7 +7,7 @@ import Box from "@material-ui/core/Box";
 export default function Title(props) {
   return (
     <Box>
-    <Typography align="center" style={{whiteSpace: 'pre-line'}} component="h2" variant="h5" color="primary">
+    <Typography align="center" style={{whiteSpace: 'pre-line'}} component="h2" variant="h5">
       {props.children}
     </Typography>
     </Box>

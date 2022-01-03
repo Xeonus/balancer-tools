@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import Container from "@material-ui/core/Container";
-import { Box } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
@@ -11,20 +12,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Footer from '../UI/Footer'
 import BgImage from './../../resources/bg-header.svg'
 import BalancerLogo from './../../resources/logo-dark.svg';
+import BalancerLogoLight from './../../resources/logo-light.svg';
 import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
 import PriceImpact from "../pages/priceImpact/PriceImpact";
 import NavBar from "./NavBar";
+import LightDarkModeSwitcher from "./LightDarkModeSwitcher";
 
 
 
 export default function Dashboard() {
 
     //Theme properties set once at dashboard level
-    const palletType = "dark";
-    const mainPrimaryColor = "#ffffff";
-    const mainSecondaryColor = "#272936";
-    const backgroundColor = "	#091027";
-    const paperColor = "#162031";
+    const [darkState, setDarkState] = useState(true);
+    const palletType = darkState ? "dark" : "light";
+    const mainPrimaryColor = darkState ? "#ffffff" : "#111";
+    const mainSecondaryColor = darkState ? "#272936" : "#1a237e";
+    const backgroundColor = darkState ? "#091027" : "#fafafa";
+    const paperColor = darkState ? "#162031" : "#fff";
     const theme = createTheme({
         palette: {
             type: palletType,
@@ -66,7 +70,6 @@ export default function Dashboard() {
             paddingBottom: theme.spacing(2),
             flexDirection: "column",
             zIndex: 1,
-
         },
         root: {
             flexGrow: 1,
@@ -164,7 +167,7 @@ export default function Dashboard() {
         toolBar: {
         },
         navButton: {
-            color: "primary",
+            color: "white",
             height: "40px",
             borderRadius: "8px",
             textDecoration: "none",
@@ -180,42 +183,58 @@ export default function Dashboard() {
 
     const classes = useStyles();
 
+    //Reset data array
+    const handleDarkModeClick = (darkState) => {
+        setDarkState(!darkState);
+    }
+
+
+
     return (
         <ThemeProvider theme={theme} >
-            <AppBar position="static" color="secondary" style={{ margin: -0 }} >
+            <AppBar position="static" color={darkState ? "secondary" : "white"} style={{ margin: -0 }} >
                 <Toolbar className={classes.toolBar}>
-                    <Box display="flex" alignItems="center" sx={{ mr: 2 }} edge="start">
+                    <Box display="flex" alignItems="center" >
                         <Box p={1}>
-                            <img src={BalancerLogo} alt="Balancer Logo" width="30" />
+                            <img src={darkState ? BalancerLogo : BalancerLogoLight} alt="Balancer Logo" width="30" />
                         </Box>
-                        <Box mr={2}>
+                        <Box  mb={1}>
                             <Typography variant="h6" className={classes.root} key="appTitle">
                                 Balancer Tools
                             </Typography>
                         </Box>
                     </Box>
-                    <Box alignItems="center" justifyContent="center" sx={{ mr: 2 }}>
-                        <NavBar classes={classes}/>
+                    <Box display="flex" alignItems="center" justifyContent="center" flexGrow={1}>
+
+                        <Box alignItems="center" justifyContent="center" sx={{ mr: 2 }}>
+                            <NavBar classes={classes} />
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Button
+                            onClick={(e) => handleDarkModeClick(darkState)}
+                        >
+                            <LightDarkModeSwitcher darkState={darkState} />
+                        </Button>
                     </Box>
                 </Toolbar>
             </AppBar>
             <CssBaseline />
             <Container className={classes.container}  >
-            <Grid item xs={12} component="span" spacing={2} >
+                <Grid item xs="auto" component="span" spacing={2} >
                     <Routes>
                         <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
-                        <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} />} />
+                        <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={darkState} />} />
                         <Route path="priceImpact" element={<PriceImpact classes={classes} />} />
-                        <Route path='/analytics' component={() => { 
-                            window.location.href = 'https://balancer-v2-info.web.app/'; 
+                        <Route path='/analytics' component={() => {
+                            window.location.href = 'https://balancer-v2-info.web.app/';
                             return null;
-                        }}/>
+                        }} />
                     </Routes>
-                    
-                    <Grid item xs={12} component="span">      
-                        <Box p={1}>  
-                                <Footer className={classes.footer}></Footer>
-                        </Box>   
+                    <Grid item xs={12} component="span">
+                        <Box p={1}>
+                            <Footer className={classes.footer}></Footer>
+                        </Box>
                     </Grid>
                 </Grid>
             </Container>

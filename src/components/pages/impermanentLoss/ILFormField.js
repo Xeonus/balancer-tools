@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { Box } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   slider: {
     width: 200,
   },
-  paper: {
+  paperDark: {
     '@media only screen and (min-width: 600px)': {
       padding: theme.spacing(1),
     },
@@ -45,13 +46,25 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "5px",
     margin: '10px'
   },
-  form : {
+  paper: {
+    '@media only screen and (min-width: 600px)': {
+      padding: theme.spacing(1),
+    },
     textAlign: 'center',
     align: 'center',
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#35384a',
+    borderRadius: "5px",
+    margin: '10px',
+    minWidth: 'auto',
+  },
+  form: {
+    textAlign: 'center',
+    align: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
   },
   button: {
     color: "#fff",
@@ -74,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ILFormField() {
+export default function ILFormField(props) {
 
   //Init styles
   const classes = useStyles();
@@ -148,102 +161,104 @@ export default function ILFormField() {
     setCalcIL(calculateILFromAssetArray(defaultArray));
   }
 
+  console.log("props ilFormField", props);
+
   const investmentForm = () => (
     <Box display="flex" justifyContent="center">
-    <Paper elevation={3} className={classes.paper}>
-      <Box 
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        p: 1,
-        m: 1,
-      }}>
-        <TextField
-          id="investment"
-          label="Investment"
-          rowsMax={1}
-          type="text"
-          value={(investment)}
-          onChange={(e) => handleInvestChange(e)}
-          error={isNaN(investment)}
-          helperText={isNaN(investment) ? "Investment must be a number" : ""}
-        />
-        <TextField
-          id="SwapFee"
-          label="Swap Fee APY (%)"
-          rowsMax={1}
-          type="text"
-          value={SwapFee}
-          onChange={(e) => handleFeeChange(e)}
-          error={isNaN(SwapFee)}
-          helperText={isNaN(SwapFee) ? "Swap Fee must be a number" : ""}
-        />
-      </Box>
-    </Paper>
+      <Paper elevation={3} className={classes.paper}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 1,
+            m: 1,
+          }}>
+          <TextField
+            id="investment"
+            label="Investment"
+            rowsMax={1}
+            type="text"
+            value={(investment)}
+            onChange={(e) => handleInvestChange(e)}
+            error={isNaN(investment)}
+            helperText={isNaN(investment) ? "Investment must be a number" : ""}
+          />
+          <TextField
+            id="SwapFee"
+            label="Swap Fee APY (%)"
+            rowsMax={1}
+            type="text"
+            value={SwapFee}
+            onChange={(e) => handleFeeChange(e)}
+            error={isNaN(SwapFee)}
+            helperText={isNaN(SwapFee) ? "Swap Fee must be a number" : ""}
+          />
+        </Box>
+      </Paper>
     </Box>
   );
 
   const formElement = (element) => (
     <Box display="flex" justifyContent="center">
-    <Paper elevation={3} className={classes.form} variant="outlined" square>
-      <Box 
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        p: 1,
-        m: 1,
-      }}>
-        <TextField
-          id="assetName"
-          label="Asset"
-          multiline
-          size="small"
-          rowsMax={1}
-          type="text"
-          value={element.assetName}
-          onChange={(e) => handleChange(e, element)}
-        />
+      <Paper elevation={3} className={classes.form} variant="outlined" square>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 1,
+            m: 1,
+          }}>
+          <TextField
+            id="assetName"
+            label="Asset"
+            multiline
+            size="small"
+            rowsMax={1}
+            type="text"
+            value={element.assetName}
+            onChange={(e) => handleChange(e, element)}
+          />
 
-        <TextField
-          id="priceChange"
-          label="Price Change (%)"
-          multiline
-          size="small"
-          rowsMax={1}
-          type="number"
-          value={element.priceChange}
-          onChange={(e) => handleChange(e, element)}
-          error={isNaN(element.priceChange)}
-          helperText={isNaN(element.priceChange) ? "Price Change % must be a number" : ""}
-        />
-        <TextField
-          id="poolWeights"
-          label="Pool Weight"
-          multiline
-          size="small"
-          rowsMax={1}
-          type="number"
-          value={element.poolWeights}
-          onChange={(e) => handleChange(e, element)}
-          error={isNaN(element.poolWeights)}
-          helperText={isNaN(element.poolWeights) ? "Pool Weight must be a number" : ""}
-        />
-        <Button
-          className={classes.button}
-          onClick={(e) => handleRemoveClick(e, element)}
-        >
-          <Box display="flex" alignItems="center" >
-            <DeleteIcon /></Box>
-          <Box ml={0.5}>
-            {`Remove`}
-          </Box>
-        </Button>
-      </Box>
-    </Paper>
+          <TextField
+            id="priceChange"
+            label="Price Change (%)"
+            multiline
+            size="small"
+            rowsMax={1}
+            type="number"
+            value={element.priceChange}
+            onChange={(e) => handleChange(e, element)}
+            error={isNaN(element.priceChange)}
+            helperText={isNaN(element.priceChange) ? "Price Change % must be a number" : ""}
+          />
+          <TextField
+            id="poolWeights"
+            label="Pool Weight"
+            multiline
+            size="small"
+            rowsMax={1}
+            type="number"
+            value={element.poolWeights}
+            onChange={(e) => handleChange(e, element)}
+            error={isNaN(element.poolWeights)}
+            helperText={isNaN(element.poolWeights) ? "Pool Weight must be a number" : ""}
+          />
+          <Button
+            className={classes.button}
+            onClick={(e) => handleRemoveClick(e, element)}
+          >
+            <Box display="flex" alignItems="center" >
+              <DeleteIcon /></Box>
+            <Box ml={0.5}>
+              {`Remove`}
+            </Box>
+          </Button>
+        </Box>
+      </Paper>
     </Box>
   );
 
@@ -251,28 +266,28 @@ export default function ILFormField() {
   const dataFunctionForm = () => (
     <Box display="flex" justifyContent="center" sx={{ mt: 1 }}>
       <Box mr={1}>
-      <Button
-        className={classes.button}
-        onClick={(e) => handleAddClick(assetArray)}
-      >
-        <Box display="flex" alignItems="center" >
-          <AddIcon /></Box>
-        <Box ml={0.5}>
-          {`Add Asset`}
-        </Box>
-      </Button>
+        <Button
+          className={classes.button}
+          onClick={(e) => handleAddClick(assetArray)}
+        >
+          <Box display="flex" alignItems="center" >
+            <AddIcon /></Box>
+          <Box ml={0.5}>
+            {`Add Asset`}
+          </Box>
+        </Button>
       </Box>
       <Box mr={1}>
-      <Button
-        className={classes.button}
-        onClick={(e) => handleResetClick(assetArray)}
-      >
-        <Box display="flex" alignItems="center" >
-          <ReplayIcon /></Box>
-        <Box ml={0.5}>
-          {`Reset`}
-        </Box>
-      </Button>
+        <Button
+          className={classes.button}
+          onClick={(e) => handleResetClick(assetArray)}
+        >
+          <Box display="flex" alignItems="center" >
+            <ReplayIcon /></Box>
+          <Box ml={0.5}>
+            {`Reset`}
+          </Box>
+        </Button>
       </Box>
     </Box>
   )
@@ -282,21 +297,21 @@ export default function ILFormField() {
   //consisting of initial investment, value if held and value if held in pool
 
   const dataTable = (assetArray, investment, SwapFee) => (
-    <Box display="flex" justifyContent="center" >
-      <Paper elevation={3} className={classes.form}>
-      <DataTable assetArray = {assetArray} investment = {investment} SwapFee = {SwapFee}></DataTable>
-      </Paper>
+    <Box display="flex" justifyContent="center">
+      <Paper elevation={3} className={classes.form} variant="outlined" square>
+        <DataTable assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTable>
+    </Paper>
     </Box>
   )
 
   return (
     <div>
-      <Box className={classes.root} >
+      <Box>
         <Header>
-          IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} % 
-          </Header>
-          {dataTable(assetArray, investment, SwapFee)}
-          <div style={{color:'crimson'}}>{errorTotalPoolWeights}</div>
+          IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
+        </Header>
+        {dataTable(assetArray, investment, SwapFee)}
+        <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
       </Box>
       <Box className={classes.root} >
         {investmentForm()}
@@ -307,7 +322,7 @@ export default function ILFormField() {
         )}
       </form>
       {dataFunctionForm()}
-      
+
     </div>
   );
 }

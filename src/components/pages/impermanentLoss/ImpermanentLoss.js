@@ -9,7 +9,7 @@ export default function ImpermanentLoss(props) {
         <div>
             <Grid item xs={12}> <Header>Impermantent Loss Calculator</Header> </Grid>
                 <Paper elevation={3} className={props.classes.paper}>
-                    <ILFormField></ILFormField>
+                    <ILFormField darkState = {props.darkState} props={props}></ILFormField>
                 </Paper>
         </div>
     );
