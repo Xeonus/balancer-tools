@@ -15,6 +15,7 @@ import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import Header from '../../UI/Header';
 import DataTable from './DataTable';
 import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
+import { ILGraphs } from "../../../utils/ILGraphs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -304,12 +305,18 @@ export default function ILFormField(props) {
     </Box>
   )
 
+  const iLGraphs = (assetArray) => (
+    <Box display="flex" justifyContent="center" >
+    <ILGraphs assetArray = {assetArray}></ILGraphs>
+  </Box>
+  )
   return (
     <div>
       <Box>
         <Header>
           IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
         </Header>
+        { iLGraphs(assetArray) }
         {dataTable(assetArray, investment, SwapFee)}
         <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
       </Box>
@@ -322,7 +329,6 @@ export default function ILFormField(props) {
         )}
       </form>
       {dataFunctionForm()}
-
     </div>
   );
-}
+};
