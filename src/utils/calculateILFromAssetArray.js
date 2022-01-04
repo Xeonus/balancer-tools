@@ -9,7 +9,6 @@ export function calculateILFromAssetArray(assetArray) {
         valueOfPool *= ( 1 + 1 * Number(copy[i].priceChange / 100)) ** (Number(copy[i].poolWeights) / 100);
         assetValueIfHeld += ( 1 + 1 * Number(copy[i].priceChange / 100)) * Number(copy[i].poolWeights) / 100;
     }
-    console.log("IL", ((valueOfPool / assetValueIfHeld) - 1) * 100);
     let impermanentLoss = ((valueOfPool / assetValueIfHeld) - 1) * 100;
     if (impermanentLoss < 0) {
         impermanentLoss *= -1;

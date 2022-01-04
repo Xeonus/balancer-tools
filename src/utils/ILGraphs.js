@@ -7,7 +7,7 @@ export function ILGraphs(props) {
   for (var j=1; j < 500; j+=10) {
     let zRows = [];
     for (var i=1; i < 500; i+=10) {
-      zRows.push((((i/100)**(props.assetArray[0].poolWeights/100))*((j/100)**(props.assetArray[1].poolWeights/100)))/((i/100)*.5+(j/100)*(props.assetArray[1].poolWeights/100)));
+      zRows.push((((i/100)**(props.assetArray[0].poolWeights/100))*((j/100)**(props.assetArray[1].poolWeights/100)))/((i/100)*(props.assetArray[0].poolWeights/100)+(j/100)*(props.assetArray[1].poolWeights/100)));
       
     }
     zArray.push(zRows);
@@ -23,8 +23,8 @@ export function ILGraphs(props) {
             }
       ]}
       layout={{
-        width: 800,
-        height: 900,
+        width: 600,
+        height: 600,
         plot_bgcolor: 'rgba(0,0,0,0)',
         paper_bgcolor: 'rgba(0,0,0,0)',
         margin: {

@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 export default function PriceImpactFormField () {
     return (
         <div>
-            <Typography color="primary" >TODO </Typography>
+            <Typography color="primary" > Stay tuned - Release soon </Typography>
         </div>
     );
 }

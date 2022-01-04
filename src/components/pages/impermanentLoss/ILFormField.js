@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { Box } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -14,6 +13,7 @@ import { calculateILFromAssetArray } from '../../../utils/calculateILFromAssetAr
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import Header from '../../UI/Header';
 import DataTable from './DataTable';
+import ShowCalcuation from './ShowCalculation';
 import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
 import { ILGraphs } from "../../../utils/ILGraphs";
 
@@ -98,6 +98,7 @@ export default function ILFormField(props) {
   const defaultAssetNames = ['BAL', 'WBTC', 'WETH'];
   const defaultPriceChange = ['400', '150', '400'];
   const defaultPoolWeights = ['50', '34', '16'];
+  const [showInfo, setShowInfo] = useState(false)
 
   //Default init with 3 Assets
   for (let i = 0; i < defaultAssetNames.length; i++) {
@@ -162,7 +163,10 @@ export default function ILFormField(props) {
     setCalcIL(calculateILFromAssetArray(defaultArray));
   }
 
-  console.log("props ilFormField", props);
+  //Toggle tooltip
+   const handleToolTipClick = (showInfo) => {
+      setShowInfo(!showInfo);
+  }
 
   const investmentForm = () => (
     <Box display="flex" justifyContent="center">
@@ -305,6 +309,18 @@ export default function ILFormField(props) {
     </Box>
   )
 
+  const toolTip = (assetArray, showInfo) => (
+
+    showInfo ? 
+    <Box display="flex" justifyContent="center">
+      <Paper elevation={3} className={classes.paper} variant="outlined" square>
+        <ShowCalcuation assetArray={assetArray}></ShowCalcuation>
+    </Paper>
+    </Box>
+    : null
+  )
+
+
   const iLGraphs = (assetArray) => (
     <Box display="flex" justifyContent="center" >
     <ILGraphs assetArray = {assetArray}></ILGraphs>
@@ -318,6 +334,7 @@ export default function ILFormField(props) {
         </Header>
         { iLGraphs(assetArray) }
         {dataTable(assetArray, investment, SwapFee)}
+        
         <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
       </Box>
       <Box className={classes.root} >
@@ -329,6 +346,15 @@ export default function ILFormField(props) {
         )}
       </form>
       {dataFunctionForm()}
+      <Box mt={4}>
+      <Button
+      variant="outlined"
+      onClick={(e) => handleToolTipClick(showInfo)}
+      >
+        {showInfo ?  'Hide calculation': 'Show calculation'}
+        </Button>
+      {toolTip(assetArray, showInfo)}
+      </Box>
     </div>
   );
 };
