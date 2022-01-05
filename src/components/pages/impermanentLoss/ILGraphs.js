@@ -4,14 +4,19 @@ import Plot from "react-plotly.js";
 export function ILGraphs(props) {
 
   let zArray = [];
-  for (var j=1; j < 500; j+=10) {
+  for (var j=0; j < 500; j++) {
     let zRows = [];
-    for (var i=1; i < 500; i+=10) {
-      zRows.push((((i/100)**(props.assetArray[0].poolWeights/100))*((j/100)**(props.assetArray[1].poolWeights/100)))/((i/100)*(props.assetArray[0].poolWeights/100)+(j/100)*(props.assetArray[1].poolWeights/100)));
+    for (var i=0; i < 500; i++) {
+      !!props.assetArray[0] ? (zRows.push(100*Math.abs(((((i)/100)**(props.assetArray[0].poolWeights/100))*(((j)/100)**(1-props.assetArray[0].poolWeights/100)))/(((i)/100)*(props.assetArray[0].poolWeights/100)+((j)/100)*(1-props.assetArray[0].poolWeights/100))-1))) : (zRows.push(i+1))
       
     }
     zArray.push(zRows);
   };  
+
+  let x = [];
+  for (var k=-100; k<400; k++) {
+    x.push(k);
+  };
 
   console.log(zArray)
 
@@ -19,6 +24,8 @@ export function ILGraphs(props) {
     <Plot
       data= {[
             {z: zArray,
+            x: x,
+            y: x,
             type: "surface"
             }
       ]}
@@ -34,33 +41,33 @@ export function ILGraphs(props) {
           t: 80,
           pad: 4
         },
-        title: "Impermanent Loss vs. Relative Price Change",
+        title: "Impermanent Loss vs. Price Change %",
         titlefont: {
           color: "white"
         },
         scene: {
           xaxis: {
-            title: props.assetArray[0].assetName,
+            title: !!(props.assetArray[0]) ? (props.assetArray[0].assetName + " Price Change %") : ( "No Asset Listed"),
             titlefont: {
-              size: 20,
+              size: 16,
               color: "white",
             },
             tickfont: {
-              color: "white"}
+              color: "white"},
           },
           yaxis: {
-            title: props.assetArray[1].assetName,
+            title: !!(props.assetArray[1]) ? (props.assetArray[1].assetName + " Price Change %") : ( "No Asset Listed"),
             titlefont: {
-              size: 20,
+              size: 16,
               color: "white"
             },
             tickfont: {
-              color: "white"}
+              color: "white"},
           },
           zaxis: {
             title: "Impermanent Loss",
             titlefont: {
-              size: 20,
+              size: 16,
               color: "white"
             },
             tickfont: {

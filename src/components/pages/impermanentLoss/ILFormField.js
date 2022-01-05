@@ -15,7 +15,7 @@ import Header from '../../UI/Header';
 import DataTable from './DataTable';
 import ShowCalcuation from './ShowCalculation';
 import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
-import { ILGraphs } from "../../../utils/ILGraphs";
+import { ILGraphs } from './ILGraphs' 
 
 const useStyles = makeStyles((theme) => ({
   root: {
