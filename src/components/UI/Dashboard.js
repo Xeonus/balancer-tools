@@ -221,7 +221,7 @@ export default function Dashboard() {
             </AppBar>
             <CssBaseline />
             <Container className={classes.container}  >
-                <Grid item xs="auto" component="span" spacing={2} >
+                <Grid item xs="auto" component="span">
                     <Routes>
                         <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
                         <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={darkState} />} />

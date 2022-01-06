@@ -169,8 +169,8 @@ export default function ILFormField(props) {
   }
 
   const investmentForm = () => (
-    <Box display="flex" justifyContent="center">
-      <Paper elevation={3} className={classes.paper}>
+    <Box display="flex" justifyContent="center" p={2}>
+      <Paper className={classes.form} variant="outlined" square>
         <Box
           sx={{
             display: 'flex',
@@ -326,6 +326,7 @@ export default function ILFormField(props) {
     <ILGraphs assetArray = {assetArray} darkState = {darkState}></ILGraphs>
   </Box>
   )
+
   return (
     <div>
       <Box>

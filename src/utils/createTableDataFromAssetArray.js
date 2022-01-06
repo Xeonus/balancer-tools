@@ -24,6 +24,5 @@ export function createTableDataFromAssetArray(assetArray, investment, SwapFee) {
         const row = createData(copy[i].assetName, initialValue, assetValueIfHeld, ilOfAsset, valueWithFees);
         rows.push(row);
     }
-    console.log("rows", rows);
     return rows;
 }

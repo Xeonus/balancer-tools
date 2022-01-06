@@ -3,20 +3,20 @@ import Plot from "react-plotly.js";
 
 export function ILGraphs(props) {
 
-
+  const stepSize = 12;
 
   let zArray = [];
-  for (var j=0; j < 500; j++) {
+  for (var j=0; j < 500; j+=stepSize) {
     let zRows = [];
-    for (var i=0; i < 500; i++) {
-      !!props.assetArray[0] ? (zRows.push(100*Math.abs(((((i)/100)**(props.assetArray[0].poolWeights/100))*(((j)/100)**(1-props.assetArray[0].poolWeights/100)))/(((i)/100)*(props.assetArray[0].poolWeights/100)+((j)/100)*(1-props.assetArray[0].poolWeights/100))-1))) : (zRows.push(i+1))
+    for (var i=0; i < 500; i+=stepSize) {
+      !!props.assetArray[0] ? (zRows.push(100*Math.abs(((((i)/100)**(props.assetArray[0].poolWeights/100))*(((j)/100)**((1-props.assetArray[0].poolWeights/100))))/(((i)/100)*(props.assetArray[0].poolWeights/100)+((j)/100)*((1-props.assetArray[0].poolWeights/100)))-1))) : (zRows.push(i+1))
       
     }
     zArray.push(zRows);
   };  
 
   let x = [];
-  for (var k=-100; k<400; k++) {
+  for (var k=-100; k<400; k+=stepSize) {
     x.push(k);
   };
 
@@ -30,9 +30,9 @@ export function ILGraphs(props) {
             colorscale:'Portland',
             colorbar: {x: 1, len: 0.5},
             lighting: {
-              roughness: 0.2,
+              roughness: 0.25,
               ambient: 1,
-              diffuse: 0.1
+              diffuse: 0.2
             }
             }
       ]}
@@ -54,7 +54,7 @@ export function ILGraphs(props) {
         },
         scene: {
           xaxis: {
-            title: !!(props.assetArray[0]) ? (props.assetArray[0].assetName + " Price Change %") : ( "No Asset Listed"),
+            title: !!(props.assetArray[0]) ? (props.assetArray[0].assetName + " Price Change (%)") : ( "No Asset Listed"),
             titlefont: {
               size: 14,
               color: props.darkState ? "white" : "black",
@@ -63,7 +63,7 @@ export function ILGraphs(props) {
               color: props.darkState ? "white" : "black"},
           },
           yaxis: {
-            title: !!(props.assetArray[1]) ? (props.assetArray[1].assetName + " Price Change %") : ( "No Asset Listed"),
+            title: !!(props.assetArray[1]) ? (props.assetArray[1].assetName + " Price Change (%)") : ( "No Asset Listed"),
             titlefont: {
               size: 14,
               color: props.darkState ? "white" : "black",
@@ -72,7 +72,7 @@ export function ILGraphs(props) {
               color: props.darkState ? "white" : "black",},
           },
           zaxis: {
-            title: "Impermanent Loss",
+            title: "Impermanent Loss (%)",
             titlefont: {
               size: 14,
               color: props.darkState ? "white" : "black",

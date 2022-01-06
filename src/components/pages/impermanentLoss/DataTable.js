@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -50,8 +50,6 @@ export default function DataTable(props) {
 
     //Init styles
   const classes = useStyles();
-
-  console.log("props dataTable", props);
 
 //Create data rows for table (using props to forward values to another component)
 const rows = createTableDataFromAssetArray(props.assetArray, props.investment, props.SwapFee);
