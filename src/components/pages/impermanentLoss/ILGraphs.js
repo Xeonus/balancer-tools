@@ -1,40 +1,70 @@
 import React from "react";
 import Plot from "react-plotly.js";
+import { calculateILFromAssetArray } from "../../../utils/calculateILFromAssetArray";
+import { createHalfSphere } from "../../../utils/createHalfSphere";
 
 export function ILGraphs(props) {
 
+  //Creat IL data
   const stepSize = 12;
-
   let zArray = [];
-  for (var j=0; j < 500; j+=stepSize) {
+  for (var j=0; j <= 500 + stepSize; j+=stepSize) {
     let zRows = [];
-    for (var i=0; i < 500; i+=stepSize) {
-      !!props.assetArray[0] ? (zRows.push(100*Math.abs(((((i)/100)**(props.assetArray[0].poolWeights/100))*(((j)/100)**((1-props.assetArray[0].poolWeights/100))))/(((i)/100)*(props.assetArray[0].poolWeights/100)+((j)/100)*((1-props.assetArray[0].poolWeights/100)))-1))) : (zRows.push(i+1))
-      
+    for (var i=0; i <= 500 + stepSize ; i+=stepSize) {
+      !!props.assetArray[0] ? (zRows.push(100*Math.abs(((((i)/100)**(props.assetArray[0].poolWeights/100))*(((j)/100)**((1-props.assetArray[0].poolWeights/100))))/(((i)/100)*(props.assetArray[0].poolWeights/100)+((j)/100)*((1-props.assetArray[0].poolWeights/100)))-1))) : (zRows.push(i+1));
     }
     zArray.push(zRows);
+
   };  
 
   let x = [];
-  for (var k=-100; k<400; k+=stepSize) {
+  for (var k=-100; k<= 400 + stepSize; k+=stepSize) {
     x.push(k);
   };
+
+
+  //Create Half-Sphere Data
+let { xS,yS,zS }  = createHalfSphere(props.assetArray);
 
   return (
     <Plot
       data= {[
             {z: zArray,
-            x: x,
-            y: x,
-            type: "surface",
-            colorscale:'Portland',
-            colorbar: {x: 1, len: 0.5},
-            lighting: {
-              roughness: 0.25,
-              ambient: 1,
-              diffuse: 0.2
-            }
-            }
+              x: x,
+              y: x,
+              type: "surface",
+              colorscale:'Portland',
+              colorbar: {x: 1, len: 0.5},
+              lighting: {
+                roughness: 0.25,
+                ambient: 1,
+                diffuse: 0.2
+              }
+            },
+            {
+              x: xS,
+              y: yS,
+              z: zS,
+              color: 'rgb(211,211,211)',
+              type: "mesh3d",
+              lighting: {
+                roughness: 0.25,
+                ambient: 1,
+                diffuse: 0.2
+              }
+              },
+              {
+                x: xS,
+                y: yS,
+                z: zS.map(v => -v+2*calculateILFromAssetArray(props.assetArray)),
+                color: 'rgb(211,211,211)',
+                type: "mesh3d",
+                lighting: {
+                  roughness: 0.25,
+                  ambient: 1,
+                  diffuse: 0.2
+                }
+                }
       ]}
       layout={{
         width: 600,

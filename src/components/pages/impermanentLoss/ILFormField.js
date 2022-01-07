@@ -95,9 +95,9 @@ export default function ILFormField(props) {
 
   //Init asset array
   const defaultArray = []
-  const defaultAssetNames = ['BAL', 'WBTC', 'WETH'];
-  const defaultPriceChange = ['400', '150', '400'];
-  const defaultPoolWeights = ['50', '34', '16'];
+  const defaultAssetNames = ['BAL', 'WETH'];
+  const defaultPriceChange = ['150', '-50'];
+  const defaultPoolWeights = ['80', '20'];
   const [showInfo, setShowInfo] = useState(false)
 
   //Default init with 3 Assets
@@ -333,7 +333,7 @@ export default function ILFormField(props) {
         <Header>
           IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
         </Header>
-        { iLGraphs(assetArray, props.darkState) }
+        {iLGraphs(assetArray, props.darkState) }
         {dataTable(assetArray, investment, SwapFee)}
         
         <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
