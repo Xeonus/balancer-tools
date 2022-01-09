@@ -321,9 +321,9 @@ export default function ILFormField(props) {
   )
 
 
-  const iLGraphs = (assetArray, darkState) => (
+  const iLGraphs = (assetArray, SwapFee, darkState) => (
     <Box display="flex" justifyContent="center" >
-    <ILGraphs assetArray = {assetArray} darkState = {darkState}></ILGraphs>
+    <ILGraphs assetArray = {assetArray} SwapFee = {SwapFee} darkState = {darkState}></ILGraphs>
   </Box>
   )
 
@@ -333,7 +333,7 @@ export default function ILFormField(props) {
         <Header>
           IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
         </Header>
-        {iLGraphs(assetArray, props.darkState) }
+        {iLGraphs(assetArray, SwapFee, props.darkState) }
         {dataTable(assetArray, investment, SwapFee)}
         
         <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>

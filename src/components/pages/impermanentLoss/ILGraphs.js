@@ -5,7 +5,7 @@ import { createHalfSphere } from "../../../utils/createHalfSphere";
 
 export function ILGraphs(props) {
 
-  //Creat IL data
+  //Create IL data
   const stepSize = 12;
   let zArray = [];
   for (var j=0; j <= 500 + stepSize; j+=stepSize) {
@@ -17,6 +17,18 @@ export function ILGraphs(props) {
 
   };  
 
+  //Create Swap Fee Data
+  let zSwaps = [];
+  for (var j=0; j <= 500 + stepSize; j+=stepSize) {
+    let zSwapRows = [];
+    for (var i=0; i <= 500 + stepSize ; i+=stepSize) {
+      !!props.assetArray[0] ? (zSwapRows.push(100*(1-(1-Math.abs(((((i)/100)**(props.assetArray[0].poolWeights/100))*(((j)/100)**((1-props.assetArray[0].poolWeights/100))))/(((i)/100)*(props.assetArray[0].poolWeights/100)+((j)/100)*((1-props.assetArray[0].poolWeights/100)))-1))*(1+props.SwapFee/100)))) : (zSwapRows.push(i+1));
+    }
+    zSwaps.push(zSwapRows);
+
+  };
+  
+    //Sets boundaries of x and y axis from -100 to 400 %
   let x = [];
   for (var k=-100; k<= 400 + stepSize; k+=stepSize) {
     x.push(k);
@@ -33,8 +45,24 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
               x: x,
               y: x,
               type: "surface",
+              name: "Impermanent Loss",
+              showlegend: true,
               colorscale:'Portland',
               colorbar: {x: 1, len: 0.5},
+              lighting: {
+                roughness: 0.25,
+                ambient: 1,
+                diffuse: 0.2
+              }
+            },
+            {z: zSwaps,
+              x: x,
+              y: x,
+              type: "surface",
+              name: "IL with Swap Fees",
+              showlegend: true,
+              colorscale:'Greens',
+              showscale: false,
               lighting: {
                 roughness: 0.25,
                 ambient: 1,
@@ -47,6 +75,8 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
               z: zS,
               color: 'rgb(211,211,211)',
               type: "mesh3d",
+              name: "Current Position",
+              showlegend: true,
               lighting: {
                 roughness: 0.25,
                 ambient: 1,
@@ -58,6 +88,7 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
                 y: yS,
                 z: zS.map(v => -v+2*calculateILFromAssetArray(props.assetArray)),
                 color: 'rgb(211,211,211)',
+                name: "Current Position",
                 type: "mesh3d",
                 lighting: {
                   roughness: 0.25,

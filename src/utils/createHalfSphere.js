@@ -15,8 +15,8 @@ export function createHalfSphere(assetArray) {
 	
     var phiArr = [];
     var thetaArr = [];
-	var numPoints = 20;
-    const size = 10;
+	var numPoints = 5;
+    const size = 5;
     const zScaling = 5;
 
 	var stopValuePhi = Math.PI/2;
