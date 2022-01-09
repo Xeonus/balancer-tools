@@ -19,9 +19,9 @@ export function ILGraphs(props) {
 
   //Create Swap Fee Data
   let zSwaps = [];
-  for (var j=0; j <= 500 + stepSize; j+=stepSize) {
+  for (j=0; j <= 500 + stepSize; j+=stepSize) {
     let zSwapRows = [];
-    for (var i=0; i <= 500 + stepSize ; i+=stepSize) {
+    for (i=0; i <= 500 + stepSize ; i+=stepSize) {
       !!props.assetArray[0] ? (zSwapRows.push(100*(1-(1-Math.abs(((((i)/100)**(props.assetArray[0].poolWeights/100))*(((j)/100)**((1-props.assetArray[0].poolWeights/100))))/(((i)/100)*(props.assetArray[0].poolWeights/100)+((j)/100)*((1-props.assetArray[0].poolWeights/100)))-1))*(1+props.SwapFee/100)))) : (zSwapRows.push(i+1));
     }
     zSwaps.push(zSwapRows);
@@ -41,6 +41,23 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
   return (
     <Plot
       data= {[
+            
+            {z: zSwaps,
+              x: x,
+              y: x,
+              type: "surface",
+              name: "IL with Swap Fees",
+              showlegend: true,
+              colorscale:'Greens',
+              colorbar: {x: 1.2, len: 0.5},
+              opacity:0.9,
+              showscale: true,
+              lighting: {
+                roughness: 0.25,
+                ambient: 1,
+                diffuse: 0.2
+              }
+            },
             {z: zArray,
               x: x,
               y: x,
@@ -49,20 +66,7 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
               showlegend: true,
               colorscale:'Portland',
               colorbar: {x: 1, len: 0.5},
-              lighting: {
-                roughness: 0.25,
-                ambient: 1,
-                diffuse: 0.2
-              }
-            },
-            {z: zSwaps,
-              x: x,
-              y: x,
-              type: "surface",
-              name: "IL with Swap Fees",
-              showlegend: true,
-              colorscale:'Greens',
-              showscale: false,
+              opacity:0.9,
               lighting: {
                 roughness: 0.25,
                 ambient: 1,
@@ -98,7 +102,7 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
                 }
       ]}
       layout={{
-        width: 600,
+        width: 650,
         height: 500,
         plot_bgcolor: 'rgba(0,0,0,0)',
         paper_bgcolor: 'rgba(0,0,0,0)',
@@ -145,8 +149,8 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
 		      domain:{row:0, column:0},
           camera: {
             eye: {
-              x: 2.25, 
-              y: 0.75, 
+              x: 2.5, 
+              y: 0.5, 
               z: 0.75,
             },
             center: {

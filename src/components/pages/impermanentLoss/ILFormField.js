@@ -120,7 +120,7 @@ export default function ILFormField(props) {
   const [investment, setInvestment] = React.useState(1000);
 
   //Swap Fee hook TODO: Xeonus input / OK for now -> redux in the future?
-  const [SwapFee, setSwapFee] = React.useState(1);
+  const [SwapFee, setSwapFee] = React.useState(10);
 
   //Form Element state change handler
 
