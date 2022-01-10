@@ -25,7 +25,7 @@ export default function Footer() {
                             0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2
                         </Link> <br />
                         Information provided as is. Not financial advice. <br />
-                        Alpha Build - v0.2.0
+                        Alpha Build - v0.3.1
                     </Typography>
                 </Grid>
         </div>

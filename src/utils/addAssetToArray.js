@@ -5,6 +5,8 @@ export function addAssetToArray(assetArray) {
         assetName: 'X',
         priceChange: '0',
         poolWeights: '1',
+        entryPrice: 1,
+        exitPrice: 1,
     }
     copy.push(entry);
     return copy;

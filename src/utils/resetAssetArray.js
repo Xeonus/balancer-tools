@@ -1,9 +1,12 @@
 export function resetAssetArray() {
-    //Init asset array
+    //Init asset array: Refactor - redundancy with ILFormField.js
     const defaultArray = []
-    const defaultAssetNames = ['BAL', 'WBTC', 'WETH'];
-    const defaultPriceChange = ['400', '150', '400'];
-    const defaultPoolWeights = ['50', '34', '16'];
+
+    const defaultAssetNames = ['BAL', 'WETH'];
+    const defaultPriceChange = [150, 50];
+    const defaultPoolWeights = [80, 20];
+    const defaultEntryPrice = [10, 3000];
+    const defaultExitPrice = [15, 1500];
 
     //Default init with 3 Assets
     for (let i = 0; i < defaultAssetNames.length; i++) {
@@ -11,6 +14,8 @@ export function resetAssetArray() {
             assetName: defaultAssetNames[i],
             priceChange: defaultPriceChange[i],
             poolWeights: defaultPoolWeights[i],
+            entryPrice: defaultEntryPrice[i],
+            exitPrice: defaultExitPrice[i],
         }
         defaultArray.push(entry);
       }

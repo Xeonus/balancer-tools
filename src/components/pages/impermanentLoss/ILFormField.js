@@ -13,8 +13,10 @@ import { calculateILFromAssetArray } from '../../../utils/calculateILFromAssetAr
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import Header from '../../UI/Header';
 import DataTable from './DataTable';
+import DataTableTokens from './DataTableTokens';
 import ShowCalcuation from './ShowCalculation';
 import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
+import { calculatePriceChange } from '../../../utils/calculatePriceChange';
 import { ILGraphs } from './ILGraphs' 
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +62,17 @@ const useStyles = makeStyles((theme) => ({
     margin: '10px',
     minWidth: 'auto',
   },
+  resultPaper: {
+    '@media only screen and (min-width: 600px)': {
+        padding: theme.spacing(1),
+    },
+    maxWidth: '800px',
+    textAlign: 'center',
+    align: 'center',
+    justifyContent: 'center',
+    color: '#272936',
+    borderRadius: "22px",
+},
   form: {
     textAlign: 'center',
     align: 'center',
@@ -96,8 +109,10 @@ export default function ILFormField(props) {
   //Init asset array
   const defaultArray = []
   const defaultAssetNames = ['BAL', 'WETH'];
-  const defaultPriceChange = ['150', '-50'];
+  const defaultPriceChange = ['150', '50'];
   const defaultPoolWeights = ['80', '20'];
+  const defaultEntryPrice = ['10', '3000'];
+  const defaultExitPrice = ['15', '1500'];
   const [showInfo, setShowInfo] = useState(false)
 
   //Default init with 3 Assets
@@ -106,6 +121,8 @@ export default function ILFormField(props) {
       assetName: defaultAssetNames[i],
       priceChange: defaultPriceChange[i],
       poolWeights: defaultPoolWeights[i],
+      entryPrice: defaultEntryPrice[i],
+      exitPrice: defaultExitPrice[i],
     }
     defaultArray.push(entry);
   }
@@ -128,6 +145,12 @@ export default function ILFormField(props) {
     const index = assetArray.indexOf(element);
     const clonedData = [...assetArray];
     clonedData[index][event.target.id] = event.target.value;
+    
+    if (event.target.id === "priceChange") {
+      calculatePriceChange(clonedData, "priceChange");
+    } else {
+      calculatePriceChange(clonedData, "entryPrice");
+    }
     setAssetArray(clonedData);
     setCalcIL(calculateILFromAssetArray(clonedData));
   };
@@ -214,7 +237,7 @@ export default function ILFormField(props) {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'center',
-            p: 1,
+            p: 0,
             m: 1,
           }}>
           <TextField
@@ -239,6 +262,30 @@ export default function ILFormField(props) {
             onChange={(e) => handleChange(e, element)}
             error={isNaN(element.priceChange)}
             helperText={isNaN(element.priceChange) ? "Price Change % must be a number" : ""}
+          />
+           <TextField
+            id="entryPrice"
+            label="Entry Price ($)"
+            multiline
+            size="small"
+            rowsMax={1}
+            type="number"
+            value={element.entryPrice}
+            onChange={(e) => handleChange(e, element)}
+            error={isNaN(element.entryPrice)}
+            helperText={isNaN(element.entryPrice) ? "Entry price ($) must be a number" : ""}
+          />
+           <TextField
+            id="exitPrice"
+            label="Exit Price ($)"
+            multiline
+            size="small"
+            rowsMax={1}
+            type="number"
+            value={element.exitPrice}
+            onChange={(e) => handleChange(e, element)}
+            error={isNaN(element.exitPrice)}
+            helperText={isNaN(element.priceChange) ? "Entry price ($) must be a number" : ""}
           />
           <TextField
             id="poolWeights"
@@ -302,9 +349,17 @@ export default function ILFormField(props) {
   //consisting of initial investment, value if held and value if held in pool
 
   const dataTable = (assetArray, investment, SwapFee) => (
-    <Box display="flex" justifyContent="center">
+    <Box display="flex" justifyContent="center" mb={2}>
       <Paper elevation={3} className={classes.form} variant="outlined" square>
         <DataTable assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTable>
+    </Paper>
+    </Box>
+  )
+
+  const dataTableTokens = (assetArray, investment, SwapFee) => (
+    <Box display="flex" justifyContent="center" mt={2}>
+      <Paper elevation={3} className={classes.form} variant="outlined" square>
+        <DataTableTokens assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTableTokens>
     </Paper>
     </Box>
   )
@@ -329,12 +384,22 @@ export default function ILFormField(props) {
 
   return (
     <div>
-      <Box>
+      <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}>
+       
+        {iLGraphs(assetArray, SwapFee, props.darkState) }
+        <Paper className={classes.resultPaper} elevation={3} alignItems="center" justifyContent="center">
         <Header>
           IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
         </Header>
-        {iLGraphs(assetArray, SwapFee, props.darkState) }
+        
         {dataTable(assetArray, investment, SwapFee)}
+        {dataTableTokens(assetArray, investment, SwapFee)}
+        </Paper>
         
         <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
       </Box>

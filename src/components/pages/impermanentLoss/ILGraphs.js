@@ -109,11 +109,11 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
         margin: {
           l: 50,
           r: 50,
-          b: 25,
-          t: 25,
-          pad: 4
+          b: 0,
+          t: 0,
+          pad: 0
         },
-        title: "Impermanent Loss vs. Price Change %",
+        //title: "Impermanent Loss vs. Price Change %",
         titlefont: {
           color: props.darkState ? "white" : "black",
         },
@@ -149,14 +149,14 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
 		      domain:{row:0, column:0},
           camera: {
             eye: {
-              x: 2.5, 
-              y: 0.5, 
-              z: 0.75,
+              x: 2, 
+              y: 0.1, 
+              z: 1,
             },
             center: {
-              x: -0.1,
-              y: 0, 
-              z: -0.25,
+              x: 0.1,
+              y: -0.05, 
+              z: -0.15,
             }
           }
         }
