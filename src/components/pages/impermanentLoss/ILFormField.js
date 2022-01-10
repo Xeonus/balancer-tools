@@ -109,10 +109,10 @@ export default function ILFormField(props) {
   //Init asset array
   const defaultArray = []
   const defaultAssetNames = ['BAL', 'WETH'];
-  const defaultPriceChange = ['150', '50'];
-  const defaultPoolWeights = ['80', '20'];
-  const defaultEntryPrice = ['10', '3000'];
-  const defaultExitPrice = ['15', '1500'];
+  const defaultPriceChange = [150, -25];
+  const defaultPoolWeights = [80, 20];
+  const defaultEntryPrice = [10, 4000];
+  const defaultExitPrice = [25, 3000];
   const [showInfo, setShowInfo] = useState(false)
 
   //Default init with 3 Assets

@@ -8,12 +8,13 @@ export function calculatePriceChange(assetArray, id) {
             if (copy[i].priceChange == 0) {
                 copy[i].entryPrice = copy[i].exitPrice;
             } else {
-            copy[i].exitPrice = Number(copy[i].priceChange * copy[i].entryPrice / 100).toFixed(0);
+            copy[i].exitPrice = Number(Number(copy[i].entryPrice) * (1 + Number(copy[i].priceChange/100))).toFixed(2);
             }
         } else {
-            copy[i].priceChange = Number(copy[i].exitPrice / copy[i].entryPrice * 100).toFixed(0);
+            copy[i].priceChange = Number(((Number(copy[i].exitPrice) / Number(copy[i].entryPrice)) -1)*100).toFixed(2);
 
         }
       }
+      console.log("copy", copy)
       return copy;
   }
