@@ -6,7 +6,7 @@ import ILFormField from "./ILFormField";
 export default function ImpermanentLoss(props) {
     return (
         <div>
-            <Grid item xs={12}> <Header>Impermantent Loss Calculator</Header> </Grid>
+            <Grid item xs={12}> <Header>Impermanent Loss Calculator</Header> </Grid>
                 <ILFormField darkState = {props.darkState} props={props}></ILFormField>
         </div>
     );

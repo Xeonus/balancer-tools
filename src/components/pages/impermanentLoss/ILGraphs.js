@@ -110,12 +110,17 @@ let { xS,yS,zS }  = createHalfSphere(props.assetArray);
           l: 50,
           r: 50,
           b: 0,
-          t: 0,
+          t: 5,
           pad: 0
         },
         //title: "Impermanent Loss vs. Price Change %",
         titlefont: {
+            color: props.darkState ? "white" : "black",
+        },
+        legend: {
+          font: {
           color: props.darkState ? "white" : "black",
+        }
         },
         scene: {
           xaxis: {

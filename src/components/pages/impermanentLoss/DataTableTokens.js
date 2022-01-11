@@ -69,7 +69,7 @@ const rows = createTokenTableFromAssetArray(props.assetArray, props.investment, 
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.name}
+            key={ Math.random().toString(36).substring(2, 9) }
               sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
             >
               <TableCell component="th" scope="row">

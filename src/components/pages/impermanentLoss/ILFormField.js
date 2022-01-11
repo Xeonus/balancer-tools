@@ -17,7 +17,7 @@ import DataTableTokens from './DataTableTokens';
 import ShowCalcuation from './ShowCalculation';
 import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
 import { calculatePriceChange } from '../../../utils/calculatePriceChange';
-import { ILGraphs } from './ILGraphs' 
+import { ILGraphs } from './ILGraphs'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,21 +64,23 @@ const useStyles = makeStyles((theme) => ({
   },
   resultPaper: {
     '@media only screen and (min-width: 600px)': {
-        padding: theme.spacing(1),
+      padding: theme.spacing(1),
     },
-    maxWidth: '800px',
+    //maxWidth: '1000px',
+    //minWidth: '1000px',
     textAlign: 'center',
     align: 'center',
     justifyContent: 'center',
     color: '#272936',
-    borderRadius: "22px",
-},
+  },
   form: {
     textAlign: 'center',
     align: 'center',
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'center',
+    //maxWidth: '700px',
+    
   },
   button: {
     color: "#fff",
@@ -145,7 +147,7 @@ export default function ILFormField(props) {
     const index = assetArray.indexOf(element);
     const clonedData = [...assetArray];
     clonedData[index][event.target.id] = event.target.value;
-    
+
     if (event.target.id === "priceChange") {
       calculatePriceChange(clonedData, "priceChange");
     } else {
@@ -187,12 +189,12 @@ export default function ILFormField(props) {
   }
 
   //Toggle tooltip
-   const handleToolTipClick = (showInfo) => {
-      setShowInfo(!showInfo);
+  const handleToolTipClick = (showInfo) => {
+    setShowInfo(!showInfo);
   }
 
   const investmentForm = () => (
-    <Box display="flex" justifyContent="center" p={2}>
+    <Box display="flex" justifyContent="center" p={0.5}>
       <Paper className={classes.form} variant="outlined" square>
         <Box
           sx={{
@@ -206,7 +208,6 @@ export default function ILFormField(props) {
           <TextField
             id="investment"
             label="Investment"
-            rowsMax={1}
             type="text"
             value={(investment)}
             onChange={(e) => handleInvestChange(e)}
@@ -216,7 +217,6 @@ export default function ILFormField(props) {
           <TextField
             id="SwapFee"
             label="Swap Fee APY (%)"
-            rowsMax={1}
             type="text"
             value={SwapFee}
             onChange={(e) => handleFeeChange(e)}
@@ -228,8 +228,8 @@ export default function ILFormField(props) {
     </Box>
   );
 
-  const formElement = (element) => (
-    <Box display="flex" justifyContent="center">
+  const formElement = (element, id) => (
+    <Box display="flex" justifyContent="center" p={0.5} key={ 'formField'+ id}>
       <Paper elevation={3} className={classes.form} variant="outlined" square>
         <Box
           sx={{
@@ -245,7 +245,6 @@ export default function ILFormField(props) {
             label="Asset"
             multiline
             size="small"
-            rowsMax={1}
             type="text"
             value={element.assetName}
             onChange={(e) => handleChange(e, element)}
@@ -256,31 +255,28 @@ export default function ILFormField(props) {
             label="Price Change (%)"
             multiline
             size="small"
-            rowsMax={1}
             type="number"
             value={element.priceChange}
             onChange={(e) => handleChange(e, element)}
             error={isNaN(element.priceChange)}
             helperText={isNaN(element.priceChange) ? "Price Change % must be a number" : ""}
           />
-           <TextField
+          <TextField
             id="entryPrice"
             label="Entry Price ($)"
             multiline
             size="small"
-            rowsMax={1}
             type="number"
             value={element.entryPrice}
             onChange={(e) => handleChange(e, element)}
             error={isNaN(element.entryPrice)}
             helperText={isNaN(element.entryPrice) ? "Entry price ($) must be a number" : ""}
           />
-           <TextField
+          <TextField
             id="exitPrice"
             label="Exit Price ($)"
             multiline
             size="small"
-            rowsMax={1}
             type="number"
             value={element.exitPrice}
             onChange={(e) => handleChange(e, element)}
@@ -292,7 +288,6 @@ export default function ILFormField(props) {
             label="Pool Weight"
             multiline
             size="small"
-            rowsMax={1}
             type="number"
             value={element.poolWeights}
             onChange={(e) => handleChange(e, element)}
@@ -352,7 +347,7 @@ export default function ILFormField(props) {
     <Box display="flex" justifyContent="center" mb={2}>
       <Paper elevation={3} className={classes.form} variant="outlined" square>
         <DataTable assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTable>
-    </Paper>
+      </Paper>
     </Box>
   )
 
@@ -360,67 +355,66 @@ export default function ILFormField(props) {
     <Box display="flex" justifyContent="center" mt={2}>
       <Paper elevation={3} className={classes.form} variant="outlined" square>
         <DataTableTokens assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTableTokens>
-    </Paper>
+      </Paper>
     </Box>
   )
 
   const toolTip = (assetArray, showInfo) => (
 
-    showInfo ? 
-    <Box display="flex" justifyContent="center">
-      <Paper elevation={3} className={classes.paper} variant="outlined" square>
-        <ShowCalcuation assetArray={assetArray}></ShowCalcuation>
-    </Paper>
-    </Box>
-    : null
+    showInfo ?
+      <Box display="flex" justifyContent="center">
+        <Paper elevation={3} className={classes.paper} variant="outlined" square>
+          <ShowCalcuation assetArray={assetArray}></ShowCalcuation>
+        </Paper>
+      </Box>
+      : null
   )
 
 
   const iLGraphs = (assetArray, SwapFee, darkState) => (
     <Box display="flex" justifyContent="center" >
-    <ILGraphs assetArray = {assetArray} SwapFee = {SwapFee} darkState = {darkState}></ILGraphs>
-  </Box>
+      <ILGraphs assetArray={assetArray} SwapFee={SwapFee} darkState={darkState}></ILGraphs>
+    </Box>
   )
 
   return (
     <div>
-      <Box sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}>
-       
-        {iLGraphs(assetArray, SwapFee, props.darkState) }
-        <Paper className={classes.resultPaper} elevation={3} alignItems="center" justifyContent="center">
-        <Header>
-          IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
-        </Header>
-        
-        {dataTable(assetArray, investment, SwapFee)}
-        {dataTableTokens(assetArray, investment, SwapFee)}
-        </Paper>
-        
-        <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
-      </Box>
       <Box className={classes.root} >
         {investmentForm()}
       </Box>
+      <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
       <form className={classes.root} noValidate autoComplete="off">
         {assetArray.map((asset) =>
-          formElement(asset)
+          formElement(asset, asset.assetName)
         )}
       </form>
       {dataFunctionForm()}
       <Box mt={4}>
-      <Button
-      variant="outlined"
-      onClick={(e) => handleToolTipClick(showInfo)}
-      >
-        {showInfo ?  'Hide calculation': 'Show calculation'}
+        <Button
+          variant="outlined"
+          onClick={(e) => handleToolTipClick(showInfo)}
+        >
+          {showInfo ? 'Hide calculation' : 'Show calculation'}
         </Button>
-      {toolTip(assetArray, showInfo)}
+        {toolTip(assetArray, showInfo)}
       </Box>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        p: 2,
+      }}>
+        <Paper className={classes.resultPaper} elevation={3} variant="outlined" square >
+          <Header>
+            IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
+          </Header>
+          {dataTable(assetArray, investment, SwapFee)}
+          {dataTableTokens(assetArray, investment, SwapFee)}
+          {iLGraphs(assetArray, SwapFee, props.darkState)}
+        </Paper>
+      </Box>
+
     </div>
   );
 };
