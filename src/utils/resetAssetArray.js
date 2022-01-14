@@ -3,6 +3,7 @@ export function resetAssetArray() {
     const defaultArray = []
 
     const defaultAssetNames = ['BAL', 'WETH'];
+    const defaultAssetBalance = [5000000, 7000];
     const defaultPriceChange = [150, -25];
     const defaultPoolWeights = [80, 20];
     const defaultEntryPrice = [10, 4000];
@@ -12,6 +13,7 @@ export function resetAssetArray() {
     for (let i = 0; i < defaultAssetNames.length; i++) {
         const entry = {
             assetName: defaultAssetNames[i],
+            assetBalance: defaultAssetBalance[i],
             priceChange: defaultPriceChange[i],
             poolWeights: defaultPoolWeights[i],
             entryPrice: defaultEntryPrice[i],

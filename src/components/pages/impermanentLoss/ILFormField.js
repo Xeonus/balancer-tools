@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { myStyles } from '../../../styles/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -19,94 +19,10 @@ import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeig
 import { calculatePriceChange } from '../../../utils/calculatePriceChange';
 import { ILGraphs } from './ILGraphs'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '30ch',
-      color: "primary"
-    },
-    '& .MuiSlider-root': {
-      margin: theme.spacing(1),
-      width: '30ch',
-      color: "primary"
-    },
-  },
-  slider: {
-    width: 200,
-  },
-  paperDark: {
-    '@media only screen and (min-width: 600px)': {
-      padding: theme.spacing(1),
-    },
-
-    textAlign: 'center',
-    align: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    backgroundColor: '#35384a',
-    borderRadius: "5px",
-    margin: '10px'
-  },
-  paper: {
-    '@media only screen and (min-width: 600px)': {
-      padding: theme.spacing(1),
-    },
-    textAlign: 'center',
-    align: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    borderRadius: "5px",
-    margin: '10px',
-    minWidth: 'auto',
-  },
-  resultPaper: {
-    '@media only screen and (min-width: 600px)': {
-      padding: theme.spacing(1),
-    },
-    //maxWidth: '1000px',
-    //minWidth: '1000px',
-    textAlign: 'center',
-    align: 'center',
-    justifyContent: 'center',
-    color: '#272936',
-  },
-  form: {
-    textAlign: 'center',
-    align: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    //maxWidth: '700px',
-    
-  },
-  button: {
-    color: "#fff",
-    height: "35px",
-    borderRadius: "8px",
-    textDecoration: "none",
-    fontWeight: "600",
-    backgroundSize: "200% 100%",
-    transition: "all .2s ease-out",
-    background: "linear-gradient(90deg,#00f,#f0f,#00f)",
-    '&:hover': {
-      backgroundPosition: "100% 0",
-      boxShadow: "0 4px 15px 0 rgb(255 100 50 / 0%)",
-      transition: "all .2s ease-out",
-    },
-    boxShadow: "0 4px 15px 0 rgb(224 100 61 / 8%)",
-    margin: "0",
-    border: "0",
-    size: "small",
-  },
-}));
-
 export default function ILFormField(props) {
 
   //Init styles
-  const classes = useStyles();
+  const classes = myStyles();
 
   //Init asset array
   const defaultArray = []

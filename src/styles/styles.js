@@ -1,20 +1,30 @@
-export const useStyles = makeStyles((theme) => ({
+import { makeStyles } from '@mui/styles';
+import BgImage from './../resources/bg-header.svg'
+
+//Global styles variable
+export const myStyles = makeStyles(() => ({
     backDrop: {
         backgroundImage: `url(${BgImage})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
+        paddingTop: '16px',
+        paddingBottom: '16px',
         flexDirection: "column",
         zIndex: 1,
 
     },
     root: {
-        flexGrow: 1,
-        spacing: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+        '& .MuiTextField-root': {
+          margin: '8px',
+          width: '30ch',
+          color: "primary"
+        },
+        '& .MuiSlider-root': {
+          margin: '8px',
+          width: '30ch',
+          color: "primary"
+        },
+      },
     title: {
         flexGrow: 1,
         flexDirection: "row",
@@ -35,8 +45,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     container: {
         flexGrow: 1,
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
+        paddingTop: '8px',
+        paddingBottom: '8px',
         flexDirection: 'column',
         display: 'flex',
         justifyContent: 'center',
@@ -52,17 +62,6 @@ export const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         align: "center",
         justifyContent: 'center',
-    },
-    paper: {
-        '@media only screen and (min-width: 600px)': {
-            padding: theme.spacing(1),
-        },
-        minWidth: 'auto',
-        textAlign: 'center',
-        align: 'center',
-        justifyContent: 'center',
-        color: '#272936',
-        borderRadius: "22px",
     },
     paperGlow: {
         minWidth: '320px',
@@ -92,7 +91,7 @@ export const useStyles = makeStyles((theme) => ({
         zIndex: 2,
     },
     formControl: {
-        margin: theme.spacing(1),
+        margin: '8px',
         minWidth: 'auto',
     },
     tabTheme: {
@@ -110,4 +109,73 @@ export const useStyles = makeStyles((theme) => ({
     toolBar: {
 
     },
+      slider: {
+        width: 200,
+      },
+      paperDark: {
+        '@media only screen and (min-width: 600px)': {
+          padding: '8px',
+        },
+    
+        textAlign: 'center',
+        align: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        backgroundColor: '#35384a',
+        borderRadius: "5px",
+        margin: '10px'
+      },
+      paper: {
+        '@media only screen and (min-width: 600px)': {
+          padding: '8px',
+        },
+        textAlign: 'center',
+        align: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        borderRadius: "5px",
+        margin: '10px',
+        minWidth: 'auto',
+      },
+      resultPaper: {
+        '@media only screen and (min-width: 600px)': {
+          padding: '8px',
+        },
+        //maxWidth: '1000px',
+        //minWidth: '1000px',
+        textAlign: 'center',
+        align: 'center',
+        justifyContent: 'center',
+        color: '#272936',
+      },
+      form: {
+        textAlign: 'center',
+        align: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        //maxWidth: '700px',
+        
+      },
+      button: {
+        color: "#fff",
+        height: "35px",
+        borderRadius: "8px",
+        textDecoration: "none",
+        fontWeight: "600",
+        backgroundSize: "200% 100%",
+        transition: "all .2s ease-out",
+        background: "linear-gradient(90deg,#00f,#f0f,#00f)",
+        '&:hover': {
+          backgroundPosition: "100% 0",
+          boxShadow: "0 4px 15px 0 rgb(255 100 50 / 0%)",
+          transition: "all .2s ease-out",
+        },
+        boxShadow: "0 4px 15px 0 rgb(224 100 61 / 8%)",
+        margin: "0",
+        border: "0",
+        size: "small",
+      },
 }));
