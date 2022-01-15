@@ -12,9 +12,9 @@ import { resetAssetArray } from "../../../utils/resetAssetArray";
 
 //temp unused:
 //import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
-//import { calculateILFromAssetArray } from '../../../utils/calculateILFromAssetArray';
-//import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
-//import Header from '../../UI/Header';
+import { calculatePIFromAssetArray } from '../../../utils/calculatePIFromAssetArray';
+import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
+import Header from '../../UI/Header';
 //import Typography from "@material-ui/core/Typography";
 
 
@@ -60,34 +60,44 @@ export default function PriceImpactFormField () {
   //Sets buy token or token out quantity
   const [buyTokenQuantity, setBuyTokenQuantity] = React.useState(100);
 
+  //Price impact value state hook
+  const [calcPI, setCalcPI] = React.useState(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
+
   //Form Element state change handler
 
   const handleChange = (event, element) => {
     const index = assetArray.indexOf(element);
     const clonedData = [...assetArray];
     clonedData[index][event.target.id] = event.target.value;
+    setAssetArray(clonedData);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   //const errorTotalPoolWeights = (calculateTotalPoolWeights(assetArray) === 1 ? "" : "Total of pool weights must equal 100%");
 
   const handleFeeChange = (event) => {
     setSwapFee(event.target.value);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   const handleSellTokenChange = (event) => {
     setSellToken(event.target.value);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   const handleBuyTokenChange = (event) => {
     setBuyToken(event.target.value);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   const handleSellTokenQuantityChange = (event) => {
     setSellTokenQuantity(event.target.value);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   const handleBuyTokenQuantityChange = (event) => {
     setBuyTokenQuantity(event.target.value);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   //Remove entry
@@ -96,16 +106,19 @@ export default function PriceImpactFormField () {
     const clonedData = [...assetArray];
     clonedData.splice(index, 1);
     setAssetArray(clonedData);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   //Add entry
   const handleAddClick = (array) => {
     setAssetArray(addAssetToArray(array));
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   //Reset data array
   const handleResetClick = (array) => {
     setAssetArray(resetAssetArray(array));
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
   }
 
   const poolSwapForm = () => (
@@ -149,8 +162,8 @@ export default function PriceImpactFormField () {
             type="text"
             value={(buyTokenQuantity)}
             onChange={(e) => handleBuyTokenQuantityChange(e)}
-            error={isNaN(sellTokenQuantity)}
-            helperText={isNaN(sellTokenQuantity) ? "Buy token quantity must be a number" : ""}
+            error={isNaN(buyTokenQuantity)}
+            helperText={isNaN(buyTokenQuantity) ? "Buy token quantity must be a number" : ""}
           />
           <TextField
             id="SwapFee"
@@ -265,6 +278,19 @@ export default function PriceImpactFormField () {
      )}
     </form>
     {dataFunctionForm()}
-  </div>
+    <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        p: 2,
+      }}>
+    <Paper className={classes.resultPaper} elevation={3} variant="outlined" square >
+          <Header>
+            Price Impact = {<DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4} />} %
+          </Header>
+        </Paper>
+      </Box>
+   </div>
   )
 }
