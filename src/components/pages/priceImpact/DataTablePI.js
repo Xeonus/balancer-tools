@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { createTableDataFromAssetArray } from '../../../utils/createTableDataFromAssetArray';
+import { createTableDataFromAssetArrayPI } from '../../../utils/createTableDataFromAssetArrayPI'
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 
 //TODO: Global style, remove
@@ -52,7 +52,7 @@ export default function DataTablePI(props) {
   const classes = useStyles();
 
 //Create data rows for table (using props to forward values to another component)
-const rows = createTableDataFromAssetArrayPI(props.assetArray, props.SwapFee,  props.sellToken, props.buyToken, props.sellTokenQuantity, props.buyTokenQuantity);
+const data = createTableDataFromAssetArrayPI(props.assetArray, props.sellToken, props.sellTokenQuantity, props.buyToken, props.SwapFee);
 
 
   return (
@@ -60,25 +60,26 @@ const rows = createTableDataFromAssetArrayPI(props.assetArray, props.SwapFee,  p
       <Table className={props.darkState ? classes.darkTable : classes.table} size="small">
         <TableHead>
           <TableRow>
-            <TableCell><b>Spot Price</b></TableCell>
+            <TableCell><b>Asset Pair</b></TableCell>
+            <TableCell align="right"><b>Spot Price</b></TableCell>
             <TableCell align="right"><b>Effective Price</b></TableCell>
             <TableCell align="right"><b>Quantity without Impact</b></TableCell>
             <TableCell align="right"><b>Quantity with Impact</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((data) => (
             <TableRow
             key={ Math.random().toString(36).substring(2, 9) }
               sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
             >
               <TableCell component="th" scope="row">
-                {row.assetName}
+                {data.tokenPair}
               </TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(row.initialValue).toFixed(0)} name={row.assetName} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(row.valueIfHeld).toFixed(0)} name={row.assetName} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(row.valueWithIL).toFixed(0)} name={row.assetName} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(row.valueWithFees).toFixed(0)} name={row.assetName} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(data.spotPrice).toFixed(0)} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(data.effectivePrice).toFixed(0)} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(data.tokensWithoutPI).toFixed(0)} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(data.tokensWithPI).toFixed(0)} decimals={2}/></TableCell>
             </TableRow>
           ))}
         </TableBody>

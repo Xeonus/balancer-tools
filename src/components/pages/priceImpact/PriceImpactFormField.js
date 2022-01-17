@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { addAssetToArray } from "../../../utils/addAssetToArray";
 import { resetAssetArray } from "../../../utils/resetAssetArray";
+import DataTablePI from "./DataTablePI";
 
 //temp unused:
 //import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
@@ -77,7 +78,8 @@ export default function PriceImpactFormField () {
 
   const handleFeeChange = (event) => {
     setSwapFee(event.target.value);
-    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
+    let clonedSwapFee = event.target.value;
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, clonedSwapFee));
   }
 
   const handleSellTokenChange = (event) => {
@@ -92,7 +94,8 @@ export default function PriceImpactFormField () {
 
   const handleSellTokenQuantityChange = (event) => {
     setSellTokenQuantity(event.target.value);
-    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
+    let clonedSellTokenQuantity = event.target.value;
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, clonedSellTokenQuantity, buyToken, SwapFee));
   }
 
   const handleBuyTokenQuantityChange = (event) => {
@@ -267,11 +270,22 @@ export default function PriceImpactFormField () {
     </Box>
     )
 
+      //Investment Table
+  //consisting of initial investment, value if held and value if held in pool
+
+  const dataTablePI = (assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee) => (
+    <Box display="flex" justifyContent="center" mb={2}>
+      <Paper elevation={3} className={classes.form} variant="outlined" square>
+        <DataTablePI assetArray={assetArray} sellToken={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee}></DataTablePI>
+      </Paper>
+    </Box>
+  )
+
   return(
     <div>
-      <Box className={classes.root} >
-      {poolSwapForm()}
-      </Box>
+    <form className={classes.root} noValidate autoComplete="off">
+     {poolSwapForm()}
+    </form>
     <form className={classes.root} noValidate autoComplete="off">
      {assetArray.map((asset) =>
      formElement(asset, asset.assetName)
@@ -289,6 +303,7 @@ export default function PriceImpactFormField () {
           <Header>
             Price Impact = {<DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4} />} %
           </Header>
+          {dataTablePI(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee)}
         </Paper>
       </Box>
    </div>
