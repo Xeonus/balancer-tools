@@ -84,9 +84,6 @@ export const myStyles = makeStyles(() => ({
             opacity: "1",
             transition: "all .2s ease-out",
         },
-
-
-
         borderRadius: "22px",
         zIndex: 2,
     },
@@ -107,7 +104,11 @@ export const myStyles = makeStyles(() => ({
         marginRight: -12
     },
     toolBar: {
-
+    },
+    darkTable: {
+      alignItems: "center",
+      color: '#FFFFFF',
+      overflow: 'auto',
     },
       slider: {
         width: 200,

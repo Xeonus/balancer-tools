@@ -10,6 +10,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { addAssetToArray } from "../../../utils/addAssetToArray";
 import { resetAssetArray } from "../../../utils/resetAssetArray";
 import DataTablePI from "./DataTablePI";
+import SwapForm from "./SwapFrom";
 
 //temp unused:
 //import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
@@ -283,6 +284,7 @@ export default function PriceImpactFormField () {
 
   return(
     <div>
+      <SwapForm assetArray={assetArray}></SwapForm>
     <form className={classes.root} noValidate autoComplete="off">
      {poolSwapForm()}
     </form>
