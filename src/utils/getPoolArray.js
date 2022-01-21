@@ -16,6 +16,7 @@ export default function getPoolArray(data) {
             let weightArray = [];
             tokens.map(e => weightArray.push(Number(e.weight * 100)));
             let poolEntry = {
+                id: id,
                 weights: weightArray,
                 poolName: poolName,
                 url: balancerUrl.concat(id),

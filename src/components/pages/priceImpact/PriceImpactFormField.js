@@ -11,6 +11,7 @@ import { addAssetToArray } from "../../../utils/addAssetToArray";
 import { resetAssetArray } from "../../../utils/resetAssetArray";
 import DataTablePI from "./DataTablePI";
 import SwapForm from "./SwapFrom";
+import PoolSelector from "../../UI/PoolSelector/PoolSelector";
 
 //temp unused:
 //import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
@@ -284,7 +285,8 @@ export default function PriceImpactFormField () {
 
   return(
     <div>
-      <SwapForm assetArray={assetArray}></SwapForm>
+      {/*<SwapForm assetArray={assetArray}></SwapForm>*/}
+      <PoolSelector></PoolSelector>
     <form className={classes.root} noValidate autoComplete="off">
      {poolSwapForm()}
     </form>
