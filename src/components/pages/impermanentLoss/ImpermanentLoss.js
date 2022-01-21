@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../UI/Header";
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import ILFormField from "./ILFormField";
 
 export default function ImpermanentLoss(props) {

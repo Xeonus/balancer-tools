@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { myStyles } from '../../../styles/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import { Box } from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -36,6 +36,7 @@ export default function ILFormField(props) {
   //Default init with 3 Assets
   for (let i = 0; i < defaultAssetNames.length; i++) {
     const entry = {
+      id: i,
       assetName: defaultAssetNames[i],
       priceChange: defaultPriceChange[i],
       poolWeights: defaultPoolWeights[i],
@@ -125,6 +126,7 @@ export default function ILFormField(props) {
             id="investment"
             label="Investment"
             type="text"
+            size="small"
             value={(investment)}
             onChange={(e) => handleInvestChange(e)}
             error={isNaN(investment)}
@@ -134,6 +136,7 @@ export default function ILFormField(props) {
             id="SwapFee"
             label="Swap Fee APY (%)"
             type="text"
+            size="small"
             value={SwapFee}
             onChange={(e) => handleFeeChange(e)}
             error={isNaN(SwapFee)}
@@ -301,7 +304,7 @@ export default function ILFormField(props) {
       <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
       <form className={classes.root} noValidate autoComplete="off">
         {assetArray.map((asset) =>
-          formElement(asset, asset.assetName)
+          formElement(asset, assetArray.indexOf(asset))
         )}
       </form>
       {dataFunctionForm()}

@@ -1,17 +1,17 @@
 import * as React from 'react';
 import Header from "../../UI/Header";
 import Box from '@mui/material/Box';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import { Select } from '@material-ui/core';
-import { FormControl } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Typography } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
+import { Select } from '@mui/material';
+import { FormControl } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Typography } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import { myStyles } from '../../../styles/styles';
 import { calculatePIFromAssetArray } from '../../../utils/calculatePIFromAssetArray';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { getBalancerPoolData } from './../../data/queries/operations';
 import getPoolArray from '../../../utils/getPoolArray';
 
@@ -54,33 +54,6 @@ export default function SwapForm(props) {
             <MenuItem value={element.assetName}>{element.assetName.toString()}</MenuItem>
         ));
 
-
-    //Pool Data query Hook (do not encapsulate for state)
-    const { loading, error, data } = useQuery(
-        getBalancerPoolData,
-      {
-        context: { clientName: 'mainnet'},
-        fetchPolicy: "no-cache",
-      },
-    );
-    //If data is not fully loaded, display progress
-  if ( loading ) return (
-  <div>
-    <Grid>
-        <Box>
-      <CircularProgress></CircularProgress>
-       <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Subgraph...</Typography>
-       </Box>
-    </Grid>
-  </div>);
-  if (error) return (
-  <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Error while fetching Balancer Subgraph data :(</Typography>
-  );
-
-  //Process pool data
- const poolArray = getPoolArray(data);
-
- console.log("poolArray", poolArray);
 
     return (
         <div>

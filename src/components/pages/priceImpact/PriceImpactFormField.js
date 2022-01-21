@@ -1,9 +1,9 @@
 import React from "react";
 import { myStyles } from "../../../styles/styles";
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import { Box } from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -18,7 +18,8 @@ import PoolSelector from "../../UI/PoolSelector/PoolSelector";
 import { calculatePIFromAssetArray } from '../../../utils/calculatePIFromAssetArray';
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import Header from '../../UI/Header';
-//import Typography from "@material-ui/core/Typography";
+import setAssetArrayFromPool from "../../../utils/setAssetArrayFromPool";
+//import Typography from "@mui/material/Typography";
 
 
 //TODO: Implementation of price impact form field
@@ -47,6 +48,8 @@ export default function PriceImpactFormField () {
 
   //Asset array state hook
   const [assetArray, setAssetArray] = React.useState(defaultArray);
+  const [poolId, setPoolId] = React.useState('');
+  const [poolArray, setPoolArray] = React.useState('');
 
   //Swap Fee hook TODO: Xeonus input / OK for now -> redux in the future?
   const [SwapFee, setSwapFee] = React.useState(0.25);
@@ -74,6 +77,11 @@ export default function PriceImpactFormField () {
     clonedData[index][event.target.id] = event.target.value;
     setAssetArray(clonedData);
     setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
+  }
+
+  function handleIdChange(newId, newArray) {
+    setPoolId(newId);
+    setAssetArray(newArray);
   }
 
   //const errorTotalPoolWeights = (calculateTotalPoolWeights(assetArray) === 1 ? "" : "Total of pool weights must equal 100%");
@@ -286,7 +294,7 @@ export default function PriceImpactFormField () {
   return(
     <div>
       {/*<SwapForm assetArray={assetArray}></SwapForm>*/}
-      <PoolSelector></PoolSelector>
+      <PoolSelector poolId={poolId} onChange={handleIdChange}></PoolSelector>
     <form className={classes.root} noValidate autoComplete="off">
      {poolSwapForm()}
     </form>

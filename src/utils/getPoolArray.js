@@ -12,6 +12,8 @@ export default function getPoolArray(data) {
         if (poolType === "Weighted") {
             const ratios = " (" + tokens.map(e => Number(e.weight * 100).toFixed(0)).join('/') + ")";
             const tokenNames = tokens.map(e => e.symbol ? e.symbol : "MKR").join('/')
+            const nameSet = [];
+            tokens.map(e => nameSet.push(e.symbol ? e.symbol : "MKR"))
             const poolName = tokenNames + ratios;
             let weightArray = [];
             tokens.map(e => weightArray.push(Number(e.weight * 100)));
@@ -19,6 +21,7 @@ export default function getPoolArray(data) {
                 id: id,
                 weights: weightArray,
                 poolName: poolName,
+                nameSet: nameSet,
                 url: balancerUrl.concat(id),
                 tvl: Number(totalLiquidity),
             }

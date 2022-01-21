@@ -179,4 +179,17 @@ export const myStyles = makeStyles(() => ({
         border: "0",
         size: "small",
       },
+    navButton: {
+        color: "white",
+        height: "40px",
+        borderRadius: "8px",
+        textDecoration: "none",
+        fontWeight: "600",
+        backgroundSize: "200% 100%",
+        background: "linear-gradient(90deg,#1022d7,#6a7cff,#00f)",
+        boxShadow: "0 4px 15px 0 rgb(224 100 61 / 8%)",
+        margin: "0",
+        border: "0",
+        size: "small",
+    }
 }));

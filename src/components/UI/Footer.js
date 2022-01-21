@@ -1,8 +1,8 @@
 import React  from 'react';
-import Link from "@material-ui/core/Link";
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import Link from "@mui/material/Link";
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 export default function Footer() {
@@ -25,7 +25,7 @@ export default function Footer() {
                             0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2
                         </Link> <br />
                         Information provided as is. Not financial advice. <br />
-                        Alpha Build - v0.4.0
+                        Alpha Build - v0.5.0
                     </Typography>
                 </Grid>
         </div>
