@@ -7,10 +7,10 @@ import PriceImpactFormField from "./PriceImpactFormField";
 
 export default function PriceImpact (props) {
     return (
-        <div>
+        <div key={props.networkId} >
             <Grid item xs={12}> <Header>Price Impact Calculator</Header> </Grid>
             <Grid item xs={12} component="span">
-                    <PriceImpactFormField></PriceImpactFormField>
+                    <PriceImpactFormField networkId={props.networkId}></PriceImpactFormField>
             </Grid>
         </div>
     );

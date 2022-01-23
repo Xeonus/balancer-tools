@@ -17,13 +17,23 @@ import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
 import PriceImpact from "../pages/priceImpact/PriceImpact";
 import NavBar from "./NavBar";
 import LightDarkModeSwitcher from "./LightDarkModeSwitcher";
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 import { myStyles } from '../../styles/styles';
+import ReactRoundedImage from "react-rounded-image";
+import ArbitrumLogo from'./../../resources/arbitrum.svg'
+import EtherLogo from'./../../resources/ethereum.svg'
+import PolygonLogo from'./../../resources/polygon.svg'
+import FantomLogo from'./../../resources/fantom-ftm-logo.svg'
 
 
 export default function Dashboard() {
 
     //Theme properties set once at dashboard level
     const [darkState, setDarkState] = useState(true);
+    const [networkId, setNetworkId] = useState('ethereum');
     const palletType = darkState ? "dark" : "light";
     const mainPrimaryColor = darkState ? "#ffffff" : "#111";
     const mainSecondaryColor = darkState ? "#272936" : "#1a237e";
@@ -67,6 +77,11 @@ export default function Dashboard() {
         setDarkState(!darkState);
     }
 
+    //NetworkId
+    const handleNetworkChange = (evt) => {
+        setNetworkId(evt.target.value);
+    }
+
     return (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme} >
@@ -88,7 +103,80 @@ export default function Dashboard() {
                                 <NavBar classes={classes} />
                             </Box>
                         </Box>
-                        <Box>
+                        <Box display="flex" alignItems="center" >
+                        <FormControl variant="outlined" size="small" className={classes.formControl}>
+                                <Select
+                                    labelId="networkSelectLabel"
+                                    id="chainSelect"
+                                    value={networkId}
+                                    onChange={handleNetworkChange}
+                                    inputProps={{
+                                        name: 'chainId',
+                                        id: 'chainId-native-simple',
+                                    }}
+                                >
+                                    <MenuItem value={'ethereum'} key="eth">
+                                        <Box display="flex" alignItems="center">
+                                            <Box mr={0.5}>
+                                                <ReactRoundedImage
+                                                    image={EtherLogo}
+                                                    imageWidth="20"
+                                                    imageHeight="20"
+                                                    roundedSize="0"
+                                                />
+                                            </Box>
+                                            <Box>
+                                                Ethereum
+                                            </Box>
+                                        </Box>
+                                    </MenuItem>
+                                    <MenuItem value={'polygon'} key="poly">
+                                        <Box display="flex" alignItems="center">
+                                            <Box mr={0.5}>
+                                                <ReactRoundedImage
+                                                    image={PolygonLogo}
+                                                    imageWidth="20"
+                                                    imageHeight="20"
+                                                    roundedSize="0"
+                                                />
+                                            </Box>
+                                            <Box>
+                                                Polygon
+                                            </Box>
+                                        </Box>
+                                    </MenuItem>
+                                    <MenuItem value={'arbitrum'} key="arb">
+                                        <Box display="flex" alignItems="center">
+                                            <Box mr={0.5}>
+                                                <ReactRoundedImage
+                                                    image={ArbitrumLogo}
+                                                    imageWidth="20"
+                                                    imageHeight="20"
+                                                    roundedSize="0"
+                                                />
+                                            </Box>
+                                            <Box>
+                                                Arbitrum
+                                            </Box>
+                                        </Box>
+                                    </MenuItem>
+                                    <MenuItem value={'fantom'} key="ftm">
+                                        <Box display="flex" alignItems="center">
+                                            <Box mr={0.5}>
+                                                <ReactRoundedImage
+                                                    image={FantomLogo}
+                                                    imageWidth="20"
+                                                    imageHeight="20"
+                                                    roundedSize="0"
+                                                />
+                                            </Box>
+                                            <Box>
+                                                Fantom
+                                            </Box>
+                                        </Box>
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
                             <Button
                                 onClick={(e) => handleDarkModeClick(darkState)}
                             >
@@ -102,8 +190,8 @@ export default function Dashboard() {
                     <Grid item xs="auto" component="span">
                         <Routes>
                             <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
-                            <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={darkState} />} />
-                            <Route path="priceImpact" element={<PriceImpact classes={classes} />} />
+                            <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={darkState} networkId={networkId} />} />
+                            <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} />} />
                             <Route path='/analytics' component={() => {
                                 window.location.href = 'https://balancer-v2-info.web.app/';
                                 return null;

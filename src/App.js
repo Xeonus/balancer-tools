@@ -11,7 +11,7 @@ import { HttpLink } from '@apollo/client';
 //Set up directional links
 const directionalLink =
   new RetryLink().split(
-  (operation) => operation.getContext().clientName === 'mainnet',
+  (operation) => operation.getContext().clientName === 'ethereum',
   new HttpLink({ uri: "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2" }),
   new HttpLink({ uri: "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2" }),
   );

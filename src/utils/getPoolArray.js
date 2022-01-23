@@ -17,15 +17,20 @@ export default function getPoolArray(data) {
             const poolName = tokenNames + ratios;
             let weightArray = [];
             tokens.map(e => weightArray.push(Number(e.weight * 100)));
+            let tokenBalance = [];
+            tokens.map(e => tokenBalance.push(Number(e.balance).toFixed(2)));
             let poolEntry = {
                 id: id,
                 weights: weightArray,
                 poolName: poolName,
                 nameSet: nameSet,
                 url: balancerUrl.concat(id),
-                tvl: Number(totalLiquidity),
+                tokenBalance: tokenBalance,
+                tvl: Number(totalLiquidity).toFixed(2),
             }
+            if (poolEntry.tvl > 100) {
             poolArray.push(poolEntry);
+            }
         }
     });
     return poolArray;

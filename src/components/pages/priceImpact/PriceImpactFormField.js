@@ -12,6 +12,7 @@ import { resetAssetArray } from "../../../utils/resetAssetArray";
 import DataTablePI from "./DataTablePI";
 import SwapForm from "./SwapFrom";
 import PoolSelector from "../../UI/PoolSelector/PoolSelector";
+import { networks } from "../../constants/networkConfigs";
 
 //temp unused:
 //import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
@@ -24,7 +25,7 @@ import setAssetArrayFromPool from "../../../utils/setAssetArrayFromPool";
 
 //TODO: Implementation of price impact form field
 
-export default function PriceImpactFormField () {
+export default function PriceImpactFormField (props) {
 
   //Init styles    
   const classes = myStyles();
@@ -50,6 +51,9 @@ export default function PriceImpactFormField () {
   const [assetArray, setAssetArray] = React.useState(defaultArray);
   const [poolId, setPoolId] = React.useState('');
   const [poolArray, setPoolArray] = React.useState('');
+
+  //Set active network
+  const network = networks.find(x => x.id === props.networkId);
 
   //Swap Fee hook TODO: Xeonus input / OK for now -> redux in the future?
   const [SwapFee, setSwapFee] = React.useState(0.25);
@@ -294,7 +298,7 @@ export default function PriceImpactFormField () {
   return(
     <div>
       {/*<SwapForm assetArray={assetArray}></SwapForm>*/}
-      <PoolSelector poolId={poolId} onChange={handleIdChange}></PoolSelector>
+      <PoolSelector network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
     <form className={classes.root} noValidate autoComplete="off">
      {poolSwapForm()}
     </form>

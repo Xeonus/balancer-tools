@@ -9,6 +9,7 @@ export const getBalancerPoolData = gql`
       tokens {
         symbol
         id
+        balance
         weight
       }
       id

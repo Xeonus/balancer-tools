@@ -11,20 +11,27 @@ import { getBalancerPoolData } from './../../data/queries/operations';
 import getPoolArray from '../../../utils/getPoolArray';
 import { useQuery } from "@apollo/client";
 import setAssetArrayFromPool from '../../../utils/setAssetArrayFromPool';
+import { resetAssetArray } from '../../../utils/resetAssetArray';
 
 export default function PoolSelector(props) {
 
   //States
-    var id = '';
     const handleChange = (event) => {
+      //if (poolArray.find(x => x.id === props.poolId)) {
       props.onChange(event.target.value, setAssetArrayFromPool(poolArray, event.target.value));
+      //} else {
+       // props.onChange('', resetAssetArray());
+      //}
     };
 
     //Pool Data query Hook (do not encapsulate for state)
     const { loading, error, data } = useQuery(
         getBalancerPoolData,
       {
-        context: { clientName: 'mainnet'},
+        context: { 
+          clientName: props.network.id,
+          uri: props.network.graphQLEndPoint,
+        },
         fetchPolicy: "no-cache",
       },
     );
@@ -47,7 +54,8 @@ export default function PoolSelector(props) {
  //const assetArray = setAssetArrayFromPool(poolArray)
 
  console.log("targetArray", poolArray.find(x => x.id === props.poolId));
- console.log("assetArray", setAssetArrayFromPool(poolArray, props.poolId))
+ //console.log("assetArray", setAssetArrayFromPool(poolArray, props.poolId))
+ console.log("filter: ", (props.poolId === '' || poolArray.find(x => x.id === props.poolId) !== null))
 
 
  return (
@@ -63,7 +71,7 @@ export default function PoolSelector(props) {
           value={props.poolId}
           onChange={handleChange}
           autoWidth
-          label="Pool Selection"
+          label="Pool configuration"
         >
           {
           poolArray.map(item => (
