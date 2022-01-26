@@ -52,8 +52,6 @@ export default function PoolSelector(props) {
 
   //Initialize pool data
   const poolArray = getPoolArray(data);
-console.log("poolArray", poolArray);
-  console.log("network", props.network);
 
   return (
     <div>
