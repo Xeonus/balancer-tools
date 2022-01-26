@@ -3,8 +3,8 @@ export function createTableDataFromAssetArrayPI(assetArray, sellToken, sellToken
     const copy = [...assetArray];
 
     //Mapper function to create rows
-    function createDataPI(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee) {
-        return { assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee };
+    function createDataPI(tokenPair, spotPrice, effectivePrice, tokensWithoutPI, tokensWithPI) {
+        return { tokenPair, spotPrice, effectivePrice, tokensWithoutPI, tokensWithPI };
       }
 
     //Initializing and adjusting varibales
@@ -36,7 +36,8 @@ export function createTableDataFromAssetArrayPI(assetArray, sellToken, sellToken
     let tokensWithPI = effectivePrice * sellTokenQuantity
     let info = createDataPI(tokenPair, spotPrice, effectivePrice, tokensWithoutPI, tokensWithPI);
     data.push(info);
-
     return data;
+
+    
 
 }

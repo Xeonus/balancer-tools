@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import Container from "@mui/material/Container";
-import { Box, Button, adaptV4Theme } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+//import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import AppBar from '@mui/material/AppBar';
@@ -10,15 +10,13 @@ import Toolbar from '@mui/material/Toolbar';
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Footer from '../UI/Footer'
-import BgImage from './../../resources/bg-header.svg'
 import BalancerLogo from './../../resources/logo-dark.svg';
 import BalancerLogoLight from './../../resources/logo-light.svg';
 import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
 import PriceImpact from "../pages/priceImpact/PriceImpact";
 import NavBar from "./NavBar";
-import LightDarkModeSwitcher from "./LightDarkModeSwitcher";
+//import LightDarkModeSwitcher from "./LightDarkModeSwitcher";
 import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { myStyles } from '../../styles/styles';
@@ -27,6 +25,7 @@ import ArbitrumLogo from'./../../resources/arbitrum.svg'
 import EtherLogo from'./../../resources/ethereum.svg'
 import PolygonLogo from'./../../resources/polygon.svg'
 import FantomLogo from'./../../resources/fantom-ftm-logo.svg'
+import StatusPage from '../pages/Status/StatusPage';
 
 
 export default function Dashboard() {
@@ -88,9 +87,11 @@ export default function Dashboard() {
                 <AppBar position="static" color={darkState ? "secondary" : "white"} style={{ margin: -0 }} >
                     <Toolbar className={classes.toolBar}>
                         <Box display="flex" alignItems="center" >
+                            
                             <Box p={1}>
                                 <img src={darkState ? BalancerLogo : BalancerLogoLight} alt="Balancer Logo" width="30" />
                             </Box>
+                            
                             <Box  mb={1}>
                                 <Typography variant="h6" className={classes.root} key="appTitle">
                                     Balancer Tools
@@ -176,12 +177,15 @@ export default function Dashboard() {
                                         </Box>
                                     </MenuItem>
                                 </Select>
+                                
                             </FormControl>
+                            {/**Disable dark/light mode because of MUI v5 migration bug
                             <Button
                                 onClick={(e) => handleDarkModeClick(darkState)}
                             >
                                 <LightDarkModeSwitcher darkState={darkState} />
                             </Button>
+                            **/}
                         </Box>
                     </Toolbar>
                 </AppBar>
@@ -192,6 +196,7 @@ export default function Dashboard() {
                             <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
                             <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={darkState} networkId={networkId} />} />
                             <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} />} />
+                            <Route path="status" element={<StatusPage classes={classes} />} />
                             <Route path='/analytics' component={() => {
                                 window.location.href = 'https://balancer-v2-info.web.app/';
                                 return null;

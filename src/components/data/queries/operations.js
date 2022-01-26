@@ -4,6 +4,7 @@ export const getBalancerPoolData = gql`
   balancers(first: 500) {
     id
     pools(first: 500) {
+      name
       totalLiquidity
       poolType
       tokens {

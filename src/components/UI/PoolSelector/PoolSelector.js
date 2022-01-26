@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,76 +11,96 @@ import { getBalancerPoolData } from './../../data/queries/operations';
 import getPoolArray from '../../../utils/getPoolArray';
 import { useQuery } from "@apollo/client";
 import setAssetArrayFromPool from '../../../utils/setAssetArrayFromPool';
-import { resetAssetArray } from '../../../utils/resetAssetArray';
+import { myStyles } from '../../../styles/styles';
+import BalancerLogo from './../../../resources/logo-dark.svg'
+import BeethovenLogo from './../../../resources/beets-icon-large.png'
 
 export default function PoolSelector(props) {
 
-  //States
-    const handleChange = (event) => {
-      //if (poolArray.find(x => x.id === props.poolId)) {
-      props.onChange(event.target.value, setAssetArrayFromPool(poolArray, event.target.value));
-      //} else {
-       // props.onChange('', resetAssetArray());
-      //}
-    };
+  //Init styles
+  const classes = myStyles();
 
-    //Pool Data query Hook (do not encapsulate for state)
-    const { loading, error, data } = useQuery(
-        getBalancerPoolData,
-      {
-        context: { 
-          clientName: props.network.id,
-          uri: props.network.graphQLEndPoint,
-        },
-        fetchPolicy: "no-cache",
+  //Lift state to parent (PriceImpactFormField)
+  const handleChange = (event) => {
+    props.onChange(event.target.value, setAssetArrayFromPool(poolArray, event.target.value));
+  };
+
+  //Pool Data query Hook (do not encapsulate for state)
+  const { loading, error, data } = useQuery(
+    getBalancerPoolData,
+    {
+      context: {
+        clientName: props.network.id,
+        uri: props.network.graphQLEndPoint,
       },
-    );
-    //If data is not fully loaded, display progress
-  if ( loading ) return (
-  <div>
-    <Grid>
+      fetchPolicy: "no-cache",
+    },
+  );
+  //If data is not fully loaded, display progress
+  if (loading) return (
+    <div>
+      <Grid>
         <Box>
-      <CircularProgress></CircularProgress>
-       <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Subgraph...</Typography>
-       </Box>
-    </Grid>
-  </div>);
+          <CircularProgress></CircularProgress>
+          <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Subgraph...</Typography>
+        </Box>
+      </Grid>
+    </div>);
   if (error) return (
-  <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Error while fetching Balancer Subgraph data :(</Typography>
+    <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Error while fetching Balancer Subgraph data :(</Typography>
   );
 
-  //Process pool data
- const poolArray = getPoolArray(data);
- //const assetArray = setAssetArrayFromPool(poolArray)
+  //Initialize pool data
+  const poolArray = getPoolArray(data);
+console.log("poolArray", poolArray);
+  console.log("network", props.network);
 
- console.log("targetArray", poolArray.find(x => x.id === props.poolId));
- //console.log("assetArray", setAssetArrayFromPool(poolArray, props.poolId))
- console.log("filter: ", (props.poolId === '' || poolArray.find(x => x.id === props.poolId) !== null))
-
-
- return (
+  return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <InputLabel 
-        id="poolSelection"
-        >
-          Pool configuration</InputLabel>
-        <Select
-          labelId="poolSelection"
-          id="poolSelection-autowidth"
-          value={props.poolId}
-          onChange={handleChange}
-          autoWidth
-          label="Pool configuration"
-        >
-          {
-          poolArray.map(item => (
-            <MenuItem value={item.id}>{item.poolName}</MenuItem>
-          ))
-          };
-        </Select>
-      </FormControl>
-    </div>
- );
+      <Box display="flex" justifyContent="center" p={0.5} key={'poolSelector'}>
+        <Paper className={classes.form} variant="outlined" square>
+          <Box p={0.5} flexDirection="row" justifyContent="center" key={'poolSelector'}>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Box p={0.5}>
+                <img src={props.network.id === 'fantom' ? BeethovenLogo : BalancerLogo} alt="Balancer Logo" width="30" />
+              </Box>
+              <Box mb={0.5}>
+                <Typography variant="h6" className={classes.root} key="appTitle">
+                  {props.network.id === 'fantom' ? 'Beethoven-X' : 'Balancer'} Pools
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <FormControl sx={{ m: 1, minWidth: 200 }}>
+                <InputLabel
+                  id="poolSelection"
+                >
+                  Pool configuration</InputLabel>
+                <Select
+                  labelId="poolSelection"
+                  id="poolSelection-autowidth"
+                  value={props.poolId}
+                  onChange={handleChange}
+                  autoWidth
 
-  }
+                  label="Pool configuration"
+                >
+                  {
+                    poolArray.map(item => (
+                      <MenuItem
+                        key={item.id}
+                        value={item.id}>
+                        {item.poolName + ": " + item.shortName}
+                      </MenuItem>
+                    ))
+                  };
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
+        </Paper>
+      </Box>
+    </div>
+  );
+
+}

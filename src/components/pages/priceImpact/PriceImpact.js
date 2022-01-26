@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../UI/Header";
 import Grid from '@mui/material/Grid';
-import PriceImpactFormField from "./PriceImpactFormField";
+import PriceImpactSwapForm from "./PriceImpactSwapForm";
 
 //TODO: Implementation of price impact page
 
@@ -10,7 +10,7 @@ export default function PriceImpact (props) {
         <div key={props.networkId} >
             <Grid item xs={12}> <Header>Price Impact Calculator</Header> </Grid>
             <Grid item xs={12} component="span">
-                    <PriceImpactFormField networkId={props.networkId}></PriceImpactFormField>
+                    <PriceImpactSwapForm networkId={props.networkId}></PriceImpactSwapForm>
             </Grid>
         </div>
     );

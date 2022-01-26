@@ -3,7 +3,7 @@ import { myStyles } from '../../../styles/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -18,6 +18,8 @@ import ShowCalcuation from './ShowCalculation';
 import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
 import { calculatePriceChange } from '../../../utils/calculatePriceChange';
 import { ILGraphs } from './ILGraphs'
+import PoolSelector from '../../UI/PoolSelector/PoolSelector';
+import { networks } from '../../constants/networkConfigs';
 
 export default function ILFormField(props) {
 
@@ -49,6 +51,9 @@ export default function ILFormField(props) {
   //Asset array state hook
   const [assetArray, setAssetArray] = React.useState(defaultArray);
 
+  //Pool ID
+  const [poolId, setPoolId] = React.useState('');
+
   //IL value state hook
   const [calcIL, setCalcIL] = React.useState(calculateILFromAssetArray(defaultArray));
 
@@ -57,6 +62,9 @@ export default function ILFormField(props) {
 
   //Swap Fee hook TODO: Xeonus input / OK for now -> redux in the future?
   const [SwapFee, setSwapFee] = React.useState(10);
+
+    //Set active network
+    const network = networks.find(x => x.id === props.networkId);
 
   //Form Element state change handler
 
@@ -110,6 +118,14 @@ export default function ILFormField(props) {
     setShowInfo(!showInfo);
   }
 
+  //Toggle Pool selector id change
+  function handleIdChange(newId, newArray) {
+    setPoolId(newId);
+    setAssetArray(newArray);
+    setCalcIL(calculateILFromAssetArray(newArray));
+
+  }
+
   const investmentForm = () => (
     <Box display="flex" justifyContent="center" p={0.5}>
       <Paper className={classes.form} variant="outlined" square>
@@ -149,7 +165,7 @@ export default function ILFormField(props) {
 
   const formElement = (element, id) => (
     <Box display="flex" justifyContent="center" p={0.5} key={ 'formField'+ id}>
-      <Paper elevation={3} className={classes.form} variant="outlined" square>
+      <Paper className={classes.form} variant="outlined" square>
         <Box
           sx={{
             display: 'flex',
@@ -264,7 +280,7 @@ export default function ILFormField(props) {
 
   const dataTable = (assetArray, investment, SwapFee) => (
     <Box display="flex" justifyContent="center" mb={2}>
-      <Paper elevation={3} className={classes.form} variant="outlined" square>
+      <Paper  className={classes.form} variant="outlined" square>
         <DataTable assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTable>
       </Paper>
     </Box>
@@ -272,7 +288,7 @@ export default function ILFormField(props) {
 
   const dataTableTokens = (assetArray, investment, SwapFee) => (
     <Box display="flex" justifyContent="center" mt={2}>
-      <Paper elevation={3} className={classes.form} variant="outlined" square>
+      <Paper className={classes.form} variant="outlined" square>
         <DataTableTokens assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTableTokens>
       </Paper>
     </Box>
@@ -282,7 +298,7 @@ export default function ILFormField(props) {
 
     showInfo ?
       <Box display="flex" justifyContent="center">
-        <Paper elevation={3} className={classes.paper} variant="outlined" square>
+        <Paper  className={classes.paper} variant="outlined" square>
           <ShowCalcuation assetArray={assetArray}></ShowCalcuation>
         </Paper>
       </Box>
@@ -298,11 +314,14 @@ export default function ILFormField(props) {
 
   return (
     <div>
+      <PoolSelector network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
       <Box className={classes.root} >
         {investmentForm()}
       </Box>
       <div style={{ color: 'crimson' }}>{errorTotalPoolWeights}</div>
       <form className={classes.root} noValidate autoComplete="off">
+      
+      <Typography color='primary' variant="h5">Pool configuration</Typography>
         {assetArray.map((asset) =>
           formElement(asset, assetArray.indexOf(asset))
         )}
@@ -324,7 +343,7 @@ export default function ILFormField(props) {
         flexDirection: 'column',
         p: 2,
       }}>
-        <Paper className={classes.resultPaper} elevation={3} variant="outlined" square >
+        <Paper className={classes.resultPaper}  variant="outlined" square >
           <Header>
             IL = {<DynamicValueFormatter value={Number(calcIL).toFixed(2)} name={'iLValue'} decimals={2} />} %
           </Header>

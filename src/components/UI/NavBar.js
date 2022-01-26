@@ -12,6 +12,7 @@ export default function NavBar(props) {
             <Button color="primary" className={location.pathname === '/impermanentLoss' ? props.classes.navButton : null} component={NavLink} to={'/impermanentLoss'}>Impermanent Loss</Button>
             <Button color="primary" className={location.pathname === '/priceImpact' ? props.classes.navButton : null}component={Link} to={'/priceImpact'}>Price Impact</Button>
             <Button color= "primary" onClick={() => window.open('https://balancer-v2-info.web.app/')}>Analytics</Button>
+            <Button color="primary" className={location.pathname === '/status' ? props.classes.navButton : null}component={Link} to={'/status'}>Status</Button>
             
         </div>
     );

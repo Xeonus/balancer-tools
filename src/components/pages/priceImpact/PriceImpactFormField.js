@@ -1,5 +1,6 @@
 import React from "react";
 import { myStyles } from "../../../styles/styles";
+import Header from '../../UI/Header';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -7,23 +8,14 @@ import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { addAssetToArray } from "../../../utils/addAssetToArray";
-import { resetAssetArray } from "../../../utils/resetAssetArray";
 import DataTablePI from "./DataTablePI";
-import SwapForm from "./SwapFrom";
 import PoolSelector from "../../UI/PoolSelector/PoolSelector";
 import { networks } from "../../constants/networkConfigs";
-
-//temp unused:
-//import { calculateTotalPoolWeights } from '../../../utils/calculateTotalPoolWeight';
 import { calculatePIFromAssetArray } from '../../../utils/calculatePIFromAssetArray';
+import { addAssetToArray } from "../../../utils/addAssetToArray";
+import { resetAssetArray } from "../../../utils/resetAssetArray";
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
-import Header from '../../UI/Header';
-import setAssetArrayFromPool from "../../../utils/setAssetArrayFromPool";
-//import Typography from "@mui/material/Typography";
-
-
-//TODO: Implementation of price impact form field
+import SwapForm from "./PriceImpactSwapForm";
 
 export default function PriceImpactFormField (props) {
 
@@ -50,7 +42,6 @@ export default function PriceImpactFormField (props) {
   //Asset array state hook
   const [assetArray, setAssetArray] = React.useState(defaultArray);
   const [poolId, setPoolId] = React.useState('');
-  const [poolArray, setPoolArray] = React.useState('');
 
   //Set active network
   const network = networks.find(x => x.id === props.networkId);
@@ -74,7 +65,6 @@ export default function PriceImpactFormField (props) {
   const [calcPI, setCalcPI] = React.useState(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
 
   //Form Element state change handler
-
   const handleChange = (event, element) => {
     const index = assetArray.indexOf(element);
     const clonedData = [...assetArray];
@@ -86,6 +76,10 @@ export default function PriceImpactFormField (props) {
   function handleIdChange(newId, newArray) {
     setPoolId(newId);
     setAssetArray(newArray);
+    setSellToken(assetArray[0].assetName);
+    setBuyToken(assetArray[1].assetName);
+    setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
+
   }
 
   //const errorTotalPoolWeights = (calculateTotalPoolWeights(assetArray) === 1 ? "" : "Total of pool weights must equal 100%");
@@ -198,7 +192,7 @@ export default function PriceImpactFormField (props) {
 
   const formElement = (element, id) => (
     <Box display="flex" justifyContent="center" p={0.5} key={ 'formField'+ id}>
-      <Paper elevation={3} className={classes.form} variant="outlined" square>
+      <Paper className={classes.form} variant="outlined" square>
         <Box
           sx={{
             display: 'flex',
@@ -219,7 +213,7 @@ export default function PriceImpactFormField (props) {
           />
             <TextField
             id="assetBalance"
-            label="Balance"
+            label="Token Balance"
             multiline
             size="small"
             type="number"
@@ -289,7 +283,7 @@ export default function PriceImpactFormField (props) {
 
   const dataTablePI = (assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee) => (
     <Box display="flex" justifyContent="center" mb={2}>
-      <Paper elevation={3} className={classes.form} variant="outlined" square>
+      <Paper className={classes.form} variant="outlined" square>
         <DataTablePI assetArray={assetArray} sellToken={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee}></DataTablePI>
       </Paper>
     </Box>
@@ -297,8 +291,9 @@ export default function PriceImpactFormField (props) {
 
   return(
     <div>
-      {/*<SwapForm assetArray={assetArray}></SwapForm>*/}
+      
       <PoolSelector network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
+    <SwapForm assetArray={assetArray}></SwapForm>
     <form className={classes.root} noValidate autoComplete="off">
      {poolSwapForm()}
     </form>
@@ -315,7 +310,7 @@ export default function PriceImpactFormField (props) {
         flexDirection: 'column',
         p: 2,
       }}>
-    <Paper className={classes.resultPaper} elevation={3} variant="outlined" square >
+    <Paper className={classes.resultPaper} variant="outlined" square >
           <Header>
             Price Impact = {<DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4} />} %
           </Header>

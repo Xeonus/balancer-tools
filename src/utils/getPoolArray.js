@@ -7,22 +7,29 @@ export default function getPoolArray(data) {
     const balancerUrl = 'https://app.balancer.fi/#/pool/';
     //Obtain sorted array of pool data
     let poolArray = [];
-    data.balancers[0].pools.forEach(({ id, tokens, totalLiquidity, poolType }) => {
+    data.balancers[0].pools.forEach(({ id, tokens, totalLiquidity, poolType, name}) => {
 
-        if (poolType === "Weighted") {
-            const ratios = " (" + tokens.map(e => Number(e.weight * 100).toFixed(0)).join('/') + ")";
+        if (poolType === "Weighted" || poolType === "MetaStable") {
+            let ratios = " (" + tokens.map(e => Number(e.weight * 100).toFixed(0)).join('/') + ")";
             const tokenNames = tokens.map(e => e.symbol ? e.symbol : "MKR").join('/')
             const nameSet = [];
             tokens.map(e => nameSet.push(e.symbol ? e.symbol : "MKR"))
-            const poolName = tokenNames + ratios;
             let weightArray = [];
+            if (poolType === "MetaStable") {
+                tokens.map( e => weightArray.push(Number( 100 / nameSet.length)));
+                //overwrite Ratios:
+                ratios = " (" + tokens.map(e => Number( 100 / nameSet.length).toFixed(0)).join('/') + ")"
+            } else {
             tokens.map(e => weightArray.push(Number(e.weight * 100)));
+            }
+            const poolName = tokenNames + ratios;
             let tokenBalance = [];
             tokens.map(e => tokenBalance.push(Number(e.balance).toFixed(2)));
             let poolEntry = {
                 id: id,
                 weights: weightArray,
                 poolName: poolName,
+                shortName: name,
                 nameSet: nameSet,
                 url: balancerUrl.concat(id),
                 tokenBalance: tokenBalance,
@@ -33,5 +40,7 @@ export default function getPoolArray(data) {
             }
         }
     });
+    //sort by TVL
+    poolArray.sort((a, b) => (b.tvl - a.tvl)); 
     return poolArray;
 }

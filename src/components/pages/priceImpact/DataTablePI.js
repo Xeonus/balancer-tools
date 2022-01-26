@@ -52,7 +52,9 @@ export default function DataTablePI(props) {
   const classes = useStyles();
 
 //Create data rows for table (using props to forward values to another component)
-const data = createTableDataFromAssetArrayPI(props.assetArray, props.sellToken, props.sellTokenQuantity, props.buyToken, props.SwapFee);
+const dataTable = createTableDataFromAssetArrayPI(props.assetArray, props.sellToken, props.sellTokenQuantity, props.buyToken, props.SwapFee);
+
+console.log("dataTable data", dataTable);
 
 
   return (
@@ -68,18 +70,18 @@ const data = createTableDataFromAssetArrayPI(props.assetArray, props.sellToken, 
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((data) => (
+          {dataTable.map((el) => (
             <TableRow
-            key={ Math.random().toString(36).substring(2, 9) }
+            key={ "table_" + dataTable.tokenPair }
               sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
             >
               <TableCell component="th" scope="row">
-                {data.tokenPair}
+                {el.tokenPair}
               </TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(data.spotPrice).toFixed(0)} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(data.effectivePrice).toFixed(0)} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(data.tokensWithoutPI).toFixed(0)} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(data.tokensWithPI).toFixed(0)} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(el.spotPrice).toFixed(2)} name={el.spotPrice} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(el.effectivePrice).toFixed(2)} name={el.effectivePrice} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(el.tokensWithoutPI).toFixed(2)} name={el.tokensWithoutPI} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(el.tokensWithPI).toFixed(2)} name={el.toensWithPI} decimals={2}/></TableCell>
             </TableRow>
           ))}
         </TableBody>
