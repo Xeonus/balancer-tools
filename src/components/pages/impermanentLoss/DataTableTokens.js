@@ -75,9 +75,9 @@ const rows = createTokenTableFromAssetArray(props.assetArray, props.investment, 
               <TableCell component="th" scope="row">
                 {row.assetName}
               </TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(row.initialTokens).toFixed(2)} name={row.initialTokens} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(row.tokensWithIL).toFixed(2)} name={row.tokensWithIL} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(row.tokensWithFees).toFixed(2)} name={row.tokensWithFees} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(row.initialTokens).toFixed(4)} name={row.initialTokens} decimals={4}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(row.tokensWithIL).toFixed(4)} name={row.tokensWithIL} decimals={4}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(row.tokensWithFees).toFixed(4)} name={row.tokensWithFees} decimals={4}/></TableCell>
             </TableRow>
           ))}
         </TableBody>

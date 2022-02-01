@@ -32,8 +32,8 @@ export function createTableDataFromAssetArrayPI(assetArray, sellToken, sellToken
     let tokenPair = buyToken + " / " + sellToken
     let spotPrice = Number((tokenInBalance / tokenInWeight) / (tokenOutBalance / tokenOutWeight));
     let effectivePrice = Number((1/(1+swapFee)) * sellTokenQuantity / (tokenOutBalance * (1 - ((tokenInBalance / (tokenInBalance + ((1/(1+swapFee)) * sellTokenQuantity)))**(tokenInWeight/tokenOutWeight)))));
-    let tokensWithoutPI = spotPrice * sellTokenQuantity 
-    let tokensWithPI = effectivePrice * sellTokenQuantity
+    let tokensWithoutPI = 1/spotPrice * sellTokenQuantity 
+    let tokensWithPI = 1/effectivePrice * sellTokenQuantity
     let info = createDataPI(tokenPair, spotPrice, effectivePrice, tokensWithoutPI, tokensWithPI);
     data.push(info);
     return data;

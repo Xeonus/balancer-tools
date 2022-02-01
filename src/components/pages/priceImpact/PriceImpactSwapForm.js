@@ -23,6 +23,10 @@ import AddIcon from '@mui/icons-material/Add';
 import ReplayIcon from '@mui/icons-material/Replay';
 import Button from '@mui/material/Button';
 import PoolSelector from '../../UI/PoolSelector/PoolSelector';
+import { calculateBuyTokenQuantity } from '../../../utils/caclulateBuyTokenQuantity';
+import { calculateSellTokenQuantity } from '../../../utils/calculateSellTokenQuantity';
+import { PIGraphs } from "./PIGraphs";
+
 
 //TODO: Implementation of price impact page
 
@@ -95,16 +99,19 @@ export default function PriceImpactSwapForm(props) {
         setSellTokenQuantity(newSellTokenQuantity);
         setBuyTokenQuantity(newBuyTokenQuantity);
         setBuyToken(newBuyToken)
+        setCalcPI(calculatePIFromAssetArray(assetArray, newSellToken, newSellTokenQuantity, newBuyToken, SwapFee));
     };
 
     const handleSellTokenQuantityChange = (event) => {
         setSellTokenQuantity(event.target.value);
+        setBuyTokenQuantity(calculateBuyTokenQuantity(assetArray, sellToken, event.target.value, buyToken, SwapFee));
         setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, event.target.value, buyToken, SwapFee));
     }
 
     const handleBuyTokenQuantityChange = (event) => {
         setBuyTokenQuantity(event.target.value);
-        setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, event.target.value, buyToken, SwapFee));
+        setSellTokenQuantity(calculateSellTokenQuantity(assetArray, sellToken, event.target.value, buyToken, SwapFee));
+        setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, calculateSellTokenQuantity(assetArray, sellToken, event.target.value, buyToken, SwapFee), buyToken, SwapFee));
     }
 
 
@@ -390,6 +397,11 @@ export default function PriceImpactSwapForm(props) {
         </Box>
     )
 
+    const pIGraphs = (assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, darkState) => (
+        <Box display="flex" justifyContent="center" >
+          <PIGraphs assetArray={assetArray} sellToken ={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee} darkState={darkState}></PIGraphs>
+        </Box>
+    )
 
     return (
         <div>
@@ -413,6 +425,7 @@ export default function PriceImpactSwapForm(props) {
                         Price Impact = {<DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4} />} %
                     </Header>
                     {dataTablePI(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee)}
+                    {pIGraphs(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, props.darkState)}
                 </Paper>
             </Box>
         </div >
