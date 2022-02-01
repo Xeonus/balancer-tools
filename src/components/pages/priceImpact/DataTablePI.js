@@ -54,9 +54,6 @@ export default function DataTablePI(props) {
 //Create data rows for table (using props to forward values to another component)
 const dataTable = createTableDataFromAssetArrayPI(props.assetArray, props.sellToken, props.sellTokenQuantity, props.buyToken, props.SwapFee);
 
-console.log("dataTable data", dataTable);
-
-
   return (
     <TableContainer>
       <Table className={props.darkState ? classes.darkTable : classes.table} size="small">
@@ -78,10 +75,10 @@ console.log("dataTable data", dataTable);
               <TableCell component="th" scope="row">
                 {el.tokenPair}
               </TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(el.spotPrice).toFixed(2)} name={el.spotPrice} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(el.effectivePrice).toFixed(2)} name={el.effectivePrice} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(el.tokensWithoutPI).toFixed(2)} name={el.tokensWithoutPI} decimals={2}/></TableCell>
-              <TableCell align="right"><DynamicValueFormatter value={Number(el.tokensWithPI).toFixed(2)} name={el.toensWithPI} decimals={2}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(1/el.spotPrice).toFixed(5)} name={el.spotPrice} decimals={5}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(1/el.effectivePrice).toFixed(5)} name={el.effectivePrice} decimals={5}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(el.tokensWithoutPI).toFixed(5)} name={el.tokensWithoutPI} decimals={5}/></TableCell>
+              <TableCell align="right"><DynamicValueFormatter value={Number(el.tokensWithPI).toFixed(5)} name={el.tokensWithPI} decimals={5}/></TableCell>
             </TableRow>
           ))}
         </TableBody>
