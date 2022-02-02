@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../../UI/Header";
 import Grid from '@mui/material/Grid';
 import { Box } from "@mui/system";
 import { CircularProgress, Typography } from "@mui/material";
@@ -13,7 +12,7 @@ export default function GraphQLStatus(props) {
 
     //Queries
     //Pool Data query Hook (do not encapsulate for state)
-    const { loading, error, data } = useQuery(
+    const { loading, error } = useQuery(
         getBalancerPoolData,
         {
             context: {

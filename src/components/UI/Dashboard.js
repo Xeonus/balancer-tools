@@ -31,7 +31,8 @@ import StatusPage from '../pages/Status/StatusPage';
 export default function Dashboard() {
 
     //Theme properties set once at dashboard level
-    const [darkState, setDarkState] = useState(true);
+    //const [darkState, setDarkState] = useState(true);
+    const darkState = true;
     const [networkId, setNetworkId] = useState('ethereum');
     const palletType = darkState ? "dark" : "light";
     const mainPrimaryColor = darkState ? "#ffffff" : "#111";
@@ -72,9 +73,9 @@ export default function Dashboard() {
     const classes = myStyles();
 
     //Reset data array
-    const handleDarkModeClick = (darkState) => {
-        setDarkState(!darkState);
-    }
+    //const handleDarkModeClick = (darkState) => {
+      //  setDarkState(!darkState);
+    //}
 
     //NetworkId
     const handleNetworkChange = (evt) => {

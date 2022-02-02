@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Header from "../../UI/Header";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import Grid from '@mui/material/Grid';
 import { Box } from "@mui/system";
 import { CircularProgress, Typography } from "@mui/material";
-import { getBalancerPoolData } from '../../data/queries/operations';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 
 
 export default function HerokuStatus(props) {
@@ -31,7 +29,15 @@ export default function HerokuStatus(props) {
     }, [setLoading]);
 
     
-
+    if (loading) return (
+        <div>
+            <Grid>
+                <Box>
+                    <CircularProgress></CircularProgress>
+                    <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading {props.network.name} Heroku status...</Typography>
+                </Box>
+            </Grid>
+        </div>);
     if (jsonData) {
         (console.log("Heroku Status", jsonData))
         return (

@@ -1,4 +1,4 @@
-import { calculateILFromAssetArray } from "./calculateILFromAssetArray";
+//import { calculateILFromAssetArray } from "./calculateILFromAssetArray";
 
 //Helper function to create an asset value table from assetArray
 export function createTableDataFromAssetArray(assetArray, investment, SwapFee) {
@@ -10,7 +10,7 @@ export function createTableDataFromAssetArray(assetArray, investment, SwapFee) {
 
     //Local variables  
     const copy = [...assetArray];
-    const impLoss = calculateILFromAssetArray(copy);
+    //const impLoss = calculateILFromAssetArray(copy);
     let rows = [];
     let assetValueIfHeld = 0;
     let ilOfAsset = 0;
