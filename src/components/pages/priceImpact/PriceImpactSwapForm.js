@@ -404,7 +404,7 @@ export default function PriceImpactSwapForm(props) {
 
     return (
         <div>
-            <PoolSelector network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
+            <PoolSelector darkState = {props.darkState} network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
             {swapForm()}
             <form className={classes.root} noValidate autoComplete="off">
                 {assetArray.map((asset) =>

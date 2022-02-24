@@ -150,7 +150,7 @@ export default function ILFormField(props) {
           />
           <TextField
             id="SwapFee"
-            label="Swap Fee APY (%)"
+            label="Rewards APR (%)"
             type="text"
             size="small"
             value={SwapFee}
@@ -314,7 +314,7 @@ export default function ILFormField(props) {
 
   return (
     <div>
-      <PoolSelector network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
+      <PoolSelector network={network} poolId={poolId} onChange={handleIdChange} darkState={props.darkState}></PoolSelector>
       <Box className={classes.root} >
         {investmentForm()}
       </Box>

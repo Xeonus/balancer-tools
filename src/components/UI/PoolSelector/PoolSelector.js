@@ -13,6 +13,7 @@ import { useQuery } from "@apollo/client";
 import setAssetArrayFromPool from '../../../utils/setAssetArrayFromPool';
 import { myStyles } from '../../../styles/styles';
 import BalancerLogo from './../../../resources/logo-dark.svg'
+import BalancerLogoLight from './../../../resources/logo-light.svg'
 import BeethovenLogo from './../../../resources/beets-icon-large.png'
 
 export default function PoolSelector(props) {
@@ -53,6 +54,8 @@ export default function PoolSelector(props) {
   //Initialize pool data
   const poolArray = getPoolArray(data);
 
+  const balLogo = props.darkState ? BalancerLogo : BalancerLogoLight;
+
   return (
     <div>
       <Box display="flex" justifyContent="center" p={0.5} key={'poolSelector'}>
@@ -60,7 +63,7 @@ export default function PoolSelector(props) {
           <Box p={0.5} flexDirection="row" justifyContent="center" key={'poolSelector'}>
             <Box display="flex" alignItems="center" justifyContent="center">
               <Box p={0.5}>
-                <img src={props.network.id === 'fantom' ? BeethovenLogo : BalancerLogo} alt="Balancer Logo" width="30" />
+                <img src={props.network.id === 'fantom' ? BeethovenLogo : balLogo} alt="Balancer Logo" width="30" />
               </Box>
               <Box mb={0.5}>
                 <Typography variant="h6" className={classes.root} key="appTitle">

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import Container from "@mui/material/Container";
-//import { Box, Button } from '@mui/material';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import AppBar from '@mui/material/AppBar';
@@ -15,7 +14,6 @@ import BalancerLogoLight from './../../resources/logo-light.svg';
 import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
 import PriceImpact from "../pages/priceImpact/PriceImpact";
 import NavBar from "./NavBar";
-//import LightDarkModeSwitcher from "./LightDarkModeSwitcher";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -26,23 +24,43 @@ import EtherLogo from'./../../resources/ethereum.svg'
 import PolygonLogo from'./../../resources/polygon.svg'
 import FantomLogo from'./../../resources/fantom-ftm-logo.svg'
 import StatusPage from '../pages/Status/StatusPage';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { IconButton } from '@mui/material';
+
+
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+
 
 
 export default function Dashboard() {
 
     //Theme properties set once at dashboard level
-    //const [darkState, setDarkState] = useState(true);
-    const darkState = true;
+    const [mode, setMode] = React.useState('light');
     const [networkId, setNetworkId] = useState('ethereum');
-    const palletType = darkState ? "dark" : "light";
-    const mainPrimaryColor = darkState ? "#ffffff" : "#111";
-    const mainSecondaryColor = darkState ? "#272936" : "#1a237e";
-    const backgroundColor = darkState ? "#091027" : "#fafafa";
-    const paperColor = darkState ? "#162031" : "#fff";
-    const theme = createTheme({
-        palette: {
-            mode: palletType,
-            primary: {
+    const mainPrimaryColor = (mode === 'dark') ? "#ffffff" : "#111";
+    const mainSecondaryColor = "#ffffff";
+    const backgroundColor = (mode === 'dark') ? "#091027" : "#fafafa";
+    const paperColor = (mode === 'dark')  ? "#162031" : "#fff";
+
+    
+    const colorMode = React.useMemo(
+        () => ({
+          toggleColorMode: () => {
+            setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+          },
+        }),
+        [],
+      );
+
+    
+    
+    const theme = React.useMemo(
+        () =>
+          createTheme({
+            palette: {
+              mode,
+              primary: {
                 main: mainPrimaryColor
             },
             secondary: {
@@ -52,31 +70,28 @@ export default function Dashboard() {
                 default: backgroundColor,
                 paper: paperColor
             },
-        },
-        typography: {
-            // Use the system font instead of the default Roboto font.
-            fontFamily: [
-                'Inter-Variable',
-                '-apple-system',
-                'BlinkMacSystemFont',
-                'Segoe UI',
-                'Helvetica',
-                'Arial',
-                'sans-serif',
-                'Apple Color Emoji',
-                'Segoe UI Emoji',
-            ].join(','),
-        },
-    });
+            typography: {
+                // Use the system font instead of the default Roboto font.
+                fontFamily: [
+                    'Inter-Variable',
+                    '-apple-system',
+                    'BlinkMacSystemFont',
+                    'Segoe UI',
+                    'Helvetica',
+                    'Arial',
+                    'sans-serif',
+                    'Apple Color Emoji',
+                    'Segoe UI Emoji',
+                ].join(','),
+            },
+            }, 
+          }),
+        [mode],
+      );
+    
 
     //Load global Styles
     const classes = myStyles();
-
-    //Reset data array
-    //const handleDarkModeClick = (darkState) => {
-      //  setDarkState(!darkState);
-    //}
-
     //NetworkId
     const handleNetworkChange = (evt) => {
         setNetworkId(evt.target.value);
@@ -84,13 +99,14 @@ export default function Dashboard() {
 
     return (
         <StyledEngineProvider injectFirst>
+            <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme} >
-                <AppBar position="static" color={darkState ? "secondary" : "white"} style={{ margin: -0 }} >
+                <AppBar position="static" color={ "secondary" } style={{ margin: -0 }} >
                     <Toolbar className={classes.toolBar}>
                         <Box display="flex" alignItems="center" >
                             
                             <Box p={1}>
-                                <img src={darkState ? BalancerLogo : BalancerLogoLight} alt="Balancer Logo" width="30" />
+                                <img src={(mode === 'dark') ? BalancerLogo : BalancerLogoLight} alt="Balancer Logo" width="30" />
                             </Box>
                             
                             <Box  mb={1}>
@@ -108,6 +124,7 @@ export default function Dashboard() {
                         <Box display="flex" alignItems="center" >
                         <FormControl variant="outlined" size="small" className={classes.formControl}>
                                 <Select
+                                    color = "primary"
                                     labelId="networkSelectLabel"
                                     id="chainSelect"
                                     value={networkId}
@@ -180,13 +197,10 @@ export default function Dashboard() {
                                 </Select>
                                 
                             </FormControl>
-                            {/**Disable dark/light mode because of MUI v5 migration bug
-                            <Button
-                                onClick={(e) => handleDarkModeClick(darkState)}
-                            >
-                                <LightDarkModeSwitcher darkState={darkState} />
-                            </Button>
-                            **/}
+                            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
+                                    
                         </Box>
                     </Toolbar>
                 </AppBar>
@@ -195,8 +209,8 @@ export default function Dashboard() {
                     <Grid item xs="auto" component="span">
                         <Routes>
                             <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
-                            <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={darkState} networkId={networkId} />} />
-                            <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} />} />
+                            <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
+                            <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} darkState={(mode === 'dark') ? true : false} />} />
                             <Route path="status" element={<StatusPage classes={classes} />} />
                             <Route path='/analytics' component={() => {
                                 window.location.href = 'https://balancer-v2-info.web.app/';
@@ -211,6 +225,7 @@ export default function Dashboard() {
                     </Grid>
                 </Container>
             </ThemeProvider>
+            </ColorModeContext.Provider>
         </StyledEngineProvider>
     );
 };

@@ -4,6 +4,6 @@ import NightsStayIcon from '@mui/icons-material/NightsStay';
 
 export default function LightDarkModeSwitcher(props) {
   return (
-      props.darkState ? <NightsStayIcon/> : <LightModeIcon style={{fill: "orange"}} />
+      props.mode ? <NightsStayIcon/> : <LightModeIcon style={{fill: "orange"}} />
   );
 }

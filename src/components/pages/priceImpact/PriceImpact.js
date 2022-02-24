@@ -10,7 +10,7 @@ export default function PriceImpact (props) {
         <div key={props.networkId} >
             <Grid item xs={12}> <Header>Price Impact Calculator</Header> </Grid>
             <Grid item xs={12} component="span">
-                    <PriceImpactSwapForm networkId={props.networkId}></PriceImpactSwapForm>
+                    <PriceImpactSwapForm darkState = {props.darkState} networkId={props.networkId}></PriceImpactSwapForm>
             </Grid>
         </div>
     );

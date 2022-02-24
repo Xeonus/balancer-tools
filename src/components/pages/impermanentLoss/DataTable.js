@@ -61,10 +61,10 @@ const rows = createTableDataFromAssetArray(props.assetArray, props.investment, p
         <TableHead>
           <TableRow>
             <TableCell><b>Asset</b></TableCell>
-            <TableCell align="right"><b>Initial value</b></TableCell>
-            <TableCell align="right"><b>Value if held</b></TableCell>
-            <TableCell align="right"><b>Value with IL</b></TableCell>
-            <TableCell align="right"><b>Value with Fees APY</b></TableCell>
+            <TableCell align="right"><b>Initial value ($)</b></TableCell>
+            <TableCell align="right"><b>Value if held ($)</b></TableCell>
+            <TableCell align="right"><b>Value with IL ($)</b></TableCell>
+            <TableCell align="right"><b>Value with Rewards APR ($)</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
