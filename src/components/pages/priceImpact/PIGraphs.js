@@ -79,10 +79,10 @@ export function PIGraphs(props) {
           title: props.sellToken + " Quantity",
           titlefont: {
             size: 14,
-            color: "white"
+            color: props.darkState ? "white" : "black",
           },
           tickfont: {
-            color: "white"
+            color: props.darkState ? "white" : "black",
           },
           showgrid: false,
         },
@@ -90,10 +90,10 @@ export function PIGraphs(props) {
           title: props.buyToken + " Quantity",
           titlefont: {
             size: 14,
-            color: "white",
+            color: props.darkState ? "white" : "black",
           },
           tickfont: {
-            color: "white",
+            color: props.darkState ? "white" : "black",
           },
           showgrid: false,
         },
@@ -101,10 +101,10 @@ export function PIGraphs(props) {
           title: "Price Impact",
           titlefont: {
             size: 14,
-            color: "white",
+            color: props.darkState ? "white" : "black",
           },
           tickfont: {
-            color: "white",
+            color: props.darkState ? "white" : "black",
           },
           showgrid: false,
           side: 'right',
@@ -117,7 +117,7 @@ export function PIGraphs(props) {
           font: {
             family: 'sans-serif',
             size: 12,
-            color: 'white'
+            color: props.darkState ? "white" : "black",
           },
         }
       }
