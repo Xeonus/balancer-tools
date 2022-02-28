@@ -12,6 +12,7 @@ import Footer from '../UI/Footer'
 import BalancerLogo from './../../resources/logo-dark.svg';
 import BalancerLogoLight from './../../resources/logo-light.svg';
 import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
+import LiquidityMining from '../pages/liquidityMining/LiquidityMining';
 import PriceImpact from "../pages/priceImpact/PriceImpact";
 import NavBar from "./NavBar";
 import Select from '@mui/material/Select';
@@ -209,6 +210,7 @@ export default function Dashboard() {
                     <Grid item xs="auto" component="span">
                         <Routes>
                             <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
+                            <Route path="liquidityMining" element={<LiquidityMining classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                             <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                             <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} darkState={(mode === 'dark') ? true : false} />} />
                             <Route path="status" element={<StatusPage classes={classes} />} />
