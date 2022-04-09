@@ -19,3 +19,17 @@ export const getBalancerPoolData = gql`
   }
 }
   `;
+
+export const getGaugeData = gql`
+  {
+    votingEscrows {
+      stakedSupply
+    }
+    liquidityGauges {
+      symbol
+      poolAddress
+      poolId
+      totalSupply
+    }
+  }
+  `;

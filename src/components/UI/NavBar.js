@@ -9,7 +9,7 @@ export default function NavBar(props) {
 
     return (
         <div>
-            <Button color="primary" className={location.pathname === '/liquidityMining' ? props.classes.navButton : null} component={NavLink} to={'/liquidityMining'}>Incentiviced Pools</Button>
+            <Button color="primary" className={location.pathname === '/boost' ? props.classes.navButton : null} component={NavLink} to={'/boost'}>Boost</Button>
             <Button color="primary" className={location.pathname === '/impermanentLoss' ? props.classes.navButton : null} component={NavLink} to={'/impermanentLoss'}>Impermanent Loss</Button>
             <Button color="primary" className={location.pathname === '/priceImpact' ? props.classes.navButton : null}component={Link} to={'/priceImpact'}>Price Impact</Button>
             <Button color= "primary" onClick={() => window.open('https://balancer-v2-info.web.app/')}>Analytics</Button>

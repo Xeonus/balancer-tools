@@ -5,16 +5,16 @@
 
 
 //Polygon
-const qiId = '0x580a84c73811e1839f75d86d75d88cca0c241ff4';
-const mtaId = '0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0';
-const maticId = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
-const telId = '0xdf7837de1f2fa4631d716cf2502f8b230f1dcc32';
-const balId = '0x9a71012b13ca4d3d0cdc72a177df3ef03b0e76a3';
-const tusdId = '0x2e1ad108ff1d8c782fcbbb89aad783ac49586756';
+//const qiId = '0x580a84c73811e1839f75d86d75d88cca0c241ff4';
+//const mtaId = '0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0';
+//const maticId = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+//const telId = '0xdf7837de1f2fa4631d716cf2502f8b230f1dcc32';
+//const balId = '0x9a71012b13ca4d3d0cdc72a177df3ef03b0e76a3';
+//const tusdId = '0x2e1ad108ff1d8c782fcbbb89aad783ac49586756';
 
 //Arbitrum
-const qiId = '0x580a84c73811e1839f75d86d75d88cca0c241ff4';
-const mtaId = '0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0';
+//const qiId = '0x580a84c73811e1839f75d86d75d88cca0c241ff4';
+//const mtaId = '0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0';
 
 
 export const coinList = [

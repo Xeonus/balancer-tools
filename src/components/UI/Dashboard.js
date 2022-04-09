@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import Container from "@mui/material/Container";
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import AppBar from '@mui/material/AppBar';
@@ -12,7 +12,6 @@ import Footer from '../UI/Footer'
 import BalancerLogo from './../../resources/logo-dark.svg';
 import BalancerLogoLight from './../../resources/logo-light.svg';
 import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
-import LiquidityMining from '../pages/liquidityMining/LiquidityMining';
 import PriceImpact from "../pages/priceImpact/PriceImpact";
 import NavBar from "./NavBar";
 import Select from '@mui/material/Select';
@@ -28,6 +27,7 @@ import StatusPage from '../pages/Status/StatusPage';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { IconButton } from '@mui/material';
+import Boost from '../pages/boost/Boost';
 
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
@@ -87,7 +87,7 @@ export default function Dashboard() {
             },
             }, 
           }),
-        [mode],
+        [mode, mainPrimaryColor, mainSecondaryColor, backgroundColor, paperColor],
       );
     
 
@@ -210,7 +210,7 @@ export default function Dashboard() {
                     <Grid item xs="auto" component="span">
                         <Routes>
                             <Route path="/" element={<Navigate replace to="/impermanentLoss" />} />
-                            <Route path="liquidityMining" element={<LiquidityMining classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
+                            <Route path="boost" element={<Boost classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                             <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                             <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} darkState={(mode === 'dark') ? true : false} />} />
                             <Route path="status" element={<StatusPage classes={classes} />} />
