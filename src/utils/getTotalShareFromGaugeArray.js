@@ -2,7 +2,7 @@ export default function getTotalShareFromGaugeArray(poolId, gaugeArray) {
     let totalSupply = 0;
     gaugeArray.forEach( el => {
         if (el.poolId === poolId) {
-            totalSupply = el.totalStaked;
+            totalSupply = el.totalStaked * el.pricePerBPT;
         }
     });
     return totalSupply;

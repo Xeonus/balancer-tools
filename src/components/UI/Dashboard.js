@@ -219,7 +219,7 @@ export default function Dashboard() {
                                 return null;
                             }} />
                         </Routes>
-                        <Grid item xs={12} component="span">
+                        <Grid item xs={12} component="span" flex="1">
                             <Box p={1}>
                                 <Footer className={classes.footer}></Footer>
                             </Box>

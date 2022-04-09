@@ -7,7 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export default function Footer() {
     return (
-        <div style={{overflow: "hidden", textOverflow: "ellipsis"}}>
+        <footer style={{overflow: "hidden", textOverflow: "ellipsis", position: "relative", bottom: 0}}>
                 <Grid >
                     <Typography noWrap={false} variant="caption" color="textSecondary" component="span">
                         {"Made by Xeonus and Zen Dragon with"} <FavoriteIcon fontSize="small"></FavoriteIcon>  {"for the "}
@@ -28,6 +28,6 @@ export default function Footer() {
                         Alpha Build - v0.7.0
                     </Typography>
                 </Grid>
-        </div>
+        </footer>
     );
 }

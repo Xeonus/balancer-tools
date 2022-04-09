@@ -6,6 +6,7 @@ export const getBalancerPoolData = gql`
     pools(first: 500) {
       name
       totalLiquidity
+      totalShares
       poolType
       tokens {
         symbol

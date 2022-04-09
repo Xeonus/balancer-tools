@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Typography } from '@mui/material';
-import { getGaugeData } from './../../data/queries/operations';
+import { getGaugeData, getBalancerPoolData } from './../../data/queries/operations';
 import { useQuery } from "@apollo/client";
 import { myStyles } from '../../../styles/styles';
 import BalancerLogo from './../../../resources/logo-dark.svg'
@@ -15,6 +15,7 @@ import BalancerLogoLight from './../../../resources/logo-light.svg'
 import BeethovenLogo from './../../../resources/beets-icon-large.png'
 import getGaugeArray from '../../../utils/getGaugeArray';
 import getTotalShareFromGaugeArray from '../../../utils/getTotalShareFromGaugeArray';
+import getPoolArray from '../../../utils/getPoolArray';
 
 export default function PoolSelector(props) {
 
@@ -28,10 +29,8 @@ export default function PoolSelector(props) {
     props.onChange(event.target.value, props.veBAL, Number(totalStake).toFixed(2), props.share, Number(totalShare).toFixed(2));
   };
 
-  //veBAL={veBAL} totalVeBALStaked={totalVeBALStaked} totalShare={totalShare} share={share}
-  //handleIdChange(newId, veBAL, totalStake, share, totalShare)
-  //Pool Data query Hook (do not encapsulate for state)
-  const { loading, error, data } = useQuery(
+  //Gauge Data query Hook (do not encapsulate for state)
+  const { loading: loading, error: error, data: data } = useQuery(
     getGaugeData,
     {
       context: {
@@ -41,22 +40,38 @@ export default function PoolSelector(props) {
       fetchPolicy: "no-cache",
     },
   );
+
+  //Pool Data selector
+  const { loading: poolLoading, error: poolError, data: poolData } = useQuery(
+    getBalancerPoolData,
+    {
+      context: {
+        clientName: props.network.id,
+        uri: props.network.graphQLEndPoint,
+      },
+      fetchPolicy: "no-cache",
+    },
+  );
+
   //If data is not fully loaded, display progress
-  if (loading) return (
+  if (loading || poolLoading) return (
     <div>
       <Grid>
         <Box display="flex" justifyContent="center">
           <CircularProgress></CircularProgress>
-          <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Gauges...</Typography>
+          <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Gauges and Pool data...</Typography>
         </Box>
       </Grid>
     </div>);
-  if (error) return (
-    <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Error while fetching Gauge Subgraph data :(</Typography>
+  if (error || poolError) return (
+    <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Error while fetching Gauge or Balancer Subgraph data :(</Typography>
   );
 
-  //Get Gauge Data
-  const [gaugeArray, totalStake] = getGaugeArray(data);
+  //Get Gauge Data by stitching together gauge and pool-data (for pool names and shares)
+  const poolArray = getPoolArray (poolData);
+  const [gaugeArray, totalStake] = getGaugeArray(data, poolArray);
+
+  
 
 
   const balLogo = props.darkState ? BalancerLogo : BalancerLogoLight;
@@ -72,7 +87,7 @@ export default function PoolSelector(props) {
               </Box>
               <Box mb={0.5}>
                 <Typography variant="h6" className={classes.root} key="appTitle">
-                  Gauges
+                  Liquidity Mining Gauges
                 </Typography>
               </Box>
             </Box>

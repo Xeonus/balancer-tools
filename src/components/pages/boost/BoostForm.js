@@ -89,7 +89,7 @@ export default function BoostForm(props) {
                     />
                     <TextField
                         id="yourShare"
-                        label="Your Staked Share"
+                        label="Your Staked Share ($)"
                         type="text"
                         size="small"
                         value={(share)}
@@ -99,7 +99,7 @@ export default function BoostForm(props) {
                     />
                     <TextField
                         id="totalShare"
-                        label="Gauge Total Share"
+                        label="Gauge TVL Staked ($)"
                         type="text"
                         size="small"
                         value={totalShare}
