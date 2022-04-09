@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { myStyles } from '../../../styles/styles';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import Header from '../../UI/Header';
 import GaugeSelector from '../../UI/GaugeSelector/GaugeSelector';
@@ -15,7 +15,7 @@ export default function BoostForm(props) {
     const classes = myStyles();
 
     //Variable Hooks
-    const [veBAL, setveBAL] = React.useState(500);
+    const [veBAL, setveBAL] = React.useState(500.0);
     const [totalVeBALStaked, setTotalVeBALStaked] = React.useState(800000.0);
     const [share, setShare] = React.useState(500.0);
     const [totalShare, setTotalShare] = React.useState(10000.0);
@@ -52,6 +52,11 @@ export default function BoostForm(props) {
     setBoost(calculateBoostFromGauge(veBAL, totalStake, share, totalShare));
 
   }
+
+  //Explicitly trigger state changes on user input updates!
+  useEffect(() => {
+    setBoost(calculateBoostFromGauge(veBAL, totalVeBALStaked, share, totalShare));
+  }, [veBAL, totalVeBALStaked, share, totalShare]);
 
 
     //Boost input fields

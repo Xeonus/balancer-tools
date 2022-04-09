@@ -5,7 +5,6 @@ import BoostForm from "./BoostForm";
 import { Typography } from "@mui/material";
 
 export default function Boost (props) {
-    console.log("networkId", props.networkId);
     return (
         <div key={props.networkId} >
             <Grid item xs={12}> <Header>veBAL Boost Calculator</Header> </Grid>

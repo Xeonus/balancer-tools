@@ -25,12 +25,11 @@ export default function PoolSelector(props) {
   //Lift state to parent (BoostForm)
   const handleChange = (event) => {
     const totalShare = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
-    console.log("totalShare", totalShare)
     props.onChange(event.target.value, props.veBAL, Number(totalStake).toFixed(2), props.share, Number(totalShare).toFixed(2));
   };
 
   //Gauge Data query Hook (do not encapsulate for state)
-  const { loading: loading, error: error, data: data } = useQuery(
+  const {loading, error, data } = useQuery(
     getGaugeData,
     {
       context: {
@@ -71,16 +70,15 @@ export default function PoolSelector(props) {
   const poolArray = getPoolArray (poolData);
   const [gaugeArray, totalStake] = getGaugeArray(data, poolArray);
 
+
   
-
-
   const balLogo = props.darkState ? BalancerLogo : BalancerLogoLight;
 
   return (
     <div>
       <Box display="flex" justifyContent="center" p={0.5} key={'poolSelector'}>
         <Paper className={classes.form} variant="outlined" square>
-          <Box p={0.5} flexDirection="row" justifyContent="center" key={'poolSelector'}>
+          <Box p={1} flexDirection="row" justifyContent="center" key={'poolSelector'}>
             <Box display="flex" alignItems="center" justifyContent="center">
               <Box p={0.5}>
                 <img src={props.network.id === 'fantom' ? BeethovenLogo : balLogo} alt="Balancer Logo" width="30" />
