@@ -83,17 +83,17 @@ export default function BoostForm(props) {
                     p: 1,
                     m: 1,
                 }}>
-                    <Tooltip arrow placement="top" title="The global amount of veBAL locked">
-                <TextField
-                    id="totallockedVeBAL"
-                    label="Total veBAL Locked"
-                    type="text"
-                    size="small"
-                    value={totallockedVeBALStaked}
-                    onChange={(e) => handleTotallockedVeBALChange(e)}
-                    error={isNaN(totallockedVeBALStaked)}
-                    helperText={isNaN(totallockedVeBALStaked) ? "Total veBAL locked must be a number" : ""}
-                />
+                <Tooltip arrow placement="top" title="The global amount of veBAL locked">
+                    <TextField
+                        id="totallockedVeBAL"
+                        label="Total veBAL Locked"
+                        type="text"
+                        size="small"
+                        value={totallockedVeBALStaked}
+                        onChange={(e) => handleTotallockedVeBALChange(e)}
+                        error={isNaN(totallockedVeBALStaked)}
+                        helperText={isNaN(totallockedVeBALStaked) ? "Total veBAL locked must be a number" : ""}
+                    />
                 </Tooltip>
                 <TextField
                     id="totalShare"
@@ -120,17 +120,17 @@ export default function BoostForm(props) {
                     p: 1,
                     m: 1,
                 }}>
-                    <Tooltip arrow placement="top" title="The amount of veBAL you have locked. You can retrieve this amount from the veBAL page at https://app.balancer.fi/#/vebal">
-                <TextField
-                    id="lockedVeBAL"
-                    label="Your locked veBAL"
-                    type="text"
-                    size="small"
-                    value={lockedVeBAL}
-                    onChange={(e) => handlelockedVeBALChange(e)}
-                    error={isNaN(lockedVeBAL)}
-                    helperText={isNaN(lockedVeBAL) ? "Locked lockedVeBAL must be a number" : ""}
-                />
+                <Tooltip arrow placement="top" title="The amount of veBAL you have locked. You can retrieve this amount from the veBAL page at https://app.balancer.fi/#/vebal">
+                    <TextField
+                        id="lockedVeBAL"
+                        label="Your locked veBAL"
+                        type="text"
+                        size="small"
+                        value={lockedVeBAL}
+                        onChange={(e) => handlelockedVeBALChange(e)}
+                        error={isNaN(lockedVeBAL)}
+                        helperText={isNaN(lockedVeBAL) ? "Locked lockedVeBAL must be a number" : ""}
+                    />
                 </Tooltip>
                 <TextField
                     id="newLockedVeBAL"
@@ -171,8 +171,9 @@ export default function BoostForm(props) {
         <div>
             <Box>
                 <Header>
-                    veBAL Boost = {<DynamicValueFormatter value={Number(boost).toFixed(3)} name={'boostValue'} decimals={3} />}x
+                    veBAL Boost = {<DynamicValueFormatter value={Number(boost).toFixed(3)} name={'boostValue'} decimals={3} />}* x
                 </Header>
+                <Typography variant="caption">* Approximation</Typography>
             </Box>
             <GaugeSelector
                 network={network}
@@ -203,14 +204,10 @@ export default function BoostForm(props) {
                 </Paper>
             </Box>
             <Box p={5} display="flex" alignItems="center" justifyContent="center">
- 
-                    <Box className={classes.root}>
-                        <Typography>You can find additional information about veBAL Boosting on our <Link href="https://balancer-dao.gitbook.io/learn-about-balancer/fundamentals/vebal-tokenomics/financial-implications/boosting-bal-incentives/calculating-my-boost">DAO community documentation</Link></Typography>
-                        
-                    </Box>
-
+                <Box className={classes.root}>
+                    <Typography>You can find additional information about veBAL Boosting on our <Link href="https://balancer-dao.gitbook.io/learn-about-balancer/fundamentals/vebal-tokenomics/financial-implications/boosting-bal-incentives/calculating-my-boost">DAO community documentation</Link></Typography>
+                </Box>
             </Box>
-
         </div>
     );
 };
