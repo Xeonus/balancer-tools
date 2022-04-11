@@ -123,7 +123,7 @@ export default function Dashboard() {
                             </Box>
                         </Box>
                         <Box display="flex" alignItems="center" >
-                        <FormControl variant="outlined" size="small" className={classes.formControl}>
+                        <FormControl size="small" className={classes.formControl}>
                                 <Select
                                     color = "primary"
                                     labelId="networkSelectLabel"

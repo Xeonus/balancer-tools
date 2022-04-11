@@ -90,6 +90,7 @@ export const myStyles = makeStyles(() => ({
     formControl: {
         margin: '8px',
         minWidth: 'auto',
+        
     },
     tabTheme: {
         background: 'linear-gradient(20deg, #1022d7 25%, #6a7cff 95%)',
@@ -174,20 +175,20 @@ export const myStyles = makeStyles(() => ({
           boxShadow: "0 4px 15px 0 rgb(255 100 50 / 0%)",
           transition: "all .2s ease-out",
         },
-        boxShadow: "0 4px 15px 0 rgb(224 100 61 / 8%)",
+        boxShadow: "3",
         margin: "0",
         border: "0",
         size: "small",
       },
     navButton: {
         color: "white",
-        height: "40px",
-        borderRadius: "8px",
+        height: "35px",
+        borderRadius: "6px",
         textDecoration: "none",
         fontWeight: "600",
         backgroundSize: "200% 100%",
         background: "linear-gradient(90deg,#1022d7,#6a7cff,#00f)",
-        boxShadow: "0 4px 15px 0 rgb(224 100 61 / 8%)",
+        boxShadow: "5",
         margin: "0",
         border: "0",
         size: "small",

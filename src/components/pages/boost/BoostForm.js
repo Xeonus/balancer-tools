@@ -3,6 +3,7 @@ import { myStyles } from '../../../styles/styles';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import Header from '../../UI/Header';
 import GaugeSelector from '../../UI/GaugeSelector/GaugeSelector';
