@@ -158,7 +158,8 @@ export const myStyles = makeStyles(() => ({
         alignItems: 'center',
         display: 'flex',
         justifyContent: 'center',
-        //maxWidth: '700px',
+        borderRadius: 10,
+        maxWidth: '700px',
         
       },
       button: {

@@ -25,7 +25,7 @@ export default function PoolSelector(props) {
   //Lift state to parent (BoostForm)
   const handleChange = (event) => {
     const totalShare = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
-    props.onChange(event.target.value, props.veBAL, Number(totalStake).toFixed(2), props.share, Number(totalShare).toFixed(2));
+    props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(totalStake).toFixed(2), props.newShare, props.share, Number(totalShare).toFixed(2));
   };
 
   //Gauge Data query Hook (do not encapsulate for state)
@@ -76,8 +76,8 @@ export default function PoolSelector(props) {
 
   return (
     <div>
-      <Box display="flex" justifyContent="center" p={0.5} key={'poolSelector'}>
-        <Paper className={classes.form} variant="outlined" square>
+      <Box display="flex" justifyContent="center" p={1} key={'poolSelector'}>
+        <Paper className={classes.form}>
           <Box p={1} flexDirection="row" justifyContent="center" key={'poolSelector'}>
             <Box display="flex" alignItems="center" justifyContent="center">
               <Box p={0.5}>

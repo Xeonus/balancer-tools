@@ -23,6 +23,7 @@ export default function getGaugeArray(data, poolArray) {
             name: poolName,
             totalStaked: totalSupply,
             pricePerBPT: bptPrice,
+            totalStakedUSD: Number(totalSupply) * Number(bptPrice),
         }
             if (gaugeEntry.totalStaked > 0) {
             gaugeArray.push(gaugeEntry);
