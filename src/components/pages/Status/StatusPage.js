@@ -17,7 +17,7 @@ export default function StatusPage(props) {
 
     return (
         <div key={props.networkId}>
-            <Grid item xs={12}> <Header>Balancer Status Dashboard</Header> </Grid>
+            <Grid item> <Header>Balancer Status Dashboard</Header> </Grid>
             <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={networkConfigs[0].id}>
             <GraphQLStatus network={networkConfigs[0]} />
             </Box>

@@ -35,7 +35,7 @@ export default function PageStatus(props) {
             <div key={"pageSuccess" + props.url}>
                 <Alert severity="success">
                     <AlertTitle>App Status {props.url} : Success</AlertTitle>
-                    Balancer app is reachable — <strong>all systems a go!</strong>
+                    Balancer app is reachable
                 </Alert>
             </div>
         );

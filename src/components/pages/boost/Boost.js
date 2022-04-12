@@ -12,10 +12,8 @@ export default function Boost(props) {
             <Grid item xs={12}> 
             <Header>veBAL Boost Calculator</Header>
                 <Box >
-                    <img src={VeBalLogo} alt="veBAL Logo" width="150" />
+                    <img src={VeBalLogo} alt="veBAL Logo" width="120" />
                 </Box>
-            </Grid>
-            <Grid item xs={12}>
             </Grid>
             {props.networkId === 'ethereum' ?
                 <Grid item xs={12} justifyContent="center">

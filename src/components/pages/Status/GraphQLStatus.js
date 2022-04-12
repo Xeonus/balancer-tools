@@ -35,14 +35,14 @@ export default function GraphQLStatus(props) {
     if (error) return (
         <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
-            GraphQL Endpoint is down — <strong>check it out!</strong>
+            GraphQL Endpoint is down
         </Alert>
     );
     return (
         <div key={props.networkId}>
             <Alert severity="success">
                 <AlertTitle>GraphQL @ {props.network.name}: Success</AlertTitle>
-                GraphQL Endpoint reachable — <strong>all systems a go!</strong>
+                GraphQL Endpoint reachable
             </Alert>
         </div>
     );

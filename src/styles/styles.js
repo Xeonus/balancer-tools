@@ -159,7 +159,6 @@ export const myStyles = makeStyles(() => ({
         display: 'flex',
         justifyContent: 'center',
         borderRadius: 10,
-        maxWidth: '700px',
         
       },
       button: {

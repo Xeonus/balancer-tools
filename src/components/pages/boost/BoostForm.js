@@ -4,10 +4,10 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import { Box, Typography, Tooltip, Link } from '@mui/material';
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
-import Header from '../../UI/Header';
 import GaugeSelector from '../../UI/GaugeSelector/GaugeSelector';
 import { networks } from '../../constants/networkConfigs';
 import { calculateBoostFromGauge } from '../../../utils/calculateBoostFromGauge';
+import { isBrowser } from 'react-device-detect';
 
 export default function BoostForm(props) {
 
@@ -144,7 +144,7 @@ export default function BoostForm(props) {
                 />
                 <TextField
                     id="yourShare"
-                    label="Your already staked Share ($)"
+                    label="Your already staked BPT ($)"
                     type="text"
                     size="small"
                     value={(share)}
@@ -154,7 +154,7 @@ export default function BoostForm(props) {
                 />
                 <TextField
                     id="additionalShare"
-                    label="Additional/New Staked Share ($)"
+                    label="Additional/New Staked BPT ($)"
                     type="text"
                     size="small"
                     value={(newShare)}
@@ -169,10 +169,10 @@ export default function BoostForm(props) {
 
     return (
         <div>
-            <Box>
-                <Header>
+            <Box mb={0.5}>
+                <Typography variant={isBrowser ? "h4": "h5"}>
                     veBAL Boost = {<DynamicValueFormatter value={Number(boost).toFixed(3)} name={'boostValue'} decimals={3} />}* x
-                </Header>
+                </Typography>
                 <Typography variant="caption">* Approximation</Typography>
             </Box>
             <GaugeSelector
@@ -187,23 +187,23 @@ export default function BoostForm(props) {
                 onChange={handleIdChange}
                 darkState={props.darkState}>
             </GaugeSelector>
-            <Box p={1} display="flex" alignItems="center" justifyContent="center">
-                <Paper className={classes.form}>
+            <Box mt={0.5} display="flex" alignItems="center" justifyContent="center">
+                <Paper className={classes.form} variant="outlined" square>
                     <Box className={classes.root} >
                         <Typography variant="h6">Gauge Parameters</Typography>
                         {gaugeParamsForm()}
                     </Box>
                 </Paper>
             </Box>
-            <Box p={1} display="flex" alignItems="center" justifyContent="center">
-                <Paper className={classes.form}>
+            <Box mt={0.5} display="flex" alignItems="center" justifyContent="center">
+                <Paper className={classes.form} variant="outlined" square>
                     <Box className={classes.root}>
                         <Typography variant="h6">User configuration</Typography>
                         {userInputForm()}
                     </Box>
                 </Paper>
             </Box>
-            <Box p={5} display="flex" alignItems="center" justifyContent="center">
+            <Box mt={1} display="flex" alignItems="center" justifyContent="center">
                 <Box className={classes.root}>
                     <Typography>You can find additional information about veBAL Boosting on our <Link href="https://balancer-dao.gitbook.io/learn-about-balancer/fundamentals/vebal-tokenomics/financial-implications/boosting-bal-incentives/calculating-my-boost">DAO community documentation</Link></Typography>
                 </Box>

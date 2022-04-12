@@ -76,11 +76,11 @@ export default function PoolSelector(props) {
 
   return (
     <div>
-      <Box display="flex" justifyContent="center" p={1} key={'poolSelector'}>
-        <Paper className={classes.form}>
+      <Box mb={0.5} display="flex" justifyContent="center" key={'poolSelector'}>
+        <Paper className={classes.form} variant="outlined" square>
           <Box p={1} flexDirection="row" justifyContent="center" key={'poolSelector'}>
             <Box display="flex" alignItems="center" justifyContent="center">
-              <Box p={0.5}>
+              <Box mb={0.5}>
                 <img src={props.network.id === 'fantom' ? BeethovenLogo : balLogo} alt="Balancer Logo" width="30" />
               </Box>
               <Box mb={0.5}>
@@ -90,7 +90,7 @@ export default function PoolSelector(props) {
               </Box>
             </Box>
             <Box>
-              <FormControl sx={{ m: 1, minWidth: 200 }}>
+              <FormControl sx={{ m:1, minWidth: 200 }} size="small">
                 <InputLabel
                   id="gaugeSelection"
                 >
@@ -100,7 +100,6 @@ export default function PoolSelector(props) {
                   id="poolSelection-autowidth"
                   value={props.poolId}
                   onChange={handleChange}
-                  autoWidth
                   label="Select Gauge"
                 >
                   {

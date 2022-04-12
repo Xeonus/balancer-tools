@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { myStyles } from '../../../styles/styles';
+import { isBrowser } from 'react-device-detect';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -280,17 +281,13 @@ export default function ILFormField(props) {
 
   const dataTable = (assetArray, investment, SwapFee) => (
     <Box display="flex" justifyContent="center" mb={2}>
-      <Paper  className={classes.form} variant="outlined" square>
         <DataTable assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTable>
-      </Paper>
     </Box>
   )
 
   const dataTableTokens = (assetArray, investment, SwapFee) => (
     <Box display="flex" justifyContent="center" mt={2}>
-      <Paper className={classes.form} variant="outlined" square>
         <DataTableTokens assetArray={assetArray} investment={investment} SwapFee={SwapFee} darkState={props.darkState}></DataTableTokens>
-      </Paper>
     </Box>
   )
 
@@ -349,7 +346,7 @@ export default function ILFormField(props) {
           </Header>
           {dataTable(assetArray, investment, SwapFee)}
           {dataTableTokens(assetArray, investment, SwapFee)}
-          {iLGraphs(assetArray, SwapFee, props.darkState)}
+          {isBrowser ? iLGraphs(assetArray, SwapFee, props.darkState) : null}
         </Paper>
       </Box>
 

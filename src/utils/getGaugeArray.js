@@ -4,9 +4,8 @@ export default function getGaugeArray(data, poolArray) {
     //Obtain gauge data from gauge subgraph
     let gaugeArray = [];
     //total veBAL staked:
-    const totalStaked = data.votingEscrows[0].stakedSupply;
+    const totalStaked = Number(data.votingEscrows[0].stakedSupply) / 1.4194;
     data.liquidityGauges.forEach(({ poolAddress, poolId, symbol, totalSupply}) => {
-
         //Only add whitelisted Gauges:
         if (GAUGE_WHITELIST_MAINNET.includes(poolId)) {
             //Find relevant pool information

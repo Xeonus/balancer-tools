@@ -72,7 +72,7 @@ export default function PoolSelector(props) {
               </Box>
             </Box>
             <Box>
-              <FormControl sx={{ m: 1, minWidth: 200 }}>
+              <FormControl sx={{ m:1, minWidth: 200 }} size="small">
                 <InputLabel
                   id="poolSelection"
                 >

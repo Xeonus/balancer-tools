@@ -44,7 +44,7 @@ export default function HerokuStatus(props) {
             <div key={"heroku"}>
                 <Alert severity="success">
                     <AlertTitle>Heroku: Success</AlertTitle>
-                    Heroku Endpoint reachable — <strong>Full-stack apps are a go!</strong>
+                    Heroku Endpoint reachable
                 </Alert>
             </div>
         );
