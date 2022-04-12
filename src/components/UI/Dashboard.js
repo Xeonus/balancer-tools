@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
-import { isBrowser } from 'react-device-detect';
+import { isBrowser, isMobile } from 'react-device-detect';
 import Container from "@mui/material/Container";
 import { Box, Drawer } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -137,7 +137,7 @@ export default function Dashboard() {
                                     <NavBar classes={classes} />
                                 </Box> 
                             </Box> : null }
-                            <Box display="flex" alignItems="center" justifyContent='flex-end' flexGrow={1}>
+                            <Box display="flex" alignItems="center" justifyContent='flex-end' flexGrow={isMobile ? 1 : null}>
                                 <FormControl size="small" className={classes.formControl}>
                                     <Select
                                         color="primary"
@@ -215,9 +215,10 @@ export default function Dashboard() {
                                 <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                                     {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                                 </IconButton>
+                                { isMobile ?
                                 <IconButton sx={{ ml: 1 }} onClick={handleDrawerOpen} color="inherit">
                                     {theme.palette.mode === 'dark' ? <MenuIcon /> : <MenuIcon />}
-                                </IconButton>
+                                </IconButton>: null }
                                 <Drawer
                                     anchor={anchor}
                                     open={open}
