@@ -32,7 +32,7 @@ export default function PoolSelector(props) {
 
   //Handle poolID change and asynchronously call vyper contract to get working_supply -> TODO refactor call
   const handleChange = async (event) => {
-    //const totalShare = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
+    const totalStakedLiquidity = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
     //const working_supply_vyper = asyncFunction(getVyperIdFromPoolId(event.target.value, gaugeArray));
     let provider;
     if (window.ethereum) {
@@ -53,14 +53,18 @@ export default function PoolSelector(props) {
     provider
   );
   let resp = 0;
+  let totalStake = await vyperContract.totalSupply();
+  console.log("totalStake", ethers.utils.formatEther(totalStake))
   resp = await vyperContract.working_supply();
+  console.log("working_supply", ethers.utils.formatEther(resp))
   const veBalResp = await veBALContract.totalSupply(Math.floor(Date.now() / 1000));
   if (resp === 0 ) {
     loading = true;
   }
   if (resp > 0) {
   const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp))
-  props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2));
+  const totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake))
+  props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2), totalStakeInUSD);
   }  
 };
 

@@ -21,6 +21,7 @@ export default function BoostForm(props) {
     const [share, setShare] = React.useState(500.0);
     const [newShare, setNewShare] = React.useState(0.0);
     const [totalShare, setTotalShare] = React.useState(10000.0);
+    const [totalStakedLiquidity, setTotalStakedLiquidity] = React.useState(10000.0);
     const [boost, setBoost] = React.useState(1.0);
     const [poolId, setPoolId] = React.useState('');
     const network = networks.find(x => x.id === props.networkId);
@@ -28,31 +29,31 @@ export default function BoostForm(props) {
     //Event handlers
     const handlelockedVeBALChange = (event) => {
         setlockedVeBAL(event.target.value);
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleNewLockedVeBALChange = (event) => {
         setNewlockedVeBAL(event.target.value);
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleTotallockedVeBALChange = (event) => {
         setTotallockedVeBALStaked(event.target.value);
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleShareChange = (event) => {
         setShare(event.target.value);
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleNewShareChange = (event) => {
         setNewShare(event.target.value);
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleTotalShareChange = (event) => {
         setTotalShare(event.target.value);
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
 
     //Toggle Gauge selector id change
-    function handleIdChange(newId, newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare) {
+    function handleIdChange(newId, newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity) {
         setPoolId(newId);
         setlockedVeBAL(lockedVeBAL);
         setNewlockedVeBAL(newlockedVeBAL);
@@ -60,14 +61,15 @@ export default function BoostForm(props) {
         setShare(share);
         setNewShare(newShare);
         setTotallockedVeBALStaked(totallockedVeBALStaked);
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
+        setTotalStakedLiquidity(totalStakedLiquidity);
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
 
     }
 
     //Explicitly trigger state changes on user input updates!
     useEffect(() => {
-        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare));
-    }, [newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare]);
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+    }, [newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity]);
 
 
     //Network Params form
@@ -184,6 +186,7 @@ export default function BoostForm(props) {
                 totalShare={totalShare}
                 share={share}
                 newShare={newShare}
+                totalStakedLiquidity={totalStakedLiquidity}
                 onChange={handleIdChange}
                 darkState={props.darkState}>
             </GaugeSelector>

@@ -1,24 +1,18 @@
 //Helper function to calculate Boost for a certain gauge / veBAL configuration
-export function calculateBoostFromGauge(newVeBAL, lockedVeBAL, totalVeBALStaked, newShare, share, totalShare) {
+export function calculateBoostFromGauge(newVeBAL, lockedVeBAL, totalVeBALStaked, newShare, share, totalShare, totalStakedLiquidity) {
 
     //console.log("vars: ", newVeBAL, lockedVeBAL, totalVeBALStaked, newShare, share, totalShare)
     let boost = 0.0;
     //Calculate working supply:
     const liquidity_provided = Number(newShare) + Number(share);
     //const working_supply_pool = Number(totalShare);
-    const supply_user = 0.4 * liquidity_provided + 0.6 * (Number(totalShare)) * ((Number(lockedVeBAL) + Number(newVeBAL)) / (Number(totalVeBALStaked) + Number(newVeBAL)));
+    const supply_user = 0.4 * liquidity_provided + 0.6 * (Number(totalStakedLiquidity)) * ((Number(lockedVeBAL) + Number(newVeBAL)) / (Number(totalVeBALStaked) + Number(newVeBAL)));
     //Take the minimum of working supply limit and liquidity provided
     let working_supply_user = Number(Math.min(supply_user, liquidity_provided));
     //Non-boosted supply
     let non_boosted_working_supply_user = 0.4 * liquidity_provided;
     //Max working supply for 2.5x
-    const max_working_supply_user = 0.40 * liquidity_provided + 0.60 * (Number(totalShare)) * (Number(newShare) / (Number(totalShare)));
-
-    //console.log("supply_user", supply_user);
-    //console.log("working_supply_user", working_supply_user);
-    //console.log("non_boosted_working_supply", non_boosted_working_supply_user);
-    //console.log("max_working_supply_user", max_working_supply_user)
-
+    const max_working_supply_user = 0.40 * liquidity_provided + 0.60 * (Number(totalStakedLiquidity)) * (Number(newShare) / (Number(totalShare)));
     //Boost calculation depending 2 scenarios: new liquidity or already providing liquidity and adding more
 
     if (Number(newShare) === 0.0 && Number(newVeBAL) === 0.0) {
