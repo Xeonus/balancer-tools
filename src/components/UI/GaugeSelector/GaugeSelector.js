@@ -20,23 +20,51 @@ import getPoolArray from '../../../utils/getPoolArray';
 //import getVyperContractWorkingSupply from '../../../utils/getVyperContractWorkingSupply';
 //import vyperABI from './../components/constants/ABIs/vyperABI.json';
 import vyperABI from './../../constants/ABIs/vyperABI.json'
+import veBALABI from './../../constants/ABIs/veBALABI.json'
 import { ethers } from "ethers";
 import getTotalSharesFromGauge from '../../../utils/getTotalSharesFromGauge';
+import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
 
 export default function PoolSelector(props) {
 
   //Init styles
   const classes = myStyles();
 
-  //Lift state to parent (BoostForm)
-  const handleChange = (event) => {
-    const totalShare = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
-    console.log("vyperId", getVyperIdFromPoolId(event.target.value, gaugeArray));
-    asyncFunction(getVyperIdFromPoolId(event.target.value, gaugeArray));
-    props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(totalStake).toFixed(2), props.newShare, props.share, Number(totalShare).toFixed(2));
-  };
+  //Handle poolID change and asynchronously call vyper contract to get working_supply -> TODO refactor call
+  const handleChange = async (event) => {
+    //const totalShare = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
+    //const working_supply_vyper = asyncFunction(getVyperIdFromPoolId(event.target.value, gaugeArray));
+    let provider;
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      provider = new ethers.providers.InfuraProvider("homestead" ,'bd237506d816456797b7bede8375e021');
+    }
+    //Vyper contract to get working supply
+    const vyperContract = new ethers.Contract(
+    getVyperIdFromPoolId(event.target.value, gaugeArray),
+    vyperABI,
+    provider
+  );
+  //Vebal contract to get total supply of veBAL
+  const veBALContract = new ethers.Contract(
+    '0xC128a9954e6c874eA3d62ce62B468bA073093F25',
+    veBALABI,
+    provider
+  );
+  let resp = 0;
+  resp = await vyperContract.working_supply();
+  const veBalResp = await veBALContract.totalSupply(Math.floor(Date.now() / 1000));
+  if (resp === 0 ) {
+    loading = true;
+  }
+  if (resp > 0) {
+  const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp))
+  props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2));
+  }  
+};
 
-  //Gauge Data query Hook (do not encapsulate for state)
+  //Fetch Gauge Data query Hook (do not encapsulate for state)
   const {loading, error, data } = useQuery(
     getGaugeData,
     {
@@ -48,6 +76,7 @@ export default function PoolSelector(props) {
     },
   );
 
+  //Fetch Vyper contract data
   const asyncFunction = async (contractAddress) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
   const erc20 = new ethers.Contract(
@@ -56,8 +85,9 @@ export default function PoolSelector(props) {
     provider
   );
 
-  const working_supply = await erc20.working_supply();
-  console.log("working_pool_supply", ethers.utils.formatEther(working_supply));
+  const working_supply_pool = await erc20.working_supply();
+  console.log("working_supply_vyperContract", ethers.utils.formatEther(working_supply_pool));
+  return working_supply_pool
   }
 
   //Pool Data selector
