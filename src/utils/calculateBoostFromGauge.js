@@ -12,7 +12,7 @@ export function calculateBoostFromGauge(newVeBAL, lockedVeBAL, totalVeBALStaked,
     //Non-boosted supply
     let non_boosted_working_supply_user = 0.4 * liquidity_provided;
     //Max working supply for 2.5x
-    const max_working_supply_user = 0.40 * liquidity_provided + 0.60 * (Number(totalStakedLiquidity)) * (Number(newShare) / (Number(totalShare)));
+    //const max_working_supply_user = 0.40 * liquidity_provided + 0.60 * (Number(totalStakedLiquidity)) * (Number(newShare) / (Number(totalShare)));
     //Boost calculation depending 2 scenarios: new liquidity or already providing liquidity and adding more
 
     if (Number(newShare) === 0.0 && Number(newVeBAL) === 0.0) {
@@ -30,6 +30,8 @@ export function calculateBoostFromGauge(newVeBAL, lockedVeBAL, totalVeBALStaked,
     }
     if (boost > 2.5) {
         boost = 2.5
+    } else if (boost < 1) {
+        boost = 1.0
     }
 
     //console.log("boost", boost);

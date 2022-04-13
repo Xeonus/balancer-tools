@@ -51,6 +51,10 @@ export default function BoostForm(props) {
         setTotalShare(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
+    const handleTotalStakedLiquidityChange = (event) => {
+        setTotalStakedLiquidity(event.target.value);
+        setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+    }
 
     //Toggle Gauge selector id change
     function handleIdChange(newId, newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity) {
@@ -99,13 +103,23 @@ export default function BoostForm(props) {
                 </Tooltip>
                 <TextField
                     id="totalShare"
-                    label="Gauge TVL Staked ($)"
+                    label="Gauge Working Staked Supply ($)"
                     type="text"
                     size="small"
                     value={totalShare}
                     onChange={(e) => handleTotalShareChange(e)}
                     error={isNaN(totalShare)}
-                    helperText={isNaN(totalShare) ? "Total share must be a number" : ""}
+                    helperText={isNaN(totalShare) ? "Gauge working supply must be a number" : ""}
+                />
+                <TextField
+                    id="totalLiquidityStaked"
+                    label="Gauge Total Liquidity Staked ($)"
+                    type="text"
+                    size="small"
+                    value={totalStakedLiquidity}
+                    onChange={(e) => handleTotalStakedLiquidityChange(e)}
+                    error={isNaN(totalStakedLiquidity)}
+                    helperText={isNaN(totalStakedLiquidity) ? "Total share must be a number" : ""}
                 />
             </Box>
         </Box>

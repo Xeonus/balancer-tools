@@ -14,15 +14,11 @@ import BalancerLogo from './../../../resources/logo-dark.svg'
 import BalancerLogoLight from './../../../resources/logo-light.svg'
 import BeethovenLogo from './../../../resources/beets-icon-large.png'
 import getGaugeArray from '../../../utils/getGaugeArray';
-import getTotalShareFromGaugeArray from '../../../utils/getTotalShareFromGaugeArray';
 import getVyperIdFromPoolId from '../../../utils/getVyperIdFromPoolId';
 import getPoolArray from '../../../utils/getPoolArray';
-//import getVyperContractWorkingSupply from '../../../utils/getVyperContractWorkingSupply';
-//import vyperABI from './../components/constants/ABIs/vyperABI.json';
 import vyperABI from './../../constants/ABIs/vyperABI.json'
 import veBALABI from './../../constants/ABIs/veBALABI.json'
 import { ethers } from "ethers";
-import getTotalSharesFromGauge from '../../../utils/getTotalSharesFromGauge';
 import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
 
 export default function PoolSelector(props) {
@@ -32,8 +28,6 @@ export default function PoolSelector(props) {
 
   //Handle poolID change and asynchronously call vyper contract to get working_supply -> TODO refactor call
   const handleChange = async (event) => {
-    const totalStakedLiquidity = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
-    //const working_supply_vyper = asyncFunction(getVyperIdFromPoolId(event.target.value, gaugeArray));
     let provider;
     if (window.ethereum) {
       provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -53,18 +47,14 @@ export default function PoolSelector(props) {
     provider
   );
   let resp = 0;
-  let totalStake = await vyperContract.totalSupply();
-  console.log("totalStake", ethers.utils.formatEther(totalStake))
+  let totalStake = 0;
   resp = await vyperContract.working_supply();
-  console.log("working_supply", ethers.utils.formatEther(resp))
+  totalStake = await vyperContract.totalSupply();
   const veBalResp = await veBALContract.totalSupply(Math.floor(Date.now() / 1000));
-  if (resp === 0 ) {
-    loading = true;
-  }
   if (resp > 0) {
   const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp))
   const totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake))
-  props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2), totalStakeInUSD);
+  props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2), Number(totalStakeInUSD).toFixed(2));
   }  
 };
 
@@ -79,20 +69,6 @@ export default function PoolSelector(props) {
       fetchPolicy: "no-cache",
     },
   );
-
-  //Fetch Vyper contract data
-  const asyncFunction = async (contractAddress) => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const erc20 = new ethers.Contract(
-    contractAddress,
-    vyperABI,
-    provider
-  );
-
-  const working_supply_pool = await erc20.working_supply();
-  console.log("working_supply_vyperContract", ethers.utils.formatEther(working_supply_pool));
-  return working_supply_pool
-  }
 
   //Pool Data selector
   const { loading: poolLoading, error: poolError, data: poolData } = useQuery(
@@ -122,7 +98,7 @@ export default function PoolSelector(props) {
 
   //Get Gauge Data by stitching together gauge and pool-data (for pool names and shares)
   const poolArray = getPoolArray (poolData);
-  const [gaugeArray, totalStake] = getGaugeArray(data, poolArray);
+  const gaugeArray = getGaugeArray(data, poolArray);
 
 
   
