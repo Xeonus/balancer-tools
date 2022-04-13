@@ -15,7 +15,13 @@ import BalancerLogoLight from './../../../resources/logo-light.svg'
 import BeethovenLogo from './../../../resources/beets-icon-large.png'
 import getGaugeArray from '../../../utils/getGaugeArray';
 import getTotalShareFromGaugeArray from '../../../utils/getTotalShareFromGaugeArray';
+import getVyperIdFromPoolId from '../../../utils/getVyperIdFromPoolId';
 import getPoolArray from '../../../utils/getPoolArray';
+//import getVyperContractWorkingSupply from '../../../utils/getVyperContractWorkingSupply';
+//import vyperABI from './../components/constants/ABIs/vyperABI.json';
+import vyperABI from './../../constants/ABIs/vyperABI.json'
+import { ethers } from "ethers";
+import getTotalSharesFromGauge from '../../../utils/getTotalSharesFromGauge';
 
 export default function PoolSelector(props) {
 
@@ -25,6 +31,8 @@ export default function PoolSelector(props) {
   //Lift state to parent (BoostForm)
   const handleChange = (event) => {
     const totalShare = getTotalShareFromGaugeArray(event.target.value, gaugeArray);
+    console.log("vyperId", getVyperIdFromPoolId(event.target.value, gaugeArray));
+    asyncFunction(getVyperIdFromPoolId(event.target.value, gaugeArray));
     props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(totalStake).toFixed(2), props.newShare, props.share, Number(totalShare).toFixed(2));
   };
 
@@ -39,6 +47,18 @@ export default function PoolSelector(props) {
       fetchPolicy: "no-cache",
     },
   );
+
+  const asyncFunction = async (contractAddress) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const erc20 = new ethers.Contract(
+    contractAddress,
+    vyperABI,
+    provider
+  );
+
+  const working_supply = await erc20.working_supply();
+  console.log("working_pool_supply", ethers.utils.formatEther(working_supply));
+  }
 
   //Pool Data selector
   const { loading: poolLoading, error: poolError, data: poolData } = useQuery(

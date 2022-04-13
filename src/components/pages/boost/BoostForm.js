@@ -205,7 +205,7 @@ export default function BoostForm(props) {
             </Box>
             <Box mt={1} display="flex" alignItems="center" justifyContent="center">
                 <Box className={classes.root}>
-                    <Typography>You can find additional information about veBAL Boosting on our <Link href="https://balancer-dao.gitbook.io/learn-about-balancer/fundamentals/vebal-tokenomics/financial-implications/boosting-bal-incentives/calculating-my-boost">DAO community documentation</Link></Typography>
+                    <Typography>You can find additional information about veBAL Boosting on our <Link href="https://balancer-dao.gitbook.io/learn-about-balancer/fundamentals/vebal-tokenomics/financial-implications/boosting-bal-incentives/calculating-my-boost" target="_blank">DAO community documentation</Link></Typography>
                 </Box>
             </Box>
         </div>

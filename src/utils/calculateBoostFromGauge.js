@@ -1,7 +1,7 @@
 //Helper function to calculate Boost for a certain gauge / veBAL configuration
 export function calculateBoostFromGauge(newVeBAL, lockedVeBAL, totalVeBALStaked, newShare, share, totalShare) {
 
-    console.log("vars: ", newVeBAL, lockedVeBAL, totalVeBALStaked, newShare, share, totalShare)
+    //console.log("vars: ", newVeBAL, lockedVeBAL, totalVeBALStaked, newShare, share, totalShare)
     let boost = 0.0;
     //Calculate working supply:
     const liquidity_provided = Number(newShare) + Number(share);
@@ -17,31 +17,31 @@ export function calculateBoostFromGauge(newVeBAL, lockedVeBAL, totalVeBALStaked,
         non_boosted_working_supply_user = 0;
     }
 
-    console.log("supply_user", supply_user);
-    console.log("working_supply_user", working_supply_user);
-    console.log("non_boosted_working_supply", non_boosted_working_supply_user);
-    console.log("max_working_supply_user", max_working_supply_user)
+    //console.log("supply_user", supply_user);
+    //console.log("working_supply_user", working_supply_user);
+    //console.log("non_boosted_working_supply", non_boosted_working_supply_user);
+    //console.log("max_working_supply_user", max_working_supply_user)
 
     //Boost calculation depending 2 scenarios: new liquidity or already providing liquidity and adding more
 
     if (Number(newShare) === 0.0 && Number(newVeBAL) === 0.0) {
         //Case 1: current boost
         boost = (working_supply_user / Number(totalShare)) / ((0.4 * Number(share)) / (Number(totalShare) - working_supply_user + 0.4 * Number(share)))
-        console.log("case1 triggered")
+        //console.log("case1 triggered")
     } else if (Number(share) !== 0.0 || Number(lockedVeBAL) !== 0.0) {
         //Case 2: user boost when adjusting current position (share !== 0)
         boost = (working_supply_user / (working_supply_user + Number(totalShare) - Number(share))) / ((non_boosted_working_supply_user) / (non_boosted_working_supply_user + Number(totalShare) - Number(share)));
-        console.log("case2 triggered")
+        //console.log("case2 triggered")
     } else {
         //Case 3: user boost when entering (share = 0)
         boost = (working_supply_user / (working_supply_user + Number(totalShare))) / (non_boosted_working_supply_user / (non_boosted_working_supply_user + Number(totalShare)))
-        console.log("case3 triggered")
+        //console.log("case3 triggered")
     }
     if (boost > 2.5) {
         boost = 2.5
     }
 
-    console.log("boost", boost);
+    //console.log("boost", boost);
 
     return boost;
 
