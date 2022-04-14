@@ -7,6 +7,8 @@ import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import GaugeSelector from '../../UI/GaugeSelector/GaugeSelector';
 import { networks } from '../../constants/networkConfigs';
 import { calculateBoostFromGauge } from '../../../utils/calculateBoostFromGauge';
+import { calculateMaxBoost } from '../../../utils/calculateMaxBoost';
+import { calculateMinVeBAL } from '../../../utils/calculateMinVeBal';
 import { isBrowser } from 'react-device-detect';
 
 export default function BoostForm(props) {
@@ -25,36 +27,53 @@ export default function BoostForm(props) {
     const [boost, setBoost] = React.useState(1.0);
     const [poolId, setPoolId] = React.useState('');
     const network = networks.find(x => x.id === props.networkId);
+    const [maxBoost, setMaxBoost] = React.useState(1.0);
+    const [minVeBAL, setMinVeBAL] = React.useState(100000);
 
     //Event handlers
     const handlelockedVeBALChange = (event) => {
         setlockedVeBAL(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleNewLockedVeBALChange = (event) => {
         setNewlockedVeBAL(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleTotallockedVeBALChange = (event) => {
         setTotallockedVeBALStaked(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleShareChange = (event) => {
         setShare(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleNewShareChange = (event) => {
         setNewShare(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleTotalShareChange = (event) => {
         setTotalShare(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
     const handleTotalStakedLiquidityChange = (event) => {
         setTotalStakedLiquidity(event.target.value);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
+
 
     //Toggle Gauge selector id change
     function handleIdChange(newId, newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity) {
@@ -67,12 +86,16 @@ export default function BoostForm(props) {
         setTotallockedVeBALStaked(totallockedVeBALStaked);
         setTotalStakedLiquidity(totalStakedLiquidity);
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
 
     }
 
     //Explicitly trigger state changes on user input updates!
     useEffect(() => {
         setBoost(calculateBoostFromGauge(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
+        setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }, [newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity]);
 
 
@@ -189,7 +212,11 @@ export default function BoostForm(props) {
                 <Typography variant={isBrowser ? "h4": "h5"}>
                     veBAL Boost = {<DynamicValueFormatter value={Number(boost).toFixed(3)} name={'boostValue'} decimals={3} />}* x
                 </Typography>
-                <Typography variant="caption">* Approximation</Typography>
+                <Typography> Maximum Boost Possible = {<DynamicValueFormatter value={Number(maxBoost).toFixed(3)} name={'maxBoostValue'} decimals={3} />}* x 
+                </Typography>
+                <Typography> Minimum veBAL for Maximum Boost = {<DynamicValueFormatter value={Number(minVeBAL).toFixed(3)} name={'minVeBAL'} decimals={2} />}*
+                </Typography>
+                <Typography variant="caption">* Approximation </Typography>
             </Box>
             <GaugeSelector
                 network={network}
