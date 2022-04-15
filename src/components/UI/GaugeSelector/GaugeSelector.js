@@ -29,11 +29,11 @@ export default function PoolSelector(props) {
   //Handle poolID change and asynchronously call vyper contract to get working_supply -> TODO refactor call
   const handleChange = async (event) => {
     let provider;
-    if (window.ethereum) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-    } else {
+    //if (window.ethereum) {
+    //  provider = new ethers.providers.Web3Provider(window.ethereum);
+    //} else {
       provider = new ethers.providers.InfuraProvider("homestead" ,'bd237506d816456797b7bede8375e021');
-    }
+    //}
     //Vyper contract to get working supply
     const vyperContract = new ethers.Contract(
     getVyperIdFromPoolId(event.target.value, gaugeArray),

@@ -212,9 +212,9 @@ export default function BoostForm(props) {
                 <Typography variant={isBrowser ? "h4": "h5"}>
                     veBAL Boost = {<DynamicValueFormatter value={Number(boost).toFixed(3)} name={'boostValue'} decimals={3} />}* x
                 </Typography>
-                <Typography> Maximum Boost Possible = {<DynamicValueFormatter value={Number(maxBoost).toFixed(3)} name={'maxBoostValue'} decimals={3} />}* x 
+                <Typography> Max. Possible Boost = {<DynamicValueFormatter value={Number(maxBoost).toFixed(3)} name={'maxBoostValue'} decimals={3} />}* x 
                 </Typography>
-                <Typography> Minimum veBAL for Maximum Boost = {<DynamicValueFormatter value={Number(minVeBAL).toFixed(3)} name={'minVeBAL'} decimals={2} />}*
+                <Typography> Min. veBAL for Max. Boost = {<DynamicValueFormatter value={Number(minVeBAL).toFixed(3)} name={'minVeBAL'} decimals={2} />}*
                 </Typography>
                 <Typography variant="caption">* Approximation </Typography>
             </Box>

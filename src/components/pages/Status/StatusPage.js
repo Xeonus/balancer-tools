@@ -33,13 +33,13 @@ export default function StatusPage(props) {
             <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"heroku"}>
                 <HerokuStatus/>
             </Box>
-            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"mainnet"}>
+            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"mainnetSite"}>
                 <PageStatus url={"https://app.balancer.fi/"} />
             </Box>
-            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"polygon"}>
+            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"polygonSite"}>
                 <PageStatus url={"https://polygon.balancer.fi/"} />
             </Box>
-            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"arbitrum"}>
+            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"arbitrumSite"}>
                 <PageStatus url={"https://arbitrum.balancer.fi/"} />
             </Box>
         </div>

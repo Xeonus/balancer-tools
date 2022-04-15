@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isBrowser } from 'react-device-detect';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -262,7 +263,7 @@ export default function PriceImpactSwapForm(props) {
                                 id="demo-simple-select"
                                 value={buyToken}
                                 label="Buy"
-                                autowidth
+                                autoWidth
                                 onChange={handleBuyChange}
                             >
                                 {buyMenuItems}
@@ -389,10 +390,8 @@ export default function PriceImpactSwapForm(props) {
     //Investment Table
     //consisting of initial investment, value if held and value if held in pool
     const dataTablePI = (assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee) => (
-        <Box display="flex" justifyContent="center" mb={2}>
-            <Paper className={classes.form} variant="outlined" square>
+        <Box display="flex" justifyContent="center" mb={2} overflowX='auto'>
                 <DataTablePI assetArray={assetArray} sellToken={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee}></DataTablePI>
-            </Paper>
         </Box>
     )
 
@@ -424,7 +423,7 @@ export default function PriceImpactSwapForm(props) {
                         Price Impact = {<DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4} />} %
                     </Header>
                     {dataTablePI(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee)}
-                    {pIGraphs(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, props.darkState)}
+                    {isBrowser ? pIGraphs(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, props.darkState) : null}
                 </Paper>
             </Box>
         </div >

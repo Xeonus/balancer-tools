@@ -5,10 +5,9 @@ export function calculateMinVeBAL(newVeBAL, lockedVeBAL, totalVeBALStaked, newSh
     const liquidity_provided = Number(newShare) + Number(share);
     // Calculate minveBAL for Max Boost
     let minveBAL = (totalVeBALStaked) * (liquidity_provided / ( Number(totalShare)));
-
-
-    console.log("cows", minveBAL);
-
+    if (minveBAL > 50000000) {
+        minveBAL = 0;
+    }
     return minveBAL;
 
 }
