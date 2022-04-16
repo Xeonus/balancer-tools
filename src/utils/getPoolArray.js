@@ -10,20 +10,23 @@ export default function getPoolArray(data) {
     data.balancers[0].pools.forEach(({ id, tokens, totalLiquidity, totalShares, poolType, name}) => {
 
         if (poolType === "Weighted" || poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom") {
+            let poolName = '';
             let ratios = " (" + tokens.map(e => Number(e.weight * 100).toFixed(0)).join('/') + ")";
             const tokenNames = tokens.map(e => e.symbol ? e.symbol : "MKR").join('/')
             const nameSet = [];
+            poolName = tokenNames + ratios;
             tokens.map(e => nameSet.push(e.symbol ? e.symbol : "MKR"))
             let weightArray = [];
             if (poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom") {
                 tokens.map( e => weightArray.push(Number( 100 / nameSet.length)));
                 //overwrite Ratios:
-                ratios = " (" + tokens.map(e => Number( 100 / nameSet.length).toFixed(0)).join('/') + ")"
+                //ratios = " (" + tokens.map(e => Number( 100 / nameSet.length).toFixed(0)).join('/') + ")"
+                poolName = tokenNames;
             }
             else {
             tokens.map(e => weightArray.push(Number(e.weight * 100)));
             }
-            const poolName = tokenNames + ratios;
+            //poolName = tokenNames + ratios;
             let tokenBalance = [];
             tokens.map(e => tokenBalance.push(Number(e.balance).toFixed(2)));
             let poolEntry = {

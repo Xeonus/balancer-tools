@@ -7,7 +7,6 @@
 
 #firebase
 .firebase
-firebase.json
 .firebaserc
 
 # testing
