@@ -3,6 +3,8 @@
 // 137: Polyon
 // 42161: Arbitrum
 
+//TODO: depreacte?
+
 
 //Polygon
 //const qiId = '0x580a84c73811e1839f75d86d75d88cca0c241ff4';
