@@ -3,14 +3,14 @@ import Header from "../../UI/Header";
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/material';
 import BoostForm from "./BoostForm";
-import { Typography } from "@mui/material";
 import VeBalLogo from './../../../resources/veBAL.png'
+import Alert from '@mui/material/Alert';
 
 export default function Boost(props) {
     return (
         <div key={props.networkId} >
-            <Grid item xs={12}> 
-            <Header>veBAL Boost Calculator</Header>
+            <Grid item xs={12}>
+                <Header>veBAL Boost Calculator</Header>
                 <Box >
                     <img src={VeBalLogo} alt="veBAL Logo" width="120" />
                 </Box>
@@ -20,7 +20,11 @@ export default function Boost(props) {
                     <BoostForm darkState={props.darkState} networkId={props.networkId}></BoostForm>
                 </Grid>
                 :
-                <Typography color="red" >Chain does not support veBAL yet!</Typography>
+                <Box p={0.5} display="flex" flexDirection="row" justifyContent="center">
+                <Alert severity="info">
+                    Chain does not support veBAL boosting!
+                </Alert>
+                </Box>
             }
         </div>
     );

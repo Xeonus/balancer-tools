@@ -46,11 +46,9 @@ export const myStyles = makeStyles(() => ({
     container: {
         flexGrow: 1,
         paddingTop: '8px',
-        paddingBottom: '8px',
         flexDirection: 'column',
         display: 'flex',
         justifyContent: 'center',
-        spacing: 2,
         //boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.35), 20px 20px 150px #FED533, -20px -20px 150px #EC4899",
 
     },

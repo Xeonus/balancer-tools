@@ -47,7 +47,7 @@ export default function Dashboard() {
     //    storedTheme = cookies.get('storedTheme');
     //} else {
     //    storedTheme = 'light';
-   // }
+    // }
 
     //Theme properties set once at dashboard level
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -65,7 +65,7 @@ export default function Dashboard() {
         () => ({
             toggleColorMode: () => {
                 setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-                
+
             },
         }),
         [],
@@ -128,6 +128,13 @@ export default function Dashboard() {
         <StyledEngineProvider injectFirst>
             <ColorModeContext.Provider value={colorMode}>
                 <ThemeProvider theme={theme} >
+                <Box
+                        sx={{
+                            display: 'flexStart',
+                            flexDirection: 'column',
+                            minHeight: '85vh',
+                        }}
+                    >
                     <AppBar position="static" color={"secondary"} background="transparent" style={{ margin: -0 }} >
                         <Toolbar className={classes.toolBar}>
                             <Box display="flex" alignItems="center" >
@@ -243,26 +250,44 @@ export default function Dashboard() {
                         </Toolbar>
                     </AppBar>
                     <CssBaseline />
-                    <Container className={classes.container}  >
-                        <Grid item xs="auto" component="span">
-                            <Routes>
-                                <Route path="/" element={<Navigate replace to="/boost" />} />
-                                <Route path="boost" element={<Boost classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
-                                <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
-                                <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} darkState={(mode === 'dark') ? true : false} />} />
-                                <Route path="status" element={<StatusPage classes={classes} />} />
-                                <Route path='/analytics' component={() => {
-                                    window.location.href = 'https://balancer-v2-info.web.app/';
-                                    return null;
-                                }} />
-                            </Routes>
-                            <Grid item xs={12} component="span" flex="1">
-                                <Box p={1}>
-                                    <Footer className={classes.footer}></Footer>
-                                </Box>
+
+                        <Container className={classes.container}>
+                            <Grid item xs="auto" component="span">
+                                <Routes>
+                                    <Route path="/" element={<Navigate replace to="/boost" />} />
+                                    <Route path="boost" element={<Boost classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
+                                    <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
+                                    <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} darkState={(mode === 'dark') ? true : false} />} />
+                                    <Route path="status" element={<StatusPage classes={classes} />} />
+                                    <Route path='/analytics' component={() => {
+                                        window.location.href = 'https://balancer-v2-info.web.app/';
+                                        return null;
+                                    }} />
+                                </Routes>
                             </Grid>
-                        </Grid>
-                    </Container>
+                        </Container>
+                    </Box>
+                    <Box
+                        component="footer"
+                        sx={{
+                            py: 2,
+                            px: 2,
+                            mt: 'auto',
+                            minHeight: '15vh',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            backgroundColor: (theme) =>
+                                theme.palette.mode === 'light'
+                                    ? theme.palette.grey[200]
+                                    : theme.palette.grey[800],
+                        }}
+                    >
+                        <Container className={classes.container}>
+                            <Grid item xs={12} component="span" flex="1">
+                                    <Footer className={classes.footer}></Footer>
+                            </Grid>
+                        </Container>
+                    </Box>
                 </ThemeProvider>
             </ColorModeContext.Provider>
         </StyledEngineProvider>
