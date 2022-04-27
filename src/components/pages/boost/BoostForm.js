@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
+import { isBrowser } from 'react-device-detect';
 import { myStyles } from '../../../styles/styles';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
-import { Box, Typography, Tooltip, Link } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Box, Typography, Tooltip } from '@mui/material';
 import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 import GaugeSelector from '../../UI/GaugeSelector/GaugeSelector';
 import { networks } from '../../constants/networkConfigs';
 import { calculateBoostFromGauge } from '../../../utils/calculateBoostFromGauge';
 import { calculateMaxBoost } from '../../../utils/calculateMaxBoost';
 import { calculateMinVeBAL } from '../../../utils/calculateMinVeBal';
-import { isBrowser } from 'react-device-detect';
+import Helper from './Helper';
 
 export default function BoostForm(props) {
 
@@ -29,6 +31,7 @@ export default function BoostForm(props) {
     const network = networks.find(x => x.id === props.networkId);
     const [maxBoost, setMaxBoost] = React.useState(1.0);
     const [minVeBAL, setMinVeBAL] = React.useState(100000);
+    const [showInfo, setShowInfo] = React.useState(false);
 
     //Event handlers
     const handlelockedVeBALChange = (event) => {
@@ -73,7 +76,10 @@ export default function BoostForm(props) {
         setMaxBoost(calculateMaxBoost(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
         setMinVeBAL(calculateMinVeBAL(newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity));
     }
-
+    //Toggle tooltip
+  const handleToolTipClick = (showInfo) => {
+    setShowInfo(!showInfo);
+  }
 
     //Toggle Gauge selector id change
     function handleIdChange(newId, newlockedVeBAL, lockedVeBAL, totallockedVeBALStaked, newShare, share, totalShare, totalStakedLiquidity) {
@@ -206,6 +212,18 @@ export default function BoostForm(props) {
         </Box>
     );
 
+    //Tooltip
+    const toolTip = (showInfo) => (
+
+        showInfo ?
+          <Box display="flex" justifyContent="center">
+            <Paper  className={classes.paper} variant="outlined" square>
+            <Helper/>
+            </Paper>
+          </Box>
+          : null
+      )
+
     return (
         <div>
             <Box mb={0.5}>
@@ -247,11 +265,15 @@ export default function BoostForm(props) {
                     </Box>
                 </Paper>
             </Box>
-            <Box mt={2} mb={2} display="flex" alignItems="center" justifyContent="center">
-                <Box className={classes.root}>
-                    <Typography>You can find additional information about veBAL Boosting on our <Link href="https://balancer-dao.gitbook.io/learn-about-balancer/fundamentals/vebal-tokenomics/financial-implications/boosting-bal-incentives/calculating-my-boost" target="_blank">DAO community documentation</Link></Typography>
-                </Box>
-            </Box>
+            <Box mt={1}>
+        <Button
+          variant="outlined"
+          onClick={(e) => handleToolTipClick(showInfo)}
+        >
+          {showInfo ? 'Hide Guide' : 'Show Guide'}
+        </Button>
+        {toolTip(showInfo)}
+      </Box>
         </div>
     );
 };

@@ -132,7 +132,7 @@ export default function Dashboard() {
                         sx={{
                             display: 'flexStart',
                             flexDirection: 'column',
-                            minHeight: '85vh',
+                            minHeight: '90vh',
                         }}
                     >
                     <AppBar position="static" color={"secondary"} background="transparent" style={{ margin: -0 }} >
@@ -270,10 +270,8 @@ export default function Dashboard() {
                     <Box
                         component="footer"
                         sx={{
-                            py: 2,
-                            px: 2,
                             mt: 'auto',
-                            minHeight: '15vh',
+                            minHeight: '10vh',
                             display: 'flex',
                             flexDirection: 'column',
                             backgroundColor: (theme) =>
