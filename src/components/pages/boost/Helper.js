@@ -24,9 +24,9 @@ export default function Helper() {
                     Let's say you want to calculate your potential boost for the WBTC/WETH gauge by investing 10'000$. Here is what you need to do:
                     <ul>
                         <li>Select the "WBTC/WETH" gauge in the Liquidity Mining Gauge dropdown</li>
-                        <li>If you have already veBAL locked, type in the amount in "Total veBAL Locked". You can find how much you have locked
-                            <Link color="inherit" href="https://app.balancer.fi/#/vebal" target="_blank">
-                                here
+                        <li>If you have already veBAL locked, type in the amount in "Total veBAL Locked". You can find how much you have locked 
+                            <Link color="inherit" href="https://app.balancer.fi/#/vebal" target="_blank"> {" "}
+                                 here
                             </Link>. If you want to add a new lock position, add your desired value in the "New/additional veBAL to lock" input field.
                         </li>
                         <li>As we want to calculate the potential boost for a 10k$ deposit, we add this amount to the "Additional/New Staked BPT ($)" input field </li>

@@ -216,7 +216,7 @@ export default function BoostForm(props) {
     const toolTip = (showInfo) => (
 
         showInfo ?
-          <Box display="flex" justifyContent="center">
+          <Box mb={0.5} display="flex" justifyContent="center">
             <Paper  className={classes.paper} variant="outlined" square>
             <Helper/>
             </Paper>
@@ -265,7 +265,7 @@ export default function BoostForm(props) {
                     </Box>
                 </Paper>
             </Box>
-            <Box mt={1}>
+            <Box mb={1} mt={1}>
         <Button
           variant="outlined"
           onClick={(e) => handleToolTipClick(showInfo)}
