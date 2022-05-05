@@ -226,15 +226,14 @@ export default function BoostForm(props) {
 
     return (
         <div>
-            <Box mb={0.5}>
-                <Typography variant={isBrowser ? "h4": "h5"}>
+            <Box display="flex" alignItems="center" justifyContent="center" flexDirection={"column"}>
+                <Typography variant={isBrowser ? "h5": "h6"}>
                     veBAL Boost = {<DynamicValueFormatter value={Number(boost).toFixed(3)} name={'boostValue'} decimals={3} />}* x
                 </Typography>
-                <Typography> Max. Possible Boost = {<DynamicValueFormatter value={Number(maxBoost).toFixed(3)} name={'maxBoostValue'} decimals={3} />}* x 
+                <Typography variant={"h7"}> Max. Possible Boost = {<DynamicValueFormatter value={Number(maxBoost).toFixed(3)} name={'maxBoostValue'} decimals={3} />}* x 
                 </Typography>
-                <Typography> Min. veBAL for Max. Boost = {<DynamicValueFormatter value={Number(minVeBAL).toFixed(3)} name={'minVeBAL'} decimals={2} />}*
+                <Typography variant={"h7"}> Min. veBAL for Max. Boost = {<DynamicValueFormatter value={Number(minVeBAL).toFixed(3)} name={'minVeBAL'} decimals={2} />}*
                 </Typography>
-                <Typography variant="caption">* Approximation </Typography>
             </Box>
             <GaugeSelector
                 network={network}

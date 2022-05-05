@@ -148,7 +148,7 @@ export const myStyles = makeStyles(() => ({
         textAlign: 'center',
         align: 'center',
         justifyContent: 'center',
-        color: '#272936',
+        borderRadius: 10,
       },
       form: {
         textAlign: 'center',

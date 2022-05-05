@@ -20,6 +20,8 @@ import vyperABI from './../../constants/ABIs/vyperABI.json'
 import veBALABI from './../../constants/ABIs/veBALABI.json'
 import { ethers } from "ethers";
 import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
+import getBPTPricePerPoolId from '../../../utils/getBPTPricePerPoolId';
+import VeBALBPTPrice from '../../pages/boost/VeBALBPTPrice';
 
 export default function PoolSelector(props) {
 
@@ -86,9 +88,9 @@ export default function PoolSelector(props) {
   if (loading || poolLoading) return (
     <div>
       <Grid>
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" alignItems={"center"} flexDirection="column">
           <CircularProgress></CircularProgress>
-          <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Gauges and Pool data...</Typography>
+          <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span"> Loading Gauges and Pool data...</Typography>
         </Box>
       </Grid>
     </div>);
@@ -100,20 +102,23 @@ export default function PoolSelector(props) {
   const poolArray = getPoolArray (poolData);
   const gaugeArray = getGaugeArray(data, poolArray);
 
+  console.log("bpt price", );
+
 
   
   const balLogo = props.darkState ? BalancerLogo : BalancerLogoLight;
 
   return (
     <div>
+      <VeBALBPTPrice bptPrice={getBPTPricePerPoolId(poolArray, '0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014')}></VeBALBPTPrice>
       <Box mb={0.5} display="flex" justifyContent="center" key={'poolSelector'}>
         <Paper className={classes.form} variant="outlined" square>
           <Box p={1} flexDirection="row" justifyContent="center" key={'poolSelector'}>
-            <Box display="flex" alignItems="center" justifyContent="center">
+            <Box display="flex" alignItems="center" justifyContent="center" flexDirection={"row"}>
               <Box mb={0.5}>
                 <img src={props.network.id === 'fantom' ? BeethovenLogo : balLogo} alt="Balancer Logo" width="30" />
               </Box>
-              <Box mb={0.5}>
+              <Box mb={0.5} pl={0.5}>
                 <Typography variant="h6" className={classes.root} key="appTitle">
                   Liquidity Mining Gauges
                 </Typography>

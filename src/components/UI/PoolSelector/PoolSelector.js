@@ -41,9 +41,9 @@ export default function PoolSelector(props) {
   if (loading) return (
     <div>
       <Grid>
-        <Box>
+      <Box display="flex" justifyContent="center" alignItems={"center"} flexDirection="column">
           <CircularProgress></CircularProgress>
-          <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Subgraph...</Typography>
+          <Typography noWrap={false} variant="subtitle1" color="textSecondary" component="span">Loading Pool Data...</Typography>
         </Box>
       </Grid>
     </div>);

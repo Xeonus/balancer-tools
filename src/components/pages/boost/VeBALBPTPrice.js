@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography } from '@mui/material';
+import DynamicValueFormatter from '../../UI/DynamicValueFormatter';
 
 
 export default function VeBALBPTPrice(props) {
@@ -11,9 +12,9 @@ export default function VeBALBPTPrice(props) {
 
     return (
 <div>
-            <Box mb={0.5}>
-                <Typography variant={isBrowser ? "h4": "h5"}>
-                    veBAL price ($) = {<DynamicValueFormatter value={Number(boost).toFixed(3)} name={'veBALPrice'} decimals={3} />}*
+            <Box mb={0.5} display="flex" alignItems="center" justifyContent="center" flexDirection={"column"}>
+                <Typography variant={"h7"}>
+                    1 veBAL = {<DynamicValueFormatter value={Number(props.bptPrice).toFixed(3)} name={'veBALPrice'} decimals={3} />} $*
                 </Typography>
                 <Typography variant="caption">* Approximation </Typography>
             </Box>

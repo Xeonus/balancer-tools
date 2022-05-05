@@ -9,7 +9,7 @@ export default function getPoolArray(data) {
     let poolArray = [];
     data.balancers[0].pools.forEach(({ id, tokens, totalLiquidity, totalShares, poolType, name}) => {
 
-        if (poolType === "Weighted" || poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom") {
+        if (poolType === "Weighted" || poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom" || poolType === "Element") {
             let poolName = '';
             let ratios = " (" + tokens.map(e => Number(e.weight * 100).toFixed(0)).join('/') + ")";
             const tokenNames = tokens.map(e => e.symbol ? e.symbol : "MKR").join('/')
@@ -17,7 +17,7 @@ export default function getPoolArray(data) {
             poolName = tokenNames + ratios;
             tokens.map(e => nameSet.push(e.symbol ? e.symbol : "MKR"))
             let weightArray = [];
-            if (poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom") {
+            if (poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom" || poolType === "Element") {
                 tokens.map( e => weightArray.push(Number( 100 / nameSet.length)));
                 //overwrite Ratios:
                 //ratios = " (" + tokens.map(e => Number( 100 / nameSet.length).toFixed(0)).join('/') + ")"

@@ -31,6 +31,6 @@ export default function getGaugeArray(data, poolArray) {
         }
         });
     //sort by totalStake
-    gaugeArray.sort((a, b) => (b.totalSupply - a.totalSupply)); 
+    gaugeArray.sort((a, b) => (b.totalStakedUSD - a.totalStakedUSD)); 
     return gaugeArray;
 }
