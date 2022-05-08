@@ -38,3 +38,19 @@ export const getGaugeData = gql`
   }
 }
   `;
+
+export const getGaugeUserVotes = gql`
+{
+  gaugeVotes(
+    where: {gauge_contains_nocase: "0xFBf87D2C22d1d298298ab5b0Ec957583a2731d15"}
+  ) {
+    weight
+    user {
+      votingLocks {
+        lockedBalance
+      }
+      id
+    }
+  }
+}
+  `;
