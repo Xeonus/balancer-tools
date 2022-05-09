@@ -17,3 +17,4 @@ Balancer.tools is a community tooling site to better understand the Balancer eco
 * Impermanent loss calculation per address
 * Incentives overview with APR ranges for new gauge system
 * Fallback UI to withdraw funds from Balancer pools / contracts
+* Helpers such as gauge vote allocation
