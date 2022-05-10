@@ -57,13 +57,12 @@ const {loading, error, data } = useQuery(
           console.log("totalweight*LockedSum", totalWeightLockSum);
           //Print relavite per user alloc
           data.gaugeVotes.forEach((voter) => {
-            console.log("address", voter.user.id);
-            console.log("weight(%)", (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance)) / totalWeightLockSum * 100)
+            console.log(voter.user.id, " ", (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance)) / totalWeightLockSum * 100);
             sum += (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance) / totalWeightLockSum )
               
 
           })
-          console.log("totalUserBribeWeightInPercent", sum*100)
+          //console.log("totalUserBribeWeightInPercent", sum*100)
           return( <Typography>Loaded</Typography>)
       }
       
