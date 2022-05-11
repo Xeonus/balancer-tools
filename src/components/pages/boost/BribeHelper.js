@@ -2,7 +2,7 @@ import * as React from 'react';
 import { getGaugeUserVotes } from './../../data/queries/operations';
 import { useQuery } from "@apollo/client";
 import Box from '@mui/material/Box';
-import { Grid, Paper } from '@mui/material';
+import { Grid } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import { Typography } from '@mui/material';
 import { networks } from '../../constants/networkConfigs';
@@ -39,29 +39,28 @@ const {loading, error, data } = useQuery(
 
 
       //Metrics
-      let weightSum = 0.0;
-      let lockSum = 0.0;
       let totalWeightLockSum = 0.0
-      let sum = 0;
 
       if (data.gaugeVotes) {
           console.log("data", data);
           //Obtain total weights
           data.gaugeVotes.forEach((voter) => {
-            weightSum += Number(voter.weight);
-            lockSum += Number(voter.user.votingLocks[0].lockedBalance);
+            console.log(Number(voter.weight))
             totalWeightLockSum += (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance));
               
 
           })
+          //add Mike
+          totalWeightLockSum += Number(0.00000000000001 * 600);
           console.log("totalweight*LockedSum", totalWeightLockSum);
           //Print relavite per user alloc
           data.gaugeVotes.forEach((voter) => {
             console.log(voter.user.id, " ", (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance)) / totalWeightLockSum * 100);
-            sum += (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance) / totalWeightLockSum )
+            //sum += (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance) / totalWeightLockSum )
               
 
           })
+          console.log("0xf01cc7154e255d20489e091a5aea10bc136696a8", Number(0.00000000000001 * 600 / totalWeightLockSum * 100) )
           //console.log("totalUserBribeWeightInPercent", sum*100)
           return( <Typography>Loaded</Typography>)
       }
