@@ -17,7 +17,7 @@ export function calculateGaugeAPR (poolId, gaugeArray, boost, gauge_relative_wei
     console.log("gauge_working_supply", Number(gauge_working_supply));
     console.log("shareOneBPT", shareOneBPT);
     console.log("weeklyReward", weeklyReward);
-    console.log("standardAPR", gauge_relative_weight * balEmission * bal_price * 52 * 100 / (Number(gauge_working_supply) * gauge_bpt_price))
-    console.log("minAPR", apr);
+    //console.log("standardAPR", gauge_relative_weight * balEmission * bal_price * 52 * 100 / (Number(gauge_working_supply) * gauge_bpt_price))
+    console.log("minAPR (1x boost)", apr);
     return apr;
 }

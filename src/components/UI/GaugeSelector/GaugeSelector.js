@@ -58,7 +58,7 @@ export default function PoolSelector(props) {
   const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp));
   //console.log("workingsupply pool", working_supply_pool);
   const totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake));
-  //const apr = calculateGaugeAPR(event.target.value, gaugeArray, 1, 0.5157, ethers.utils.formatEther(resp), 7.55);
+  //const apr = calculateGaugeAPR(event.target.value, gaugeArray, 1, 0.0842, ethers.utils.formatEther(resp), 6.88);
   props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2), Number(totalStakeInUSD).toFixed(2));
   }  
 };
