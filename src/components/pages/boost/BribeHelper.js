@@ -53,7 +53,9 @@ const {loading, error, data } = useQuery(
           console.log("totalweight*LockedSum", totalWeightLockSum * 10**14);
           //Print relavite per user alloc
           data.gaugeVotes.forEach((voter) => {
-            console.log(voter.user.id, " ", (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance)) / totalWeightLockSum * 100);
+            if (Number(voter.weight) > 0) {
+              console.log(voter.user.id, " ", (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance)) / totalWeightLockSum * 100);
+            }
             //sum += (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance) / totalWeightLockSum )
               
 
