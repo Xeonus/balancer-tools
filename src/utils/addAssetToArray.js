@@ -5,6 +5,7 @@ export function addAssetToArray(assetArray) {
         assetName: 'X',
         priceChange: '0',
         poolWeights: '1',
+        tokenDeposits: '10',
         assetBalance: 0,
         entryPrice: 1,
         exitPrice: 1,

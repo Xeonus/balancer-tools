@@ -12,8 +12,10 @@ export default function setAssetArrayFromPool (poolArray, poolId) {
             assetBalance: Number(array.tokenBalance[i]),
             priceChange: 0,
             poolWeights: array.weights[i],
+            tokenDeposits: 100,
             entryPrice: 1000,
             exitPrice: 1000,
+            totalShares: Number(array.totalShares)
         }
         assetArray.push(entry);
       }
