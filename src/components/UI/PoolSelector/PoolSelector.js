@@ -53,7 +53,7 @@ export default function PoolSelector(props) {
 
   //Initialize pool data
   const poolArray = getPoolArray(data);
-
+  
   const balLogo = props.darkState ? BalancerLogo : BalancerLogoLight;
 
   return (

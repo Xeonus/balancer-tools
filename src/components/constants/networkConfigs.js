@@ -30,5 +30,13 @@ export const networks = [
         graphQLEndPoint: 'https://graph-node.beets-ftm-node.com/subgraphs/name/beethovenx',
         url: 'https://beets.fi/',
 
+    },
+    {
+        id: 'optimism',
+        chainId: '10',
+        name: 'Optimism',
+        graphQLEndPoint: 'https://api.thegraph.com/subgraphs/name/beethovenxfi/beethovenx-optimism',
+        url: 'https://op.beets.fi/',
+
     }
 ];

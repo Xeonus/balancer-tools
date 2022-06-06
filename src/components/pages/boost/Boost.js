@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import BoostForm from "./BoostForm";
 import VeBalLogo from './../../../resources/veBAL.png'
 import Alert from '@mui/material/Alert';
-import BribeHelper from "./BribeHelper";
+//import BribeHelper from "./BribeHelper";
 
 export default function Boost(props) {
     return (

@@ -22,7 +22,7 @@ import { ethers } from "ethers";
 import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
 import getBPTPricePerPoolId from '../../../utils/getBPTPricePerPoolId';
 import VeBALBPTPrice from '../../pages/boost/VeBALBPTPrice';
-import { calculateGaugeAPR } from '../../../utils/calculateGaugeAPR';
+//import { calculateGaugeAPR } from '../../../utils/calculateGaugeAPR';
 
 export default function PoolSelector(props) {
 
@@ -104,8 +104,6 @@ export default function PoolSelector(props) {
   //Get Gauge Data by stitching together gauge and pool-data (for pool names and shares)
   const poolArray = getPoolArray (poolData);
   const gaugeArray = getGaugeArray(data, poolArray);
-
-  console.log("bpt price", );
 
 
   

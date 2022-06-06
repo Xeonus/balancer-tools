@@ -41,7 +41,7 @@ export default function getPoolArray(data) {
                 tvl: Number(totalLiquidity).toFixed(2),
                 totalShares: Number(totalShares).toFixed(2),
             }
-            if (poolEntry.tvl > 100) {
+            if (poolEntry.totalShares > 0) {
             poolArray.push(poolEntry);
             }
         }

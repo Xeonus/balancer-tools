@@ -137,7 +137,7 @@ export default function PriceImpactSwapForm(props) {
         setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
         setCalcInvestmentPI(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[1]);
         setNetBPTOut(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[0]);
-        setSwapFee(clonedData.swapFee);
+        setSwapFee(clonedData[index].swapFee * 100);
     }
 
     function handleIdChange(newId, newArray) {
@@ -217,10 +217,12 @@ export default function PriceImpactSwapForm(props) {
 
     //Swap Form
     const swapForm = () => (
-        <Box display="flex" justifyContent="center" p={0.5} key={'swapForm'}>
+        <Box justifyContent="center" p={0.5} key={'swapForm'} >
+            <Box mt={1}><Typography variant="h6">Swap Configuration</Typography> </Box>
+            <Box display="flex" justifyContent="center" p={0.5} key={'swapFormInput'} >
             <Paper className={classes.form} variant="outlined" square>
                 <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Box><Typography>Swap Configuration</Typography> </Box>
+                    
                     {/* SELL TOKEN*/}
                     <Box
                         sx={{
@@ -245,6 +247,7 @@ export default function PriceImpactSwapForm(props) {
                                     id="demo-simple-select"
                                     value={sellToken}
                                     label="Sell"
+                                    size="small"
                                     autoWidth
                                     onChange={handleSellChange}
                                 >
@@ -257,6 +260,7 @@ export default function PriceImpactSwapForm(props) {
                             id="sellTokenQuantity"
                             label="Sell Token Quantity"
                             type="text"
+                            size="small"
                             value={(sellTokenQuantity)}
                             onChange={(e) => handleSellTokenQuantityChange(e)}
                             error={isNaN(sellTokenQuantity)}
@@ -294,6 +298,7 @@ export default function PriceImpactSwapForm(props) {
                                     id="demo-simple-select"
                                     value={buyToken}
                                     label="Buy"
+                                    size="small"
                                     autoWidth
                                     onChange={handleBuyChange}
                                 >
@@ -305,6 +310,7 @@ export default function PriceImpactSwapForm(props) {
                         <TextField
                             id="sellTokenQuantity"
                             label="Buy Token Quantity"
+                            size="small"
                             type="text"
                             value={(buyTokenQuantity)}
                             onChange={(e) => handleBuyTokenQuantityChange(e)}
@@ -317,6 +323,7 @@ export default function PriceImpactSwapForm(props) {
                             id="SwapFee"
                             label="Swap Fee (%)"
                             type="text"
+                            size="small"
                             value={SwapFee}
                             onChange={(e) => handleFeeChange(e)}
                             error={isNaN(SwapFee)}
@@ -326,15 +333,18 @@ export default function PriceImpactSwapForm(props) {
 
                 </Box>
             </Paper>
+            </Box>
         </Box>
     );
 
     //Swap Form
     const depositForm = () => (
+        <Box justifyContent="center" p={0.5} key={'swapForm'} >
+                        <Box><Typography variant="h6">Deposit Configuration</Typography> </Box>
         <Box display="flex" justifyContent="center" p={0.5} key={'swapForm'}>
+
             <Paper className={classes.form} variant="outlined" square>
                 <Box display="flex" flexDirection="column" justifyContent="center">
-                    <Box><Typography>Deposit Configuration</Typography> </Box>
                     {/* Total Pool tokens TOKEN1*/}
                     <Box p={1}>
                         <TextField
@@ -350,6 +360,7 @@ export default function PriceImpactSwapForm(props) {
                     </Box>
                 </Box>
             </Paper>
+        </Box>
         </Box>
     );
 
@@ -518,13 +529,17 @@ export default function PriceImpactSwapForm(props) {
     //Token in BPT out view
     const investView = (assetArray) => (
         <Box display="flex" justifyContent="center" sx={{ mt: 1 }}>
-            <Box display="flex" justifyContent="center" alignItems="center">
-                <Box>
-                    {assetArray.map((el) =>
-                        <Typography key={"output"+el.assetName}>{el.assetName + ": " + el.tokenDeposits}</Typography>
-                    )}
+            <Box display="flex" justifyContent="center" alignItems="center" alignContent="center">
+                <Box mr={1}>
+                    <Paper className={classes.resultPaper} variant="outlined" square >
+                        {assetArray.map((el) =>
+                            <Typography key={"output" + el.assetName}>{el.tokenDeposits + " " + el.assetName}</Typography>
+                        )}
+                    </Paper>
                 </Box>
-                <ArrowRightAltIcon />
+                <Box mr={1}>
+                    <ArrowRightAltIcon />
+                </Box>
                 <Box>
                     <Typography ><DynamicValueFormatter value={Number(calcNetBPTOut.toFixed(4))} name={'piValue'} decimals={4} /> Balancer Pool Tokens (BPTs)</Typography>
                 </Box>
@@ -564,7 +579,7 @@ export default function PriceImpactSwapForm(props) {
             {poolId ?
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <Typography>Swap</Typography>
-                    <Switch checked={toggleActive} onChange={handleSwitch}></Switch>
+                    <Switch color='primary' checked={toggleActive} onChange={handleSwitch}></Switch>
                     <Typography>Invest</Typography>
                 </Box> : null}
             {toggleActive ? depositForm() : swapForm()}
@@ -591,7 +606,7 @@ export default function PriceImpactSwapForm(props) {
                     p: 2,
                 }}>
                     <Paper className={classes.resultPaper} variant="outlined" square >
-                        <Header>Investment to BPT conversion</Header>
+                        <Header>Investment to Pool Token Conversion</Header>
                         {investView(assetArray)}
                     </Paper>
                 </Box> : null}
@@ -600,6 +615,7 @@ export default function PriceImpactSwapForm(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
+                mt: 1
             }}>
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>

@@ -18,18 +18,13 @@ export default function StatusPage(props) {
     return (
         <div key={props.networkId}>
             <Grid item> <Header>Balancer Status Dashboard</Header> </Grid>
-            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={networkConfigs[0].id}>
-            <GraphQLStatus network={networkConfigs[0]} />
-            </Box>
-            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={networkConfigs[1].id}>
-            <GraphQLStatus network={networkConfigs[1]} />
-            </Box>
-            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={networkConfigs[2].id}>
-            <GraphQLStatus network={networkConfigs[2]} />
-            </Box>
-            <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={networkConfigs[3].id}>
-            <GraphQLStatus network={networkConfigs[3]} />
-            </Box>
+            {
+                networkConfigs.map(config =>
+                    <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={config.id}>
+                    <GraphQLStatus network={config} />
+                    </Box>
+                    )
+            }
             <Box p={0.5} display="flex" flexDirection="row" justifyContent="center" key={"heroku"}>
                 <HerokuStatus/>
             </Box>

@@ -22,6 +22,7 @@ import FormControl from '@mui/material/FormControl';
 import { myStyles } from '../../styles/styles';
 import ReactRoundedImage from "react-rounded-image";
 import ArbitrumLogo from './../../resources/arbitrum.svg'
+import OptimismLogo from './../../resources/optimism.svg'
 import EtherLogo from './../../resources/ethereum.svg'
 import PolygonLogo from './../../resources/polygon.svg'
 import FantomLogo from './../../resources/fantom-ftm-logo.svg'
@@ -227,6 +228,21 @@ export default function Dashboard() {
                                                 </Box>
                                                 <Box>
                                                     Fantom
+                                                </Box>
+                                            </Box>
+                                        </MenuItem>
+                                        <MenuItem value={'optimism'} key="op">
+                                            <Box display="flex" alignItems="center">
+                                                <Box mr={0.5}>
+                                                    <ReactRoundedImage
+                                                        image={OptimismLogo}
+                                                        imageWidth="20"
+                                                        imageHeight="20"
+                                                        roundedSize="0"
+                                                    />
+                                                </Box>
+                                                <Box>
+                                                    Optimism
                                                 </Box>
                                             </Box>
                                         </MenuItem>
