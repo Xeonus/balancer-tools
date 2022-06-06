@@ -17,8 +17,8 @@ export default function ShowCalcuation(props) {
     const copy = [...props.assetArray];
 
     for (let i = 0; i < copy.length; i++) {
-        poolValueString += (1 + 1 * Number(copy[i].priceChange / 100)) + "^{\\frac{" + Number(copy[i].poolWeights) + "}{100}}";
-        assetValueString += "\\frac{" + (1 + 1 * Number(copy[i].priceChange / 100)) + "\\cdot" + Number(copy[i].poolWeights) + "}{100}";
+        poolValueString += (1 + 1 * Number(copy[i].priceChange / 100)) + "^{\\frac{" + Number(copy[i].poolWeights.toFixed(2)) + "}{100}}";
+        assetValueString += "\\frac{" + (1 + 1 * Number(copy[i].priceChange / 100)) + "\\cdot" + Number(copy[i].poolWeights).toFixed(2) + "}{100}";
         if (i < Number(copy.length - 1)) {
             poolValueString += "\\cdot";
             assetValueString += "+";

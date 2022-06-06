@@ -50,17 +50,16 @@ const {loading, error, data } = useQuery(
               
 
           })
-          //add Mike
-          totalWeightLockSum += Number(0.00000000000001 * 600);
-          console.log("totalweight*LockedSum", totalWeightLockSum);
+          console.log("totalweight*LockedSum", totalWeightLockSum * 10**14);
           //Print relavite per user alloc
           data.gaugeVotes.forEach((voter) => {
-            console.log(voter.user.id, " ", (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance)) / totalWeightLockSum * 100);
+            if (Number(voter.weight) > 0) {
+              console.log(voter.user.id, " ", (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance)) / totalWeightLockSum * 100);
+            }
             //sum += (Number(voter.weight) * Number(voter.user.votingLocks[0].lockedBalance) / totalWeightLockSum )
               
 
           })
-          console.log("0xf01cc7154e255d20489e091a5aea10bc136696a8", Number(0.00000000000001 * 600 / totalWeightLockSum * 100) )
           //console.log("totalUserBribeWeightInPercent", sum*100)
           return( <Typography>Loaded</Typography>)
       }

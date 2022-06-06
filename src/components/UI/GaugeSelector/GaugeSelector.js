@@ -22,6 +22,7 @@ import { ethers } from "ethers";
 import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
 import getBPTPricePerPoolId from '../../../utils/getBPTPricePerPoolId';
 import VeBALBPTPrice from '../../pages/boost/VeBALBPTPrice';
+import { calculateGaugeAPR } from '../../../utils/calculateGaugeAPR';
 
 export default function PoolSelector(props) {
 
@@ -54,8 +55,10 @@ export default function PoolSelector(props) {
   totalStake = await vyperContract.totalSupply();
   const veBalResp = await veBALContract.totalSupply(Math.floor(Date.now() / 1000));
   if (resp > 0) {
-  const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp))
-  const totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake))
+  const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp));
+  //console.log("workingsupply pool", working_supply_pool);
+  const totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake));
+  //const apr = calculateGaugeAPR(event.target.value, gaugeArray, 1, 0.0842, ethers.utils.formatEther(resp), 6.88);
   props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2), Number(totalStakeInUSD).toFixed(2));
   }  
 };
