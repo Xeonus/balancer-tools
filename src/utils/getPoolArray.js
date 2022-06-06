@@ -7,7 +7,7 @@ export default function getPoolArray(data) {
     const balancerUrl = 'https://app.balancer.fi/#/pool/';
     //Obtain sorted array of pool data
     let poolArray = [];
-    data.balancers[0].pools.forEach(({ id, tokens, totalLiquidity, totalShares, poolType, name}) => {
+    data.balancers[0].pools.forEach(({ id, tokens, totalLiquidity, totalShares, poolType, name, swapFee}) => {
 
         if (poolType === "Weighted" || poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom" || poolType === "Element") {
             let poolName = '';
@@ -33,6 +33,7 @@ export default function getPoolArray(data) {
                 id: id,
                 weights: weightArray,
                 poolName: poolName,
+                swapFee: swapFee,
                 shortName: name,
                 nameSet: nameSet,
                 url: balancerUrl.concat(id),

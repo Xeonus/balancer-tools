@@ -21,6 +21,6 @@ export function calculateBuyTokenQuantity(assetArray, sellToken, sellTokenQuanti
     let effectivePrice = Number((1/(1+swapFee)) * sellTokenQuantity / (tokenOutBalance * (1 - ((tokenInBalance / (tokenInBalance + ((1/(1+swapFee)) * sellTokenQuantity)))**(tokenInWeight/tokenOutWeight)))));
     let newBuyTokenQuantity = Number(sellTokenQuantity * (1/effectivePrice)).toFixed(6);
 
-    console.log(newBuyTokenQuantity);
+    //console.log(newBuyTokenQuantity);
     return newBuyTokenQuantity;
 }
