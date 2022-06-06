@@ -8,6 +8,7 @@ export const getBalancerPoolData = gql`
       totalLiquidity
       totalShares
       poolType
+      swapFee
       tokens {
         symbol
         id

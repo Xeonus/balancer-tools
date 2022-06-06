@@ -29,14 +29,13 @@ import { calculateSellTokenQuantity } from '../../../utils/calculateSellTokenQua
 import { PIGraphs } from "./PIGraphs";
 import { calculateInvestmentPIFromAssetArray } from '../../../utils/calculateInvestmentPIFromAssetArray';
 import { InvestmentPIGraphs } from './investmentPIGraph';
-import { useToggleSlider } from 'react-toggle-slider'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import Switch from '@mui/material/Switch';
 
 //TODO: Implementation of price impact page
 
 export default function PriceImpactSwapForm(props) {
 
-    // Sets toggling between swap and deposit interfaces
-    const [toggleSlider, active] = useToggleSlider({barBackgroundColorActive: "black"});
 
     //Init styles    
     const classes = myStyles();
@@ -46,7 +45,7 @@ export default function PriceImpactSwapForm(props) {
     const defaultAssetNames = ['BAL', 'WETH'];
     const defaultAssetBalance = [5000000, 7000]
     const defaultPoolWeights = [80, 20];
-    const defaultDeposits = [Number(100),Number(1)];
+    const defaultDeposits = [Number(100), Number(1)];
     let defaultSellToken = defaultAssetNames[0];
     let defaultBuyToken = defaultAssetNames[1];
 
@@ -68,6 +67,7 @@ export default function PriceImpactSwapForm(props) {
         defaultBuyToken = assetArray[1].assetName;
     }
     const [sellToken, setSellToken] = React.useState(defaultSellToken);
+    const [toggleActive, setToggleActive] = React.useState(false);
     const [buyToken, setBuyToken] = React.useState(defaultBuyToken);
     const [SwapFee, setSwapFee] = React.useState(0.25);
     const [sellTokenQuantity, setSellTokenQuantity] = React.useState(1);
@@ -137,16 +137,19 @@ export default function PriceImpactSwapForm(props) {
         setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
         setCalcInvestmentPI(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[1]);
         setNetBPTOut(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[0]);
+        setSwapFee(clonedData.swapFee);
     }
 
     function handleIdChange(newId, newArray) {
         setPoolId(newId);
+        console.log("newArray", newArray[0].swapFee)
         setAssetArray(newArray);
         setSellToken(newArray[0].assetName);
         setBuyToken(newArray[1].assetName);
         setCalcPI(calculatePIFromAssetArray(newArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
         setCalcInvestmentPI(calculateInvestmentPIFromAssetArray(newArray, SwapFee)[1]);
         setNetBPTOut(calculateInvestmentPIFromAssetArray(newArray, SwapFee)[0]);
+        setSwapFee(newArray[0].swapFee * 100);
     }
 
     const handleFeeChange = (event) => {
@@ -166,6 +169,11 @@ export default function PriceImpactSwapForm(props) {
         setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
         setCalcInvestmentPI(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[1]);
         setNetBPTOut(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[0]);
+    }
+
+    //Handle toggle switch
+    const handleSwitch = (event) => {
+        setToggleActive(event.target.checked);
     }
 
     //Add entry
@@ -210,18 +218,10 @@ export default function PriceImpactSwapForm(props) {
     //Swap Form
     const swapForm = () => (
         <Box display="flex" justifyContent="center" p={0.5} key={'swapForm'}>
-        <Paper className={classes.form} variant="outlined" square>
-        <Box display="flex" flexDirection="column" justifyContent="center">
-                <Box><Typography>Swap Configuration</Typography> </Box>
-                {/* SELL TOKEN*/}
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        m: 1,
-                    }}>
+            <Paper className={classes.form} variant="outlined" square>
+                <Box display="flex" flexDirection="column" justifyContent="center">
+                    <Box><Typography>Swap Configuration</Typography> </Box>
+                    {/* SELL TOKEN*/}
                     <Box
                         sx={{
                             display: 'flex',
@@ -230,47 +230,47 @@ export default function PriceImpactSwapForm(props) {
                             justifyContent: 'center',
                             m: 1,
                         }}>
-                        <FormControl fullWidth>
-                            <InputLabel id="sellToken">Sell</InputLabel>
-                            <Select
-                                labelId="sellToken"
-                                id="demo-simple-select"
-                                value={sellToken}
-                                label="Sell"
-                                autoWidth
-                                onChange={handleSellChange}
-                            >
-                                {sellMenuItems}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                m: 1,
+                            }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="sellToken">Sell</InputLabel>
+                                <Select
+                                    labelId="sellToken"
+                                    id="demo-simple-select"
+                                    value={sellToken}
+                                    label="Sell"
+                                    autoWidth
+                                    onChange={handleSellChange}
+                                >
+                                    {sellMenuItems}
 
-                            </Select>
-                        </FormControl>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <TextField
+                            id="sellTokenQuantity"
+                            label="Sell Token Quantity"
+                            type="text"
+                            value={(sellTokenQuantity)}
+                            onChange={(e) => handleSellTokenQuantityChange(e)}
+                            error={isNaN(sellTokenQuantity)}
+                            helperText={isNaN(sellTokenQuantity) ? "Sell token quantity must be a number" : ""}
+                        />
                     </Box>
-                    <TextField
-                        id="sellTokenQuantity"
-                        label="Sell Token Quantity"
-                        type="text"
-                        value={(sellTokenQuantity)}
-                        onChange={(e) => handleSellTokenQuantityChange(e)}
-                        error={isNaN(sellTokenQuantity)}
-                        helperText={isNaN(sellTokenQuantity) ? "Sell token quantity must be a number" : ""}
-                    />
-                </Box>
-                <Box>
-                <IconButton
-                    onClick={handleSellBuySwap}
-                >
-                    <SwapVertIcon />
-                </IconButton>
-                </Box>
-                {/* BUY TOKEN*/}
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        m: 1,
-                    }}>
+                    <Box>
+                        <IconButton
+                            onClick={handleSellBuySwap}
+                        >
+                            <SwapVertIcon />
+                        </IconButton>
+                    </Box>
+                    {/* BUY TOKEN*/}
                     <Box
                         sx={{
                             display: 'flex',
@@ -279,69 +279,77 @@ export default function PriceImpactSwapForm(props) {
                             justifyContent: 'center',
                             m: 1,
                         }}>
-                        <FormControl fullWidth>
-                            <InputLabel id="buyToken">Buy</InputLabel>
-                            <Select
-                                labelId="buyToken"
-                                id="demo-simple-select"
-                                value={buyToken}
-                                label="Buy"
-                                autoWidth
-                                onChange={handleBuyChange}
-                            >
-                                {buyMenuItems}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                m: 1,
+                            }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="buyToken">Buy</InputLabel>
+                                <Select
+                                    labelId="buyToken"
+                                    id="demo-simple-select"
+                                    value={buyToken}
+                                    label="Buy"
+                                    autoWidth
+                                    onChange={handleBuyChange}
+                                >
+                                    {buyMenuItems}
 
-                            </Select>
-                        </FormControl>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <TextField
+                            id="sellTokenQuantity"
+                            label="Buy Token Quantity"
+                            type="text"
+                            value={(buyTokenQuantity)}
+                            onChange={(e) => handleBuyTokenQuantityChange(e)}
+                            error={isNaN(buyTokenQuantity)}
+                            helperText={isNaN(buyTokenQuantity) ? "Buy token quantity must be a number" : ""}
+                        />
                     </Box>
-                    <TextField
-                        id="sellTokenQuantity"
-                        label="Buy Token Quantity"
-                        type="text"
-                        value={(buyTokenQuantity)}
-                        onChange={(e) => handleBuyTokenQuantityChange(e)}
-                        error={isNaN(buyTokenQuantity)}
-                        helperText={isNaN(buyTokenQuantity) ? "Buy token quantity must be a number" : ""}
-                    />
+                    <Box p={1}>
+                        <TextField
+                            id="SwapFee"
+                            label="Swap Fee (%)"
+                            type="text"
+                            value={SwapFee}
+                            onChange={(e) => handleFeeChange(e)}
+                            error={isNaN(SwapFee)}
+                            helperText={isNaN(SwapFee) ? "Swap Fee must be a number" : ""}
+                        />
+                    </Box>
+
                 </Box>
-                <Box p={1}>
-                    <TextField
-                        id="SwapFee"
-                        label="Swap Fee (%)"
-                        type="text"
-                        value={SwapFee}
-                        onChange={(e) => handleFeeChange(e)}
-                        error={isNaN(SwapFee)}
-                        helperText={isNaN(SwapFee) ? "Swap Fee must be a number" : ""}
-                    />
-                </Box>
-            
-        </Box>
-        </Paper>
+            </Paper>
         </Box>
     );
 
     //Swap Form
     const depositForm = () => (
         <Box display="flex" justifyContent="center" p={0.5} key={'swapForm'}>
-        <Paper className={classes.form} variant="outlined" square>
-        <Box display="flex" flexDirection="column" justifyContent="center">
-                <Box><Typography>Deposit Configuration</Typography> </Box>
-                {/* Total Pool tokens TOKEN1*/}
-                <Box p={1}>
-                    <TextField
-                        id="SwapFee"
-                        label="Swap Fee (%)"
-                        type="text"
-                        value={SwapFee}
-                        onChange={(e) => handleFeeChange(e)}
-                        error={isNaN(SwapFee)}
-                        helperText={isNaN(SwapFee) ? "Swap Fee must be a number" : ""}
-                    />
+            <Paper className={classes.form} variant="outlined" square>
+                <Box display="flex" flexDirection="column" justifyContent="center">
+                    <Box><Typography>Deposit Configuration</Typography> </Box>
+                    {/* Total Pool tokens TOKEN1*/}
+                    <Box p={1}>
+                        <TextField
+                            id="SwapFee"
+                            label="Swap Fee (%)"
+                            type="text"
+                            size="small"
+                            value={SwapFee}
+                            onChange={(e) => handleFeeChange(e)}
+                            error={isNaN(SwapFee)}
+                            helperText={isNaN(SwapFee) ? "Swap Fee must be a number" : ""}
+                        />
+                    </Box>
                 </Box>
-                <Box><Header> Pool Tokens Out: <DynamicValueFormatter value={Number(calcNetBPTOut.toFixed(4))} name={'piValue'} decimals={4}/> </Header> </Box>
-        </Box>
-        </Paper>
+            </Paper>
         </Box>
     );
 
@@ -389,7 +397,7 @@ export default function PriceImpactSwapForm(props) {
                         onChange={(e) => handleChange(e, element)}
                         error={isNaN(element.poolWeights)}
                         helperText={isNaN(element.poolWeights) ? "Pool Weight must be a number" : ""}
-                    /> 
+                    />
                     <Button
                         className={classes.button}
                         onClick={(e) => handleRemoveClick(e, element)}
@@ -449,7 +457,7 @@ export default function PriceImpactSwapForm(props) {
                         onChange={(e) => handleChange(e, element)}
                         error={isNaN(element.poolWeights)}
                         helperText={isNaN(element.poolWeights) ? "Pool Weight must be a number" : ""}
-                    /> 
+                    />
                     <TextField
                         id="tokenDeposits"
                         label="Token Deposit"
@@ -507,73 +515,104 @@ export default function PriceImpactSwapForm(props) {
         </Box>
     )
 
+    //Token in BPT out view
+    const investView = (assetArray) => (
+        <Box display="flex" justifyContent="center" sx={{ mt: 1 }}>
+            <Box display="flex" justifyContent="center" alignItems="center">
+                <Box>
+                    {assetArray.map((el) =>
+                        <Typography key={"output"+el.assetName}>{el.assetName + ": " + el.tokenDeposits}</Typography>
+                    )}
+                </Box>
+                <ArrowRightAltIcon />
+                <Box>
+                    <Typography ><DynamicValueFormatter value={Number(calcNetBPTOut.toFixed(4))} name={'piValue'} decimals={4} /> Balancer Pool Tokens (BPTs)</Typography>
+                </Box>
+            </Box>
+        </Box>
+    )
+
     //Investment Table
     //consisting of initial investment, value if held and value if held in pool
     const dataTablePI = (assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee) => (
         <Box display="flex" justifyContent="center" mb={2} overflowX='auto'>
-                <DataTablePI assetArray={assetArray} sellToken={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee}></DataTablePI>
+            <DataTablePI assetArray={assetArray} sellToken={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee}></DataTablePI>
         </Box>
     )
 
     const dataTableInvestmentPI = (assetArray, SwapFee) => (
         <Box display="flex" justifyContent="center" mb={2} overflowX='auto'>
-                <DataTableInvestmentPI assetArray={assetArray} SwapFee={SwapFee}></DataTableInvestmentPI>
+            <DataTableInvestmentPI assetArray={assetArray} SwapFee={SwapFee}></DataTableInvestmentPI>
         </Box>
     )
 
     const pIGraphs = (assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, darkState) => (
         <Box display="flex" justifyContent="center" >
-          <PIGraphs assetArray={assetArray} sellToken ={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee} darkState={darkState}></PIGraphs>
+            <PIGraphs assetArray={assetArray} sellToken={sellToken} sellTokenQuantity={sellTokenQuantity} buyToken={buyToken} SwapFee={SwapFee} darkState={darkState}></PIGraphs>
         </Box>
     )
 
     const investmentPIGraphs = (assetArray, SwapFee, darkState) => (
         <Box display="flex" justifyContent="center" >
-          <InvestmentPIGraphs assetArray={assetArray} SwapFee={SwapFee} darkState={darkState}></InvestmentPIGraphs>
+            <InvestmentPIGraphs assetArray={assetArray} SwapFee={SwapFee} darkState={darkState}></InvestmentPIGraphs>
         </Box>
     )
 
     return (
         <div>
-            <PoolSelector darkState = {props.darkState} network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
-            Toggle on for Investments, Toggle off for Swaps 
-            <Box display="flex" justifyContent="center" >
-            { toggleSlider }
-            </Box>
-            {active ? depositForm() : swapForm() }
-            {active ?
-            <form className={classes.root} noValidate autoComplete="off">    
-            {assetArray.map((asset) =>
-                depositFormElement(asset, asset.assetName)
-            )}
-            </form>
-            : 
-            <form className={classes.root} noValidate autoComplete="off">    
-                {assetArray.map((asset) =>
-                    formElement(asset, asset.assetName)
-                )}
-            </form>
+            <PoolSelector darkState={props.darkState} network={network} poolId={poolId} onChange={handleIdChange}></PoolSelector>
+            {poolId ?
+                <Box display="flex" justifyContent="center" alignItems="center">
+                    <Typography>Swap</Typography>
+                    <Switch checked={toggleActive} onChange={handleSwitch}></Switch>
+                    <Typography>Invest</Typography>
+                </Box> : null}
+            {toggleActive ? depositForm() : swapForm()}
+            {toggleActive ?
+                <form className={classes.root} noValidate autoComplete="off">
+                    {assetArray.map((asset) =>
+                        depositFormElement(asset, asset.assetName)
+                    )}
+                </form>
+                :
+                <form className={classes.root} noValidate autoComplete="off">
+                    {assetArray.map((asset) =>
+                        formElement(asset, asset.assetName)
+                    )}
+                </form>
             }
             {dataFunctionForm()}
+            {toggleActive ?
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    p: 2,
+                }}>
+                    <Paper className={classes.resultPaper} variant="outlined" square >
+                        <Header>Investment to BPT conversion</Header>
+                        {investView(assetArray)}
+                    </Paper>
+                </Box> : null}
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                p: 2,
             }}>
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
-                        Price Impact = {active ? 
-                            <DynamicValueFormatter value={Number(calcInvestmentPI).toFixed(4)} name={'piValue'} decimals={4}/> :
-                            <DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4}/>
+                        Price Impact = {toggleActive ?
+                            <DynamicValueFormatter value={Number(calcInvestmentPI).toFixed(4)} name={'piValue'} decimals={4} /> :
+                            <DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4} />
                         } %
                     </Header>
-                    {active ? dataTableInvestmentPI(assetArray, SwapFee) :
-                    dataTablePI(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee)}
-                    {active ? 
-                    (isBrowser ? investmentPIGraphs(assetArray, SwapFee, props.darkState) : null) : 
-                    (isBrowser ? pIGraphs(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, props.darkState) : null)
+                    {toggleActive ? dataTableInvestmentPI(assetArray, SwapFee) :
+                        dataTablePI(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee)}
+                    {toggleActive ?
+                        (isBrowser ? investmentPIGraphs(assetArray, SwapFee, props.darkState) : null) :
+                        (isBrowser ? pIGraphs(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, props.darkState) : null)
                     }
                 </Paper>
             </Box>

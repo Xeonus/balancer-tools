@@ -25,7 +25,7 @@ export default function Footer() {
                             0xf9e0dE629DE67eC90FBe095d2e6843f6A76aeEc2
                         </Link> <br />
                         Information provided as is. Not financial advice. <br />
-                        Beta Build - v0.1.6 - <Link color="inherit" href="https://github.com/Xeonus/balancer-tools" target="_blank">
+                        Beta Build - v0.2.0 - <Link color="inherit" href="https://github.com/Xeonus/balancer-tools" target="_blank">
                             (Source Code)
                         </Link>
                     </Typography>
