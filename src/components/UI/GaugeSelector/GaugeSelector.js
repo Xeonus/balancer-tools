@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Grid, Paper } from '@mui/material';
 import { CircularProgress } from '@mui/material';
@@ -22,12 +23,32 @@ import { ethers } from "ethers";
 import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
 import getBPTPricePerPoolId from '../../../utils/getBPTPricePerPoolId';
 import VeBALBPTPrice from '../../pages/boost/VeBALBPTPrice';
+import FetchTokenPrices, { fetchTokenPrices } from '../../../services/coingecko/fetchTokenPrices';
+import getGaugeArrayTokenSet from '../../../utils/getGaugeArrayTokenSet';
+import getTVLFromTokenSet from '../../../utils/getTVLFromTokenSet';
 //import { calculateGaugeAPR } from '../../../utils/calculateGaugeAPR';
 
 export default function PoolSelector(props) {
 
   //Init styles
   const classes = myStyles();
+
+  const [priceData, setPriceData] = useState('');
+  const [pageFetchInProgress, setPageFetchInProgress] = React.useState(false);
+  const [tokenSet, setTokenSet] = useState('0xba100000625a3754423978a60c9317c58a424e3d%2C0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2')
+
+
+  useEffect(() => {
+    if (pageFetchInProgress) {
+      
+      fetch('https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=' + tokenSet + '%2C&vs_currencies=usd')
+            .then(response => response.json())
+            .then(response => setPriceData(response))
+        setPageFetchInProgress(false)
+    }
+},[pageFetchInProgress, tokenSet, setTokenSet, priceData, setPriceData])
+
+//Build a useEffect for getGaugeArrayTokenSet
 
   //Handle poolID change and asynchronously call vyper contract to get working_supply -> TODO refactor call
   const handleChange = async (event) => {
@@ -54,7 +75,14 @@ export default function PoolSelector(props) {
   resp = await vyperContract.working_supply();
   totalStake = await vyperContract.totalSupply();
   const veBalResp = await veBALContract.totalSupply(Math.floor(Date.now() / 1000));
+
+
   if (resp > 0) {
+  setTokenSet(getGaugeArrayTokenSet(event.target.value, gaugeArray));
+  console.log("tokenSet", tokenSet);
+  setPageFetchInProgress(true);
+  console.log("priceData", priceData);
+  console.log("tvl", getTVLFromTokenSet(gaugeArray, event.target.value, priceData));
   const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp));
   //console.log("workingsupply pool", working_supply_pool);
   const totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake));
@@ -102,11 +130,15 @@ export default function PoolSelector(props) {
   );
 
   //Get Gauge Data by stitching together gauge and pool-data (for pool names and shares)
-  const poolArray = getPoolArray (poolData);
-  const gaugeArray = getGaugeArray(data, poolArray);
-
 
   
+  const poolArray = getPoolArray(poolData);
+  //console.log("poolArray", poolArray)
+  const gaugeArray = getGaugeArray(data, poolArray);
+  //console.log("gaugeArray", gaugeArray)
+  
+
+
   const balLogo = props.darkState ? BalancerLogo : BalancerLogoLight;
 
   return (

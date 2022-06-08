@@ -12,6 +12,7 @@ export const getBalancerPoolData = gql`
       tokens {
         symbol
         id
+        address
         balance
         weight
       }

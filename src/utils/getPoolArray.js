@@ -12,7 +12,8 @@ export default function getPoolArray(data) {
         if (poolType === "Weighted" || poolType === "MetaStable" || poolType === "Stable" || poolType === "StablePhantom" || poolType === "Element") {
             let poolName = '';
             let ratios = " (" + tokens.map(e => Number(e.weight * 100).toFixed(0)).join('/') + ")";
-            const tokenNames = tokens.map(e => e.symbol ? e.symbol : "MKR").join('/')
+            const tokenNames = tokens.map(e => e.symbol ? e.symbol : "MKR").join('/');
+            const tokenAddresses = tokens.map(e => e.address);
             const nameSet = [];
             poolName = tokenNames + ratios;
             tokens.map(e => nameSet.push(e.symbol ? e.symbol : "MKR"))
@@ -38,6 +39,7 @@ export default function getPoolArray(data) {
                 nameSet: nameSet,
                 url: balancerUrl.concat(id),
                 tokenBalance: tokenBalance,
+                tokenAddresses: tokenAddresses,
                 tvl: Number(totalLiquidity).toFixed(2),
                 totalShares: Number(totalShares).toFixed(2),
             }

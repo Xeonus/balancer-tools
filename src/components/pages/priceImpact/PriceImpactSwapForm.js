@@ -142,7 +142,6 @@ export default function PriceImpactSwapForm(props) {
 
     function handleIdChange(newId, newArray) {
         setPoolId(newId);
-        console.log("newArray", newArray[0].swapFee)
         setAssetArray(newArray);
         setSellToken(newArray[0].assetName);
         setBuyToken(newArray[1].assetName);
