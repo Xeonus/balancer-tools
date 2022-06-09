@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useRef} from 'react';
 import Box from '@mui/material/Box';
 import { Grid, Paper } from '@mui/material';
 import { CircularProgress } from '@mui/material';
@@ -20,44 +20,24 @@ import getPoolArray from '../../../utils/getPoolArray';
 import vyperABI from './../../constants/ABIs/vyperABI.json'
 import veBALABI from './../../constants/ABIs/veBALABI.json'
 import { ethers } from "ethers";
-import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
 import getBPTPricePerPoolId from '../../../utils/getBPTPricePerPoolId';
 import VeBALBPTPrice from '../../pages/boost/VeBALBPTPrice';
-import FetchTokenPrices, { fetchTokenPrices } from '../../../services/coingecko/fetchTokenPrices';
 import getGaugeArrayTokenSet from '../../../utils/getGaugeArrayTokenSet';
-import getTVLFromTokenSet from '../../../utils/getTVLFromTokenSet';
+import getPricePerBPTFromTokenSet from '../../../utils/getPricePerBPTFromTokenSet';
+import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
 //import { calculateGaugeAPR } from '../../../utils/calculateGaugeAPR';
 
 export default function PoolSelector(props) {
 
   //Init styles
   const classes = myStyles();
-
-  const [priceData, setPriceData] = useState('');
-  const [pageFetchInProgress, setPageFetchInProgress] = React.useState(false);
-  const [tokenSet, setTokenSet] = useState('0xba100000625a3754423978a60c9317c58a424e3d%2C0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2')
-
-
-  useEffect(() => {
-    if (pageFetchInProgress) {
-      
-      fetch('https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=' + tokenSet + '%2C&vs_currencies=usd')
-            .then(response => response.json())
-            .then(response => setPriceData(response))
-        setPageFetchInProgress(false)
-    }
-},[pageFetchInProgress, tokenSet, setTokenSet, priceData, setPriceData])
-
-//Build a useEffect for getGaugeArrayTokenSet
+  const tokenState = useRef('0xba100000625a3754423978a60c9317c58a424e3d%2C0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2');
 
   //Handle poolID change and asynchronously call vyper contract to get working_supply -> TODO refactor call
   const handleChange = async (event) => {
     let provider;
-    //if (window.ethereum) {
-    //  provider = new ethers.providers.Web3Provider(window.ethereum);
-    //} else {
-      provider = new ethers.providers.InfuraProvider("homestead" ,'bd237506d816456797b7bede8375e021');
-    //}
+    provider = new ethers.providers.InfuraProvider("homestead" ,'bd237506d816456797b7bede8375e021');
+
     //Vyper contract to get working supply
     const vyperContract = new ethers.Contract(
     getVyperIdFromPoolId(event.target.value, gaugeArray),
@@ -75,20 +55,27 @@ export default function PoolSelector(props) {
   resp = await vyperContract.working_supply();
   totalStake = await vyperContract.totalSupply();
   const veBalResp = await veBALContract.totalSupply(Math.floor(Date.now() / 1000));
-
-
-  if (resp > 0) {
-  setTokenSet(getGaugeArrayTokenSet(event.target.value, gaugeArray));
-  console.log("tokenSet", tokenSet);
-  setPageFetchInProgress(true);
-  console.log("priceData", priceData);
-  console.log("tvl", getTVLFromTokenSet(gaugeArray, event.target.value, priceData));
-  const working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp));
-  //console.log("workingsupply pool", working_supply_pool);
-  const totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake));
-  //const apr = calculateGaugeAPR(event.target.value, gaugeArray, 1, 0.0842, ethers.utils.formatEther(resp), 6.88);
-  props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2), Number(totalStakeInUSD).toFixed(2));
-  }  
+    if (resp > 0) {
+      tokenState.current = getGaugeArrayTokenSet(event.target.value, gaugeArray)
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=' + tokenState.current + '%2C&vs_currencies=usd');
+      const fetchedPriceData = await response.json();
+      if (fetchedPriceData) {
+        //console.log("calculated_tvl", getTVLFromTokenSet(gaugeArray, event.target.value, fetchedPriceData));
+        //console.log("calculated_BPTPrice", getPricePerBPTFromTokenSet(gaugeArray, event.target.value, fetchedPriceData));
+        let working_supply_pool = 0;
+        let totalStakeInUSD = 0;
+        //Calcuation for non-boosted pools:
+        if (event.target.value !== '0x7b50775383d3d6f0215a8f290f2c9e2eebbeceb20000000000000000000000fe') {
+        working_supply_pool = getPricePerBPTFromTokenSet(gaugeArray, event.target.value, fetchedPriceData) * ethers.utils.formatEther(resp);
+        totalStakeInUSD = getPricePerBPTFromTokenSet(gaugeArray, event.target.value, fetchedPriceData) * ethers.utils.formatEther(totalStake);
+        } else {
+          working_supply_pool = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(resp));
+          totalStakeInUSD = getWorkingSupplyPoolInUsd(event.target.value, gaugeArray, ethers.utils.formatEther(totalStake));
+        }
+        //const apr = calculateGaugeAPR(event.target.value, gaugeArray, 1, 0.0842, ethers.utils.formatEther(resp), 6.88);
+        props.onChange(event.target.value, props.newlockedVeBAL, props.lockedVeBAL, Number(ethers.utils.formatEther(veBalResp)).toFixed(2), props.newShare, props.share, Number(working_supply_pool).toFixed(2), Number(totalStakeInUSD).toFixed(2));
+      }
+    }
 };
 
   //Fetch Gauge Data query Hook (do not encapsulate for state)

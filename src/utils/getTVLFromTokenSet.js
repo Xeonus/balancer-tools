@@ -2,12 +2,11 @@ export default function getTVLFromTokenSet(gaugeArray, poolId, priceData) {
         let tvl = 0;
         gaugeArray.forEach( el => {
             if (el.poolId === poolId) {
-                console.log("el", el);
-                console.log("tokenAddress", el.tokenAddresses[0])
-                console.log("price", priceData[el.tokenAddresses[0].toString()])
-                el.tokenBalances.forEach((t) => 
-                tvl += Number(t) * Number(priceData[el.tokenBalances.indexOf(t)])
-        )}
-        });
+                for (let i = 0; i < el.tokenBalances.length; ++i) {
+                    if (priceData[el.tokenAddresses[i]] && priceData[el.tokenAddresses[i]].usd) {
+                    tvl += Number(el.tokenBalances[i]) * Number(priceData[el.tokenAddresses[i]].usd);
+                    }
+                }
+        }});
         return tvl;
     }
