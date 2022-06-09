@@ -28,7 +28,7 @@ export default function Boost(props) {
                 </Box>
                 
             }
-            {/*<BribeHelper networkId={props.networkId}></BribeHelper>*/}
+            {/*<BribeHelper networkId={props.networkId}></BribeHelper> */}
         </div>
     );
 }
