@@ -29,7 +29,12 @@ export default function MenuDrawer(props) {
                         </ListItemIcon>
                         <ListItemText primary={"Boost Calculator"} />
                     </ListItem>
-
+                    <ListItem button key={"tokenCalculator"} component={NavLink} to={'/tokenCalculator'}>
+                        <ListItemIcon>
+                            <RocketLaunchRoundedIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Boost Calculator"} />
+                    </ListItem>
                     <ListItem button key={"impermanentLoss"} component={NavLink} to={'/impermanentLoss'}>
                         <ListItemIcon>
                             <CalculateRoundedIcon />

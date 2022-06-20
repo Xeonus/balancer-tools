@@ -14,6 +14,7 @@ import BalancerLogo from './../../resources/logo-dark.svg';
 import BalancerLogoLight from './../../resources/logo-light.svg';
 import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
 import PriceImpact from "../pages/priceImpact/PriceImpact";
+import TokenCalculator from '../pages/tokenCalculator/tokenCalculator';
 import NavBar from "./NavBar";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -270,6 +271,7 @@ export default function Dashboard() {
                                 <Routes>
                                     <Route path="/" element={<Navigate replace to="/boost" />} />
                                     <Route path="boost" element={<Boost classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
+                                    <Route path="tokenCalculator" element={<TokenCalculator classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                                     <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                                     <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} darkState={(mode === 'dark') ? true : false} />} />
                                     <Route path="status" element={<StatusPage classes={classes} />} />

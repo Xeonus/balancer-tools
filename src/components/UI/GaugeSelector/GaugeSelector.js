@@ -25,6 +25,8 @@ import VeBALBPTPrice from '../../pages/boost/VeBALBPTPrice';
 import getGaugeArrayTokenSet from '../../../utils/getGaugeArrayTokenSet';
 import getPricePerBPTFromTokenSet from '../../../utils/getPricePerBPTFromTokenSet';
 import getWorkingSupplyPoolInUsd from '../../../utils/getWorkingSupplyPoolInUsd';
+import getBALBPTPricePerPoolId from '../../../utils/getBALBPTSpotPrice';
+import getWETHBPTPricePerPoolId from '../../../utils/getWETHBPTSpotPrice';
 //import { calculateGaugeAPR } from '../../../utils/calculateGaugeAPR';
 
 export default function PoolSelector(props) {
@@ -130,7 +132,9 @@ export default function PoolSelector(props) {
 
   return (
     <div>
-      <VeBALBPTPrice bptPrice={getBPTPricePerPoolId(poolArray, '0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014')}></VeBALBPTPrice>
+      <VeBALBPTPrice bptPrice={getBPTPricePerPoolId(poolArray, '0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014')} 
+      balSpotPrice={getBALBPTPricePerPoolId(poolArray, '0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014')}
+      wethSpotPrice={getWETHBPTPricePerPoolId(poolArray, '0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014')}></VeBALBPTPrice>
       <Box mb={0.5} display="flex" justifyContent="center" key={'poolSelector'}>
         <Paper className={classes.form} variant="outlined" square>
           <Box p={1} flexDirection="row" justifyContent="center" key={'poolSelector'}>

@@ -31,6 +31,7 @@ import { calculateInvestmentPIFromAssetArray } from '../../../utils/calculateInv
 import { InvestmentPIGraphs } from './investmentPIGraph';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import Switch from '@mui/material/Switch';
+import PIToolTip from './PIToolTip';
 
 //TODO: Implementation of price impact page
 
@@ -72,6 +73,7 @@ export default function PriceImpactSwapForm(props) {
     const [SwapFee, setSwapFee] = React.useState(0.25);
     const [sellTokenQuantity, setSellTokenQuantity] = React.useState(1);
     const [buyTokenQuantity, setBuyTokenQuantity] = React.useState(1);
+    const [showInfo, setShowInfo] = React.useState(false);
 
     const [poolId, setPoolId] = React.useState('');
     //Price impact value state hook
@@ -191,6 +193,11 @@ export default function PriceImpactSwapForm(props) {
         setCalcPI(calculatePIFromAssetArray(array, defaultAssetNames[0], sellTokenQuantity, defaultAssetNames[1], SwapFee));
         setCalcInvestmentPI(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[1]);
         setNetBPTOut(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[0]);
+    }
+
+    // Tool tip handle
+    const handleToolTipClick = (showInfo) => {
+        setShowInfo(!showInfo);
     }
     //------------------------------------
 
@@ -570,7 +577,18 @@ export default function PriceImpactSwapForm(props) {
         <Box display="flex" justifyContent="center" >
             <InvestmentPIGraphs assetArray={assetArray} SwapFee={SwapFee} darkState={darkState}></InvestmentPIGraphs>
         </Box>
-    )
+    );
+
+    const toolTip = (showInfo) => (
+
+        showInfo ?
+          <Box mb={0.5} display="flex" justifyContent="center">
+            <Paper  className={classes.paper} variant="outlined" square>
+            {PIToolTip()}
+            </Paper>
+          </Box>
+          : null
+      )
 
     return (
         <div>
@@ -581,6 +599,15 @@ export default function PriceImpactSwapForm(props) {
                     <Switch color='primary' checked={toggleActive} onChange={handleSwitch}></Switch>
                     <Typography>Invest</Typography>
                 </Box> : null}
+                <Box mb={1} mt={1}>
+                 <Button
+                    variant="outlined"
+                    onClick={(e) => handleToolTipClick(showInfo)}
+                 >
+                {showInfo ? 'Hide Guide' : 'Show Guide'}
+                </Button>
+                {toolTip(showInfo)}
+                </Box>    
             {toggleActive ? depositForm() : swapForm()}
             {toggleActive ?
                 <form className={classes.root} noValidate autoComplete="off">
@@ -619,8 +646,8 @@ export default function PriceImpactSwapForm(props) {
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
                         Price Impact = {toggleActive ?
-                            <DynamicValueFormatter value={Number(calcInvestmentPI).toFixed(4)} name={'piValue'} decimals={4} /> :
-                            <DynamicValueFormatter value={Number(calcPI).toFixed(4)} name={'piValue'} decimals={4} />
+                            <DynamicValueFormatter value={Number(calcInvestmentPI).toFixed(4) > 0 ? Number(calcInvestmentPI).toFixed(4): 100} name={'piValue'} decimals={4} /> :
+                            <DynamicValueFormatter value={Number(calcPI).toFixed(4) > 0 ? Number(calcPI).toFixed(4) : 100} name={'piValue'} decimals={4} />
                         } %
                     </Header>
                     {toggleActive ? dataTableInvestmentPI(assetArray, SwapFee) :
