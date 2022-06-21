@@ -11,6 +11,13 @@
 ## What this project wants to achieve
 Balancer.tools is a community tooling site to better understand the Balancer ecosystem. It provides advanced tools like a veBAL boosting calculator, impermanent loss calculator and much more.
 
+## Current features
+
+* veBAL boost calculator
+* Impermanent loss calculator
+* Price impact calculator for swaps and investments
+* Endpoint status checker
+
 ## Future features in review
 
 * Metamask integration
