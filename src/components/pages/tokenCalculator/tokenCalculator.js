@@ -10,7 +10,7 @@ export default function TokenCalculator(props) {
     return (
         <div key={props.networkId} >
             <Grid item xs={12}>
-                <Header>veBAL Token Calculator</Header>
+                <Header>veBAL Token Estimator</Header>
                 <Box >
                     <img src={VeBalLogo} alt="veBAL Logo" width="120" />
                 </Box>

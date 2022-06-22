@@ -4,6 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Boost from '../boost/Boost';
+import TokenCalculator from '../TokenCalculator/TokenCalculator';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -18,7 +20,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -38,7 +40,7 @@ function a11yProps(index) {
   };
 }
 
-export default function VeBALTabsComponent() {
+export default function VeBALTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -48,16 +50,16 @@ export default function VeBALTabsComponent() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Boost Calculator" {...a11yProps(0)} />
-          <Tab label="Token Calculator" {...a11yProps(1)} />
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
+          <Tab label="Boost" {...a11yProps(0)} />
+          <Tab label="Token Estimator" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Boost
+        <Boost classes={props.classes} darkState={(props.mode === 'dark') ? true : false} networkId={props.networkId}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Token Locking
+        <TokenCalculator classes={props.classes} darkState={(props.mode === 'dark') ? true : false} networkId={props.networkId} />
       </TabPanel>
     </Box>
   );
