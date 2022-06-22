@@ -5,14 +5,6 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 
 //Navigation bar
 export default function NavBar(props) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     //Obtain actively selcted route
     const location = useLocation();

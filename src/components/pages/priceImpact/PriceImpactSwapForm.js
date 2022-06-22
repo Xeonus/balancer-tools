@@ -30,7 +30,6 @@ import { PIGraphs } from "./PIGraphs";
 import { calculateInvestmentPIFromAssetArray } from '../../../utils/calculateInvestmentPIFromAssetArray';
 import { InvestmentPIGraphs } from './investmentPIGraph';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import Switch from '@mui/material/Switch';
 import PIToolTip from './PIToolTip';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -102,7 +101,6 @@ export default function PriceImpactSwapForm(props) {
         defaultBuyToken = assetArray[1].assetName;
     }
     const [sellToken, setSellToken] = React.useState(defaultSellToken);
-    const [toggleActive, setToggleActive] = React.useState(false);
     const [buyToken, setBuyToken] = React.useState(defaultBuyToken);
     const [SwapFee, setSwapFee] = React.useState(0.25);
     const [sellTokenQuantity, setSellTokenQuantity] = React.useState(1);
@@ -212,11 +210,6 @@ export default function PriceImpactSwapForm(props) {
         setCalcPI(calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee));
         setCalcInvestmentPI(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[1]);
         setNetBPTOut(calculateInvestmentPIFromAssetArray(assetArray, SwapFee)[0]);
-    }
-
-    //Handle toggle switch
-    const handleSwitch = (event) => {
-        setToggleActive(event.target.checked);
     }
 
     //Add entry
@@ -639,6 +632,7 @@ export default function PriceImpactSwapForm(props) {
                 {assetArray.map((asset) =>
                     depositFormElement(asset, asset.assetName)
                 )}
+                {dataFunctionForm()}
             </form>
             <Box sx={{
                 display: 'flex',
@@ -679,6 +673,7 @@ export default function PriceImpactSwapForm(props) {
                 {assetArray.map((asset) =>
                     formElement(asset, asset.assetName)
                 )}
+                {dataFunctionForm()}
             </form>
             <Box sx={{
                 display: 'flex',
@@ -699,7 +694,6 @@ export default function PriceImpactSwapForm(props) {
             </Box>
         </div>
     )
-
 
     return (
         <div>
