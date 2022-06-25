@@ -655,7 +655,7 @@ export default function PriceImpactSwapForm(props) {
             }}>
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
-                        Price Impact =
+                        Price Impact ={" "}
                         <DynamicValueFormatter value={Number(calcInvestmentPI).toFixed(4) > 0 ? Number(calcInvestmentPI).toFixed(4) : 100} name={'piValue'} decimals={4} />
                         %
                     </Header>
@@ -684,7 +684,7 @@ export default function PriceImpactSwapForm(props) {
             }}>
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
-                        Price Impact =
+                        Price Impact ={" "}
                         <DynamicValueFormatter value={Number(calcPI).toFixed(4) > 0 ? Number(calcPI).toFixed(4) : 100} name={'piValue'} decimals={4} />
                         %
                     </Header>

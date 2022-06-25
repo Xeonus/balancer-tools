@@ -17,7 +17,7 @@ export default function TokenCalculator(props) {
             </Grid>
             {props.networkId === 'ethereum' ?
                 <Grid item xs={12} justifyContent="center">
-                    <TokenCalculatorForm darkState={props.darkState} networkId={props.networkId}></TokenCalculatorForm>
+                    <TokenCalculatorForm darkState = {props.darkState} props = {props} networkId = {props.networkId}></TokenCalculatorForm>
                 </Grid>
                 :
                 <Box p={0.5} display="flex" flexDirection="row" justifyContent="center">

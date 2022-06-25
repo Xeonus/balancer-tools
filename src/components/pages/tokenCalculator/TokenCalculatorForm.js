@@ -15,6 +15,8 @@ import { CircularProgress } from '@mui/material';
 import { getVeBALPoolData } from '../../data/queries/operations';
 import getPoolArray from '../../../utils/getPoolArray';
 import { useQuery } from "@apollo/client";
+import { TokenCalculatorGraph } from './TokenCaclulatorGraph';
+import { isBrowser } from 'react-device-detect';
 
 export default function TokenCalculatorForm(props) {
 
@@ -47,6 +49,7 @@ export default function TokenCalculatorForm(props) {
     const [calcNetBPTOut, setNetBPTOut] = React.useState(calculateVeBALOut(veBALArray, SwapFee, lockTime)[0]);
     const network = networks.find(x => x.id === props.networkId);
 
+
     //Form Element state change handler
     const handleChange = (event, element) => {
         const index = veBALArray.indexOf(element);
@@ -63,7 +66,6 @@ export default function TokenCalculatorForm(props) {
         setCalcVeBALOut(calculateVeBALOut(veBALArray, SwapFee, clonedLockTime)[2]);
         setNetBPTOut(calculateVeBALOut(veBALArray, SwapFee)[0]);
     }
-
 
     const veBALFormElement = (element, id) => (
         <Box display="flex" justifyContent="center" p={0.5} key={'formField' + id}>
@@ -120,6 +122,12 @@ export default function TokenCalculatorForm(props) {
         </Box>
     )
 
+    const tokenCalculatorGraphs = (veBALArray, SwapFee, lockTime, darkState) => (
+        <Box display="flex" justifyContent="center" >
+            <TokenCalculatorGraph veBALArray={veBALArray} SwapFee={SwapFee} lockTime={lockTime} darkState={darkState}></TokenCalculatorGraph>
+        </Box>
+    )
+
   //Pool Data query Hook (do not encapsulate for state)
   const { loading, error, data } = useQuery(
     getVeBALPoolData,
@@ -140,7 +148,8 @@ export default function TokenCalculatorForm(props) {
     setCalcVeBALOut(calculateVeBALOut(balDataArray, SwapFee, lockTime)[2]);
     setNetBPTOut(calculateVeBALOut(balDataArray, SwapFee)[0]);
     }
-    }, [data, loading, SwapFee, lockTime] );
+    }, [data, loading, SwapFee, lockTime]);
+
 
   //If data is not fully loaded, display progress
   if (loading) return (
@@ -161,6 +170,11 @@ export default function TokenCalculatorForm(props) {
 
     return (
         <div>
+            <Box display="flex" alignItems="center" justifyContent="center" flexDirection={"column"}>
+                <Typography variant={"h7"}> Enter your BAL and WETH Deposits below.</Typography>
+                <Typography variant={"h7"}> Then select your lock time to determine the veBAL quantity received.</Typography>
+                <Typography variant="caption">* Approximation </Typography>
+            </Box>     
             <form className={classes.root} noValidate autoComplete="off">
                 {veBALArray.map((asset) =>
                     veBALFormElement(asset, asset.assetName)
@@ -175,7 +189,7 @@ export default function TokenCalculatorForm(props) {
             }}>
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
-                        BPT Out = {<DynamicValueFormatter value={Number(calcNetBPTOut).toFixed(4) > 0 ? Number(calcNetBPTOut).toFixed(4) : 100} name={'bptValue'} decimals={4} />}
+                        BPT Out = {<DynamicValueFormatter value={Number(calcNetBPTOut).toFixed(4) > 0 ? Number(calcNetBPTOut).toFixed(4) : 100} name={'bptValue'} decimals={4} />}*
                     </Header>
                 </Paper>
             </Box>
@@ -189,8 +203,9 @@ export default function TokenCalculatorForm(props) {
             }}>
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
-                        veBAL Out = {<DynamicValueFormatter value={Number(calcVeBALOut).toFixed(4) > 0 ? Number(calcVeBALOut).toFixed(4) : 100} name={'veBALValue'} decimals={4} />}
+                        veBAL Out = {<DynamicValueFormatter value={Number(calcVeBALOut).toFixed(4) > 0 ? Number(calcVeBALOut).toFixed(4) : 100} name={'veBALValue'} decimals={4} />}*
                     </Header>
+                    {isBrowser ? tokenCalculatorGraphs(veBALArray, SwapFee, lockTime, props.darkState) : null}
                 </Paper>
             </Box>
         </div>
