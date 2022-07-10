@@ -15,11 +15,11 @@ export default function getGaugeArray(data, poolArray) {
            let bptPrice = 0;
            let totalShares = 0;
            if (poolInfo) {
-            tokenAddresses = poolInfo.tokenAddresses;
-            tokenBalances = poolInfo.tokenBalance;
-            poolName = poolInfo.poolName;
-            bptPrice = poolInfo.tvl / poolInfo.totalShares;
-            totalShares = poolInfo.totalShares;
+                tokenAddresses = poolInfo.tokenAddresses;
+                tokenBalances = poolInfo.tokenBalance;
+                poolName = poolInfo.poolName;
+                bptPrice = poolInfo.tvl / poolInfo.totalShares;
+                totalShares = poolInfo.totalShares;
            }
         let gaugeEntry = {
             poolAddress: poolAddress,
@@ -34,7 +34,7 @@ export default function getGaugeArray(data, poolArray) {
             totalStakedUSD: Number(totalSupply) * Number(bptPrice),
             shares: shares,
         }
-            if (gaugeEntry.totalStaked > 0) {
+            if (gaugeEntry.totalStaked > 0 && poolInfo) {
             gaugeArray.push(gaugeEntry);
             }
         }

@@ -14,9 +14,11 @@ import BalancerLogo from './../../resources/logo-dark.svg';
 import BalancerLogoLight from './../../resources/logo-light.svg';
 import ImpermanentLoss from "../pages/impermanentLoss/ImpermanentLoss";
 import PriceImpact from "../pages/priceImpact/PriceImpact";
+import TokenCalculator from '../pages/TokenCalculator/TokenCalculator';
 import NavBar from "./NavBar";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import VeBALTabs from '../pages/veBAL/VeBALTabs';
 import FormControl from '@mui/material/FormControl';
 import { myStyles } from '../../styles/styles';
 import ReactRoundedImage from "react-rounded-image";
@@ -268,8 +270,10 @@ export default function Dashboard() {
                         <Container className={classes.container}>
                             <Grid item xs="auto" component="span">
                                 <Routes>
-                                    <Route path="/" element={<Navigate replace to="/boost" />} />
+                                    <Route path="/" element={<Navigate replace to="/veBAL" />} />
+                                    <Route path="veBAL" element={<VeBALTabs classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                                     <Route path="boost" element={<Boost classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
+                                    <Route path="tokenCalculator" element={<TokenCalculator classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                                     <Route path="impermanentLoss" element={<ImpermanentLoss classes={classes} darkState={(mode === 'dark') ? true : false} networkId={networkId} />} />
                                     <Route path="priceImpact" element={<PriceImpact classes={classes} networkId={networkId} darkState={(mode === 'dark') ? true : false} />} />
                                     <Route path="status" element={<StatusPage classes={classes} />} />

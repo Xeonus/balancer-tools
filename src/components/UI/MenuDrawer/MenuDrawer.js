@@ -23,13 +23,12 @@ export default function MenuDrawer(props) {
                 onKeyDown={props.toggleDrawer}
             >
                 <List>
-                    <ListItem button key={"boost"} component={NavLink} to={'/boost'}>
+                    <ListItem button key={"boost"} component={NavLink} to={'/veBAL'}>
                         <ListItemIcon>
                             <RocketLaunchRoundedIcon />
                         </ListItemIcon>
-                        <ListItemText primary={"Boost Calculator"} />
+                        <ListItemText primary={"veBAL Tools"} />
                     </ListItem>
-
                     <ListItem button key={"impermanentLoss"} component={NavLink} to={'/impermanentLoss'}>
                         <ListItemIcon>
                             <CalculateRoundedIcon />

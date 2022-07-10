@@ -56,3 +56,27 @@ export const getGaugeUserVotes = gql`
   }
 }
   `;
+
+export const getVeBALPoolData = gql`
+{
+  balancers(first: 500) {
+    id
+    pools(first: 500, where: {id: "0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014"}) {
+      name
+      totalLiquidity
+      totalShares
+      poolType
+      swapFee
+      tokens {
+        symbol
+        id
+        address
+        balance
+        weight
+      }
+      id
+    }
+    totalLiquidity
+  }
+}
+  `;
