@@ -43,6 +43,9 @@ export default function TokenCalculatorForm(props) {
     }
     //Asset array state hook
     const [veBALArray, setVeBALArray] = React.useState(defaultVeBALArray);
+    //Store BAL and ETH states separately, otherwise we end up with infinite state change loops upon user input!
+    const [bal, setBal] = React.useState(1000);
+    const [eth, setEth] = React.useState(0.5);
     const SwapFee = 2.0
     const [lockTime, setLockTime] = React.useState(52)
     const [calcVeBALOut, setCalcVeBALOut] = React.useState(calculateVeBALOut(veBALArray, SwapFee, lockTime)[2]);
@@ -53,8 +56,13 @@ export default function TokenCalculatorForm(props) {
     //Form Element state change handler
     const handleChange = (event, element) => {
         const index = veBALArray.indexOf(element);
+        if (index === 0) {
+            setBal(Number(event.target.value));
+        } else {
+            setEth(Number(event.target.value));
+        }
         const clonedData = [...veBALArray];
-        clonedData[index][event.target.id] = event.target.value;
+        clonedData[index][event.target.id] = Number(event.target.value);
         setVeBALArray(clonedData);
         setCalcVeBALOut(calculateVeBALOut(veBALArray, SwapFee, lockTime)[2]);
         setNetBPTOut(calculateVeBALOut(veBALArray, SwapFee)[0]);
@@ -140,15 +148,17 @@ export default function TokenCalculatorForm(props) {
     },
   );
 
-  //Update state upon initial data load
+  //Update state upon initial data load and relevant hook change
   useEffect( () => {
     if (data && !loading) {
-    const balDataArray = setAssetArrayFromPool(getPoolArray(data), balPoolId)
+    const balDataArray = setAssetArrayFromPool(getPoolArray(data), balPoolId);
+    balDataArray[0].tokenDeposits = bal;
+    balDataArray[1].tokenDeposits = eth;
     setVeBALArray(balDataArray);
     setCalcVeBALOut(calculateVeBALOut(balDataArray, SwapFee, lockTime)[2]);
     setNetBPTOut(calculateVeBALOut(balDataArray, SwapFee)[0]);
     }
-    }, [data, loading, SwapFee, lockTime]);
+    }, [data, loading, SwapFee, lockTime, bal, eth]);
 
 
   //If data is not fully loaded, display progress

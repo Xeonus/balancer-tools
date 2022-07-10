@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 export const getBalancerPoolData = gql`
 {
-  balancers(first: 500) {
+  balancers(first: 1000) {
     id
-    pools(first: 500) {
+    pools(first: 1000) {
       name
       totalLiquidity
       totalShares
