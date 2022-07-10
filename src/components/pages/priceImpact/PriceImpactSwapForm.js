@@ -668,7 +668,7 @@ export default function PriceImpactSwapForm(props) {
 
     const swapTabContents = (assetArray, sellToken, sellTokenQuantity, buyToken, SwapFee, props) => (
         <div>
-            {swapForm()};
+            {swapForm()}
             <form className={classes.root} noValidate autoComplete="off">
                 {assetArray.map((asset) =>
                     formElement(asset, asset.assetName)
