@@ -104,7 +104,7 @@ export default function TokenCalculatorForm(props) {
                         flexWrap: 'wrap',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        p: 0,
+                        p: 1,
                         m: 1
                     }}>
                     <Typography>Lock time ({lockTime} weeks)</Typography>
@@ -124,7 +124,7 @@ export default function TokenCalculatorForm(props) {
 
     const tokenCalculatorGraphs = (veBALArray, SwapFee, lockTime, darkState) => (
         <Box display="flex" justifyContent="center" >
-            <TokenCalculatorGraph veBALArray={veBALArray} SwapFee={SwapFee} lockTime={lockTime} darkState={darkState}></TokenCalculatorGraph>
+            <TokenCalculatorGraph veBALArray={veBALArray} SwapFee={SwapFee} lockTime={lockTime} darkState={props.darkState}></TokenCalculatorGraph>
         </Box>
     )
 
@@ -173,38 +173,32 @@ export default function TokenCalculatorForm(props) {
             <Box display="flex" alignItems="center" justifyContent="center" flexDirection={"column"}>
                 <Typography variant={"h7"}> Enter your BAL and WETH Deposits below.</Typography>
                 <Typography variant={"h7"}> Then select your lock time to determine the veBAL quantity received.</Typography>
-                <Typography variant="caption">* Approximation </Typography>
+                
             </Box>     
             <form className={classes.root} noValidate autoComplete="off">
                 {veBALArray.map((asset) =>
                     veBALFormElement(asset, asset.assetName)
                 )}
             </form>
+            {lockingFormElement()}
+            
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                mt: 1
             }}>
+                <Paper className={classes.resultPaper} variant="outlined" square >
                 <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
                         BPT Out = {<DynamicValueFormatter value={Number(calcNetBPTOut).toFixed(4) > 0 ? Number(calcNetBPTOut).toFixed(4) : 100} name={'bptValue'} decimals={4} />}*
                     </Header>
-                </Paper>
-            </Box>
-            {lockingFormElement()}
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-                mt: 1
-            }}>
-                <Paper className={classes.resultPaper} variant="outlined" square >
                     <Header>
                         veBAL Out = {<DynamicValueFormatter value={Number(calcVeBALOut).toFixed(4) > 0 ? Number(calcVeBALOut).toFixed(4) : 100} name={'veBALValue'} decimals={4} />}*
                     </Header>
+
+                    <Typography variant="caption">* Approximation </Typography>
+                    </Paper>
                     {isBrowser ? tokenCalculatorGraphs(veBALArray, SwapFee, lockTime, props.darkState) : null}
                 </Paper>
             </Box>

@@ -56,10 +56,10 @@ export default function VeBALTabs(props) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Boost classes={props.classes} darkState={(props.mode === 'dark') ? true : false} networkId={props.networkId}/>
+        <Boost classes={props.classes} darkState={props.darkState} networkId={props.networkId}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TokenCalculator classes={props.classes} darkState={(props.mode === 'dark') ? true : false} networkId={props.networkId} />
+        <TokenCalculator classes={props.classes} darkState={props.darkState} networkId={props.networkId} />
       </TabPanel>
     </Box>
   );
