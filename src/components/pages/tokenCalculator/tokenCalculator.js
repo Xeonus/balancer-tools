@@ -22,7 +22,7 @@ export default function TokenCalculator(props) {
                 :
                 <Box p={0.5} display="flex" flexDirection="row" justifyContent="center">
                 <Alert severity="info">
-                    Chain does not support veBAL token!
+                    Chain does not support veBAL!
                 </Alert>
                 </Box>
                 
