@@ -44,7 +44,7 @@ export const getGaugeData = gql`
 export const getGaugeUserVotes = gql`
 {
   gaugeVotes(
-    where: {gauge_contains_nocase: "0xF0ea3559Cf098455921d74173dA83fF2f6979495", timestamp_lt: 1657746000}
+    where: {gauge_contains_nocase: "0xFBf87D2C22d1d298298ab5b0Ec957583a2731d15", timestamp_lt: 1658350800}
   ) {
     weight
     user {
