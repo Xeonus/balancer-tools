@@ -27,7 +27,7 @@ export const networks = [
         id: 'fantom',
         chainId: '250',
         name: 'Fantom',
-        graphQLEndPoint: 'https://graph-node.beets-ftm-node.com/subgraphs/name/beethovenx',
+        graphQLEndPoint: 'https://api.thegraph.com/subgraphs/name/beethovenxfi/beethovenx',
         url: 'https://beets.fi/',
 
     },
