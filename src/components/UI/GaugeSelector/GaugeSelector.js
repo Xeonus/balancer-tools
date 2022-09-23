@@ -34,7 +34,7 @@ export default function PoolSelector(props) {
   //Init styles
   const classes = myStyles();
   const tokenState = useRef('0xba100000625a3754423978a60c9317c58a424e3d%2C0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2');
-
+  const is_killed = useRef('false');
   //Handle poolID change and asynchronously call vyper contract to get working_supply -> TODO refactor call
   const handleChange = async (event) => {
     let provider;
@@ -56,6 +56,8 @@ export default function PoolSelector(props) {
   let totalStake = 0;
   resp = await vyperContract.working_supply();
   totalStake = await vyperContract.totalSupply();
+  is_killed.current = await vyperContract.is_killed();
+  //console.log("is_killed", is_killed);
   const veBalResp = await veBALContract.totalSupply(Math.floor(Date.now() / 1000));
     if (resp > 0) {
       tokenState.current = getGaugeArrayTokenSet(event.target.value, gaugeArray)
@@ -125,7 +127,6 @@ export default function PoolSelector(props) {
   //console.log("poolArray", poolArray)
   const gaugeArray = getGaugeArray(data, poolArray);
   //console.log("gaugeArray", gaugeArray)
-  
 
 
   const balLogo = props.darkState ? BalancerLogo : BalancerLogoLight;
@@ -164,13 +165,16 @@ export default function PoolSelector(props) {
                   {
                     gaugeArray.map(item => (
                       <MenuItem
-                        key={item.poolId}
+                        key={item.id}
                         value={item.poolId}>
                         {item.name}
                       </MenuItem>
                     ))
                   };
                 </Select>
+                <Box mt={1}>
+                  {is_killed.current === true ? <Typography color="red" >EXPIRED Gauge!</Typography> : null}
+                </Box>
               </FormControl>
             </Box>
           </Box>
