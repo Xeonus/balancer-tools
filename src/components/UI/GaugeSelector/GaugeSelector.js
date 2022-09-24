@@ -68,8 +68,9 @@ export default function PoolSelector(props) {
         //console.log("calculated_BPTPrice", getPricePerBPTFromTokenSet(gaugeArray, event.target.value, fetchedPriceData));
         let working_supply_pool = 0;
         let totalStakeInUSD = 0;
+        //TODO: refactor Boost logic
         //Calcuation for non-boosted pools:
-        if (event.target.value !== '0x7b50775383d3d6f0215a8f290f2c9e2eebbeceb20000000000000000000000fe') {
+        if (event.target.value !== '0x7b50775383d3d6f0215a8f290f2c9e2eebbeceb20000000000000000000000fe' && event.target.value !== '0xa13a9247ea42d743238089903570127dda72fe4400000000000000000000035d') {
         working_supply_pool = getPricePerBPTFromTokenSet(gaugeArray, event.target.value, fetchedPriceData) * ethers.utils.formatEther(resp);
         totalStakeInUSD = getPricePerBPTFromTokenSet(gaugeArray, event.target.value, fetchedPriceData) * ethers.utils.formatEther(totalStake);
         } else {
