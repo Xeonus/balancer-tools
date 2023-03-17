@@ -44,7 +44,7 @@ export default function MenuDrawer(props) {
                 </List>
                 <Divider />
                 <List>
-                    <ListItem button key={"analytics"} onClick={() => window.open('https://info.balancer.xeonus.io/')}>
+                    <ListItem button key={"analytics"} onClick={() => window.open('https://balancer.defilytica.com/')}>
                         <ListItemIcon>
                             <InsightsRoundedIcon />
                         </ListItemIcon>

@@ -14,7 +14,7 @@ export default function NavBar(props) {
             <Button color="primary" className={location.pathname === '/veBAL' ? props.classes.navButton : null} component={NavLink} to={'/veBAL'}>veBAL</Button>
             <Button color="primary" className={location.pathname === '/impermanentLoss' ? props.classes.navButton : null} component={NavLink} to={'/impermanentLoss'}>Impermanent Loss</Button>
             <Button color="primary" className={location.pathname === '/priceImpact' ? props.classes.navButton : null}component={Link} to={'/priceImpact'}>Price Impact</Button>
-            <Button color= "primary" onClick={() => window.open('https://info.balancer.xeonus.io/')}>Analytics</Button>
+            <Button color= "primary" onClick={() => window.open('https://balancer.defilytica.com/')}>Analytics</Button>
             <Button color="primary" className={location.pathname === '/status' ? props.classes.navButton : null}component={Link} to={'/status'}>Status</Button>
             
         </div>
