@@ -25,7 +25,7 @@ export function calculatePIFromAssetArray(assetArray, sellToken, sellTokenQuanti
     };
     
     let spotPrice = Number((tokenInBalance / tokenInWeight) / (tokenOutBalance / tokenOutWeight));
-    let effectivePrice = Number((1/(1+swapFee)) * sellTokenQuantity / (tokenOutBalance * (1 - ((tokenInBalance / (tokenInBalance + ((1/(1+swapFee)) * sellTokenQuantity)))**(tokenInWeight/tokenOutWeight)))));
+    let effectivePrice = Number((1*(1-swapFee)) * sellTokenQuantity / (tokenOutBalance * (1 - ((tokenInBalance / (tokenInBalance + ((1*(1-swapFee)) * sellTokenQuantity)))**(tokenInWeight/tokenOutWeight)))));
     let priceImpact = Number(((effectivePrice / spotPrice - 1) * 100));
     
     return priceImpact;

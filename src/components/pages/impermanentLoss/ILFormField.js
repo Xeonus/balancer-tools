@@ -32,6 +32,8 @@ export default function ILFormField(props) {
   const defaultAssetNames = ['BAL', 'WETH'];
   const defaultPriceChange = [150, -25];
   const defaultPoolWeights = [80, 20];
+  const defaultAssetBalances = [10000, 10000]
+  const defaultRateProviders = [1.1, 1.0]
   const defaultEntryPrice = [10, 4000];
   const defaultExitPrice = [25, 3000];
   const [showInfo, setShowInfo] = useState(false)
@@ -43,6 +45,8 @@ export default function ILFormField(props) {
       assetName: defaultAssetNames[i],
       priceChange: defaultPriceChange[i],
       poolWeights: defaultPoolWeights[i],
+      assetBalances: defaultAssetBalances[i],
+      rateProviders: defaultRateProviders[i],
       entryPrice: defaultEntryPrice[i],
       exitPrice: defaultExitPrice[i],
     }

@@ -80,6 +80,7 @@ export default function PriceImpactSwapForm(props) {
     const defaultAssetBalance = [5000000, 7000]
     const defaultPoolWeights = [80, 20];
     const defaultDeposits = [Number(100), Number(1)];
+    const defaultRateProvider = [1.1, 1]
     let defaultSellToken = defaultAssetNames[0];
     let defaultBuyToken = defaultAssetNames[1];
 
@@ -89,7 +90,8 @@ export default function PriceImpactSwapForm(props) {
             assetName: defaultAssetNames[i],
             assetBalance: defaultAssetBalance[i],
             poolWeights: defaultPoolWeights[i],
-            tokenDeposits: defaultDeposits[i]
+            tokenDeposits: defaultDeposits[i],
+            rateProvider: defaultRateProvider[i]
         }
         defaultArray.push(entry);
     }
