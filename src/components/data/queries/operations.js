@@ -3,7 +3,7 @@ export const getBalancerPoolData = gql`
 {
   balancers(first: 1000) {
     id
-    pools(first: 1000) {
+    pools(first: 1000 orderBy:totalLiquidity orderDirection: desc) {
       name
       totalLiquidity
       totalShares
